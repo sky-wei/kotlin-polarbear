@@ -14,8 +14,20 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.data
+package com.sky.account.manager.util
+
+import java.net.URL
 
 /**
- * Created by sky on 2021/8/26.
+ * Created by sky on 2021/8/28.
  */
+object ResUtil {
+
+    fun getResource(name: String): URL {
+        return javaClass.classLoader.getResource(name)
+    }
+
+    fun getResourceUrl(name: String): String {
+        return getResource(name).toExternalForm()
+    }
+}

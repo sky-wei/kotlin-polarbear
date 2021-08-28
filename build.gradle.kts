@@ -18,6 +18,11 @@ repositories {
 
 dependencies {
     implementation(compose.desktop.currentOs)
+    implementation("com.google.code.gson:gson:2.8.1")
+    implementation("log4j:log4j:1.2.17")
+    implementation("org.xerial:sqlite-jdbc:3.20.0")
+    implementation("com.j256.ormlite:ormlite-core:5.0")
+    implementation("com.j256.ormlite:ormlite-jdbc:5.0")
 }
 
 tasks.withType<KotlinCompile>() {

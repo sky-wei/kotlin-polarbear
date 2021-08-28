@@ -21,19 +21,22 @@ import androidx.compose.desktop.AppManager
 import androidx.compose.desktop.Window
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.application
 import com.sky.account.manager.ui.theme.PolarBearTheme
+import com.sky.account.manager.util.ALog
 
 /**
  * Created by sky on 2021/8/26.
  */
 @ExperimentalComposeUiApi
 fun main() = application {
+
+    rememberAppContext()
+
+    ALog.d(">>>>>>>>>>> aaaa")
+    ALog.e(">>>>>>>>>>> bbbb")
 
     AppManager.setEvents(
         onAppStart = {
@@ -47,14 +50,24 @@ fun main() = application {
     }
 
     Window {
-        var text by remember { mutableStateOf("Hello, World!") }
 
         PolarBearTheme {
-            Button(onClick = {
+
+            var text by remember {
+                mutableStateOf("Hello, World!")
+            }
+
+            test(text) {
                 text = "Hello, Desktop! ${System.currentTimeMillis()}"
-            }) {
-                Text(text)
             }
         }
+    }
+}
+
+@Composable
+fun test(name: String, onClick: () -> Unit) {
+
+    Button(onClick = onClick) {
+        Text(name)
     }
 }
