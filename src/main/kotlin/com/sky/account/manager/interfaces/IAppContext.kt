@@ -22,6 +22,11 @@ package com.sky.account.manager.interfaces
 interface IAppContext {
 
     /**
+     * 获取账号管理
+     */
+    fun getAccountManager(): IAccountManager
+
+    /**
      * 获取组件管理
      */
     fun getComponentManager(): IComponentManager

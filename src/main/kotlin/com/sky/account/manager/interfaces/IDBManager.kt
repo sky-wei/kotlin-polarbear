@@ -14,21 +14,24 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.util
+package com.sky.account.manager.interfaces
 
-import java.net.URL
+import com.j256.ormlite.dao.Dao
+import com.sky.account.manager.data.disk.entity.AccountEntity
+import com.sky.account.manager.data.disk.entity.AdminEntity
 
 /**
- * Created by sky on 2021/8/28.
+ * Created by sky on 2021/10/31.
  */
-object ResUtil {
+interface IDBManager : IComponent {
 
-    fun getResource(name: String): URL {
-        return javaClass.classLoader.getResource(name)
-            ?: throw NullPointerException("获取资源异常")
-    }
+    /**
+     * 获取AdminDao
+     */
+    fun getAdminDao(): Dao<AdminEntity, Int>
 
-    fun getResourceUrl(name: String): String {
-        return getResource(name).toExternalForm()
-    }
+    /**
+     * 获取AccountDao
+     */
+    fun getAccountDao(): Dao<AccountEntity, Int>
 }

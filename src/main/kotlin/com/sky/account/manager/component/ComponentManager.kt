@@ -16,6 +16,7 @@
 
 package com.sky.account.manager.component
 
+import com.sky.account.manager.base.AbstractComponent
 import com.sky.account.manager.interfaces.IAppContext
 import com.sky.account.manager.interfaces.IComponent
 import com.sky.account.manager.interfaces.IComponentManager

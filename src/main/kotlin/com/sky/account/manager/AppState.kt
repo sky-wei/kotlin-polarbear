@@ -14,21 +14,31 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.util
+package com.sky.account.manager
 
-import java.net.URL
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import com.sky.account.manager.ui.NavType
 
 /**
- * Created by sky on 2021/8/28.
+ * Created by sky on 2021/10/31.
  */
-object ResUtil {
+@Composable
+fun rememberAppState() = remember {
+    AppState()
+}
 
-    fun getResource(name: String): URL {
-        return javaClass.classLoader.getResource(name)
-            ?: throw NullPointerException("获取资源异常")
-    }
+class AppState {
 
-    fun getResourceUrl(name: String): String {
-        return getResource(name).toExternalForm()
+    private val _navType = mutableStateOf(NavType.LOGIN)
+
+    var navType: NavType
+        get() = _navType.value
+        set(value) { _navType.value = value }
+
+    init {
+
+
     }
 }

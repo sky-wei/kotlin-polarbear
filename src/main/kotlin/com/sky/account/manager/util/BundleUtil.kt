@@ -16,19 +16,28 @@
 
 package com.sky.account.manager.util
 
-import java.net.URL
+import java.util.*
 
 /**
- * Created by sky on 2021/8/28.
+ * Created by sky on 2021/10/31.
  */
-object ResUtil {
+object BundleUtil {
 
-    fun getResource(name: String): URL {
-        return javaClass.classLoader.getResource(name)
-            ?: throw NullPointerException("获取资源异常")
+    private const val mBaseName = "bundles.polarbear"
+
+    private val mResBundle: ResourceBundle = try {
+        // 加载匹配的属性配置
+        ResourceBundle.getBundle(mBaseName)
+    } catch (tr: Throwable) {
+        // 异常了加载默认的
+        ResourceBundle.getBundle(mBaseName, Locale.CHINA)
     }
 
-    fun getResourceUrl(name: String): String {
-        return getResource(name).toExternalForm()
+    fun getResourceBundle(): ResourceBundle {
+        return mResBundle
+    }
+
+    fun getString(key: String): String {
+        return mResBundle.getString(key)
     }
 }

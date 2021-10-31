@@ -16,21 +16,20 @@
 
 package com.sky.account.manager
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import com.sky.account.manager.adapter.Log4JAdapter
+import com.sky.account.manager.component.ComponentFactory
+import com.sky.account.manager.component.ComponentManager
+import com.sky.account.manager.interfaces.IAccountManager
+import com.sky.account.manager.interfaces.IAppContext
+import com.sky.account.manager.interfaces.IComponentManager
 import com.sky.account.manager.util.ALog
 
 /**
  * Created by sky on 2021/8/28.
  */
-@Composable
-fun rememberAppContext() = remember {
-    AppContext()
-}
+class AppContext : IAppContext {
 
-
-class AppContext {
+    private val mComponentManager: IComponentManager
 
     init {
 
@@ -40,5 +39,17 @@ class AppContext {
                 adapter = Log4JAdapter()
             }
         )
+
+        mComponentManager = ComponentManager.create(this) {
+            factory = ComponentFactory()
+        }
+    }
+
+    override fun getAccountManager(): IAccountManager {
+        return mComponentManager[IAccountManager::class.java]
+    }
+
+    override fun getComponentManager(): IComponentManager {
+        return mComponentManager
     }
 }

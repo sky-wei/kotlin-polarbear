@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.util
+package com.sky.account.manager.ex
 
-import java.net.URL
+import com.sky.account.manager.util.BundleUtil
 
 /**
- * Created by sky on 2021/8/28.
+ * Created by sky on 2021/10/31.
  */
-object ResUtil {
 
-    fun getResource(name: String): URL {
-        return javaClass.classLoader.getResource(name)
-            ?: throw NullPointerException("获取资源异常")
-    }
+fun stringResource(key: String): String {
+    return BundleUtil.getString(key)
+}
 
-    fun getResourceUrl(name: String): String {
-        return getResource(name).toExternalForm()
-    }
+fun titleResource(key: String): String {
+    return "${BundleUtil.getString("app.name")} - ${BundleUtil.getString(key)}"
 }

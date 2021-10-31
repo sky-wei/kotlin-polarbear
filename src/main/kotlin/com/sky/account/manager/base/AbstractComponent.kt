@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.util
+package com.sky.account.manager.base
 
-import java.net.URL
+import com.sky.account.manager.interfaces.IAppContext
+import com.sky.account.manager.interfaces.IComponent
 
 /**
  * Created by sky on 2021/8/28.
  */
-object ResUtil {
+abstract class AbstractComponent(
+    val context: IAppContext
+) : IComponent {
 
-    fun getResource(name: String): URL {
-        return javaClass.classLoader.getResource(name)
-            ?: throw NullPointerException("获取资源异常")
+    override fun initialize() {
     }
 
-    fun getResourceUrl(name: String): String {
-        return getResource(name).toExternalForm()
+    override fun release() {
     }
 }

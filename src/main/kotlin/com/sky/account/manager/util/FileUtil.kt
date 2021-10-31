@@ -16,19 +16,15 @@
 
 package com.sky.account.manager.util
 
-import java.net.URL
+import java.io.File
 
 /**
- * Created by sky on 2021/8/28.
+ * Created by sky on 2021/10/31.
  */
-object ResUtil {
+object FileUtil {
 
-    fun getResource(name: String): URL {
-        return javaClass.classLoader.getResource(name)
-            ?: throw NullPointerException("获取资源异常")
-    }
-
-    fun getResourceUrl(name: String): String {
-        return getResource(name).toExternalForm()
+    fun mkdirs(path: String) {
+        val file = File(path)
+        if (!file.exists()) file.mkdirs()
     }
 }

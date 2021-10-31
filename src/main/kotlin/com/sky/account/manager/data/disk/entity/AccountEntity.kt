@@ -14,21 +14,24 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.component
+package com.sky.account.manager.data.disk.entity
 
-import com.sky.account.manager.interfaces.IAppContext
-import com.sky.account.manager.interfaces.IComponent
+import com.j256.ormlite.field.DatabaseField
+import com.j256.ormlite.table.DatabaseTable
 
 /**
- * Created by sky on 2021/8/28.
+ * Created by sky on 2021/10/31.
  */
-abstract class AbstractComponent(
-    val context: IAppContext
-) : IComponent {
+@DatabaseTable(tableName = "account")
+data class AccountEntity(
+    @DatabaseField(generatedId = true) val id: Int,
+    @DatabaseField(canBeNull = true) val adminId: Int,
+    @DatabaseField(canBeNull = true) var name: String,
+    @DatabaseField(canBeNull = true) var password: String,
+    @DatabaseField var url: String,
+    @DatabaseField var desc: String,
+    @DatabaseField var createTime: Long
+) {
 
-    override fun initialize() {
-    }
 
-    override fun release() {
-    }
 }

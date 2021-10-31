@@ -14,37 +14,27 @@
  * limitations under the License.
  */
 
+package com.sky.account.manager.component
 
-package com.sky.account.manager
-
-import androidx.compose.ui.window.application
-import com.sky.account.manager.ui.NavType
-import com.sky.account.manager.ui.home.AppHome
-import com.sky.account.manager.ui.login.AppLogin
+import com.sky.account.manager.interfaces.IAccountManager
+import com.sky.account.manager.interfaces.IAppContext
+import com.sky.account.manager.interfaces.IComponent
+import com.sky.account.manager.interfaces.IComponentManager
 
 /**
- * Created by sky on 2021/8/26.
+ * Created by sky on 2021/10/31.
  */
-fun main() = application {
+class ComponentFactory : IComponentManager.Factory {
 
-    val appState = rememberAppState()
-
-    when(appState.navType) {
-        NavType.SPLASH -> {
-
-        }
-        NavType.CRETE -> {
-
-        }
-        NavType.LOGIN -> {
-            AppLogin(appState) {
-                exitApplication()
+    override fun create(
+        context: IAppContext,
+        name: Class<out IComponent>
+    ): IComponent {
+        return when(name) {
+            IAccountManager::class.java -> {
+                AccountManager(context)
             }
-        }
-        NavType.HOME -> {
-            AppHome(appState) {
-                exitApplication()
-            }
+            else -> throw NullPointerException()
         }
     }
 }

@@ -16,7 +16,7 @@
 
 package com.sky.account.manager.ui.theme
 
-import androidx.compose.desktop.DesktopMaterialTheme
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
@@ -47,7 +47,10 @@ onSurface = Color.Black,
 )
 
 @Composable
-fun PolarBearTheme(darkTheme: Boolean = false, content: @Composable() () -> Unit) {
+fun PolarBearTheme(
+    darkTheme: Boolean = false,
+    content: @Composable () -> Unit
+) {
 
     val colors = if (darkTheme) {
         DarkColorPalette
@@ -55,7 +58,7 @@ fun PolarBearTheme(darkTheme: Boolean = false, content: @Composable() () -> Unit
         LightColorPalette
     }
 
-    DesktopMaterialTheme(
+    MaterialTheme(
         colors = colors,
         typography = Typography,
         shapes = Shapes,

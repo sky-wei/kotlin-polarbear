@@ -3,26 +3,26 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.5.10"
-    id("org.jetbrains.compose") version "0.4.0"
+    kotlin("jvm") version "1.5.21"
+    id("org.jetbrains.compose") version "1.0.0-alpha3"
 }
 
 group = "com.sky.account.manager"
 version = "1.0"
 
 repositories {
-    jcenter()
     mavenCentral()
-    maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
+    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    google()
 }
 
 dependencies {
     implementation(compose.desktop.currentOs)
-    implementation("com.google.code.gson:gson:2.8.1")
+    implementation("com.google.code.gson:gson:2.8.8")
     implementation("log4j:log4j:1.2.17")
-    implementation("org.xerial:sqlite-jdbc:3.20.0")
-    implementation("com.j256.ormlite:ormlite-core:5.0")
-    implementation("com.j256.ormlite:ormlite-jdbc:5.0")
+    implementation("org.xerial:sqlite-jdbc:3.36.0.2")
+    implementation("com.j256.ormlite:ormlite-core:5.6")
+    implementation("com.j256.ormlite:ormlite-jdbc:5.6")
 }
 
 tasks.withType<KotlinCompile>() {

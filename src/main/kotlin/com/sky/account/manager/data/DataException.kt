@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.util
-
-import java.net.URL
+package com.sky.account.manager.data
 
 /**
- * Created by sky on 2021/8/28.
+ * Created by sky on 2021/10/31.
  */
-object ResUtil {
+class DataException : Exception {
 
-    fun getResource(name: String): URL {
-        return javaClass.classLoader.getResource(name)
-            ?: throw NullPointerException("获取资源异常")
-    }
+    constructor(): super()
 
-    fun getResourceUrl(name: String): String {
-        return getResource(name).toExternalForm()
-    }
+    constructor(msg: String): super(msg)
+
+    constructor(tr: Throwable): super(tr)
+
+    constructor(msg: String, tr: Throwable): super(msg, tr)
 }
