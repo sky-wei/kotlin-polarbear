@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.ui.login
+package com.sky.account.manager.ui.register
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -28,7 +28,6 @@ import androidx.compose.ui.window.WindowSize
 import androidx.compose.ui.window.rememberWindowState
 import com.sky.account.manager.AppState
 import com.sky.account.manager.ex.stringResource
-import com.sky.account.manager.ui.NavType
 import com.sky.account.manager.ui.common.BearEditText
 import com.sky.account.manager.ui.common.BigBearButton
 import com.sky.account.manager.ui.common.BigBearTitle
@@ -38,7 +37,7 @@ import com.sky.account.manager.ui.common.PolarBearWindow
  * Created by sky on 2021/10/31.
  */
 @Composable
-fun AppLogin(
+fun AppRegister(
     appState: AppState,
     onCloseRequest: () -> Unit,
 ) {
@@ -49,12 +48,12 @@ fun AppLogin(
             size = WindowSize(800.dp, 600.dp)
         )
     ) {
-        LoginUI(appState)
+        RegisterUI(appState)
     }
 }
 
 @Composable
-fun LoginUI(
+fun RegisterUI(
     appState: AppState
 ) {
     Box(
@@ -72,6 +71,7 @@ fun LoginUI(
 
             var userName by remember { mutableStateOf("") }
             var userPassword by remember { mutableStateOf("") }
+            var confirmPassword by remember { mutableStateOf("") }
 
             BearEditText(
                 icon = "image/ic_user.svg",
@@ -93,12 +93,24 @@ fun LoginUI(
                 userPassword = it
             }
 
+            Spacer(Modifier.height(20.dp))
+
+            BearEditText(
+                icon = "image/ic_password.svg",
+                label = stringResource("label.confirmPassword"),
+                value = confirmPassword,
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardType = KeyboardType.Password
+            ) {
+                confirmPassword = it
+            }
+
             Spacer(Modifier.height(40.dp))
 
             BigBearButton(
-                text = stringResource("app.login")
+                text = stringResource("app.register")
             ) {
-                appState.navType = NavType.HOME
+
             }
         }
     }

@@ -16,22 +16,14 @@
 
 package com.sky.account.manager.ui.home
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowSize
 import androidx.compose.ui.window.rememberWindowState
 import com.sky.account.manager.AppState
-import com.sky.account.manager.ex.stringResource
-import com.sky.account.manager.ui.theme.PolarBearTheme
+import com.sky.account.manager.ui.common.PolarBearWindow
 
 /**
  * Created by sky on 2021/10/31.
@@ -41,51 +33,20 @@ fun AppHome(
     appState: AppState,
     onCloseRequest: () -> Unit,
 ) {
-    Window(
+    PolarBearWindow(
         onCloseRequest = onCloseRequest,
-        title = stringResource("app.name"),
-        icon = painterResource("image/icon.png"),
         state = rememberWindowState(
             position = WindowPosition(Alignment.Center),
-            size = WindowSize(800.dp, 600.dp)
+            size = WindowSize(1000.dp, 800.dp)
         )
     ) {
-
-        PolarBearTheme {
-
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-
-                    Text(
-                        text = "Home",
-                        fontSize = 20.sp
-                    )
-
-                    Spacer(Modifier.height(20.dp))
-
-                    var text by remember {
-                        mutableStateOf("Hello, World!")
-                    }
-
-                    test(text) {
-//                        text = "Hello, Desktop! ${System.currentTimeMillis()}"
-                    }
-                }
-            }
-        }
+        HomeUI(appState)
     }
 }
 
 @Composable
-fun test(name: String, onClick: () -> Unit) {
+fun HomeUI(
+    appState: AppState
+) {
 
-    Button(onClick = onClick) {
-        Text(name)
-    }
 }

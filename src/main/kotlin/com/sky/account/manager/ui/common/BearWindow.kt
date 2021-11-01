@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.ui.window
+package com.sky.account.manager.ui.common
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.Window
@@ -33,13 +33,11 @@ fun PolarBearWindow(
     title: String = stringResource("app.name"),
     content: @Composable () -> Unit
 ) {
-
     Window(
         onCloseRequest = onCloseRequest,
         state = state,
         title = title
     ) {
-
         PolarBearTheme(
             content = content
         )

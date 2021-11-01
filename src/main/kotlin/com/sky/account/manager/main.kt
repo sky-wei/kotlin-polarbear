@@ -21,6 +21,8 @@ import androidx.compose.ui.window.application
 import com.sky.account.manager.ui.NavType
 import com.sky.account.manager.ui.home.AppHome
 import com.sky.account.manager.ui.login.AppLogin
+import com.sky.account.manager.ui.register.AppRegister
+import com.sky.account.manager.ui.splash.AppSplash
 
 /**
  * Created by sky on 2021/8/26.
@@ -31,10 +33,14 @@ fun main() = application {
 
     when(appState.navType) {
         NavType.SPLASH -> {
-
+            AppSplash(appState) {
+                exitApplication()
+            }
         }
-        NavType.CRETE -> {
-
+        NavType.REGISTER -> {
+            AppRegister(appState) {
+                exitApplication()
+            }
         }
         NavType.LOGIN -> {
             AppLogin(appState) {

@@ -20,5 +20,5 @@ package com.sky.account.manager.ui
  * Created by sky on 2021/10/31.
  */
 enum class NavType {
-    SPLASH, CRETE, LOGIN, HOME
+    SPLASH, REGISTER, LOGIN, HOME
 }
