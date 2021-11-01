@@ -25,18 +25,16 @@ import com.sky.account.manager.base.AbstractComponent
 import com.sky.account.manager.data.disk.entity.AccountEntity
 import com.sky.account.manager.data.disk.entity.AdminEntity
 import com.sky.account.manager.interfaces.IAppContext
-import com.sky.account.manager.interfaces.IDBManager
+import com.sky.account.manager.interfaces.IDataBaseManager
 import com.sky.account.manager.util.FileUtil
+import java.io.File
 
 /**
  * Created by sky on 2021/10/31.
  */
-class DBManager(
-    context: IAppContext
-) : AbstractComponent(context), IDBManager {
-
-    private val DIR = "database/"
-    private val URL = "jdbc:sqlite:$DIR"
+class DataBaseManager(
+    builder: Builder
+) : AbstractComponent(builder.context), IDataBaseManager {
 
     private val connectionSource: ConnectionSource
     private val adminDao: Dao<AdminEntity, Int>
@@ -45,10 +43,12 @@ class DBManager(
     init {
 
         // 创建目录
-        FileUtil.mkdirs("$DIR")
+        FileUtil.mkdirs(builder.dir)
 
         // 创建连接
-        connectionSource = JdbcConnectionSource(URL)
+        connectionSource = JdbcConnectionSource(
+            "jdbc:sqlite:${File(builder.dir, builder.name).path}"
+        )
 
         adminDao = DaoManager.createDao(connectionSource, AdminEntity::class.java)
         accountDao = DaoManager.createDao(connectionSource, AccountEntity::class.java)
@@ -64,5 +64,23 @@ class DBManager(
 
     override fun getAccountDao(): Dao<AccountEntity, Int> {
         return accountDao
+    }
+
+
+    class Builder(val context: IAppContext) {
+
+        var dir = "database/"
+        var name = "data.db"
+
+        fun build(): IDataBaseManager {
+            return DataBaseManager(this)
+        }
+    }
+
+    companion object {
+
+        fun create(context: IAppContext, init: Builder.() -> Unit): IDataBaseManager {
+            return Builder(context).apply(init).build()
+        }
     }
 }

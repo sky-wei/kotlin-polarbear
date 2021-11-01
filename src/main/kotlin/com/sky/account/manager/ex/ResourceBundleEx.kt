@@ -25,7 +25,3 @@ import com.sky.account.manager.util.BundleUtil
 fun stringResource(key: String): String {
     return BundleUtil.getString(key)
 }
-
-fun titleResource(key: String): String {
-    return "${BundleUtil.getString("app.name")} - ${BundleUtil.getString(key)}"
-}

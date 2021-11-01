@@ -16,7 +16,15 @@
 
 package com.sky.account.manager.component
 
+import com.j256.ormlite.dao.Dao
 import com.sky.account.manager.base.AbstractComponent
+import com.sky.account.manager.data.disk.entity.AccountEntity
+import com.sky.account.manager.data.disk.entity.AdminEntity
+import com.sky.account.manager.data.disk.mapper.AccountMapper
+import com.sky.account.manager.data.disk.mapper.AdminMapper
+import com.sky.account.manager.data.model.AccountItem
+import com.sky.account.manager.data.model.AdminItem
+import com.sky.account.manager.ex.getDataBaseManager
 import com.sky.account.manager.interfaces.IAccountManager
 import com.sky.account.manager.interfaces.IAppContext
 
@@ -24,8 +32,66 @@ import com.sky.account.manager.interfaces.IAppContext
  * Created by sky on 2021/10/31.
  */
 class AccountManager(
-    context: IAppContext
-) : AbstractComponent(context), IAccountManager {
+    builder: Builder
+) : AbstractComponent(builder.context), IAccountManager {
 
+    private val adminDao: Dao<AdminEntity, Int> by lazy {
+        context.getDataBaseManager().getAdminDao()
+    }
+    private val accountDao: Dao<AccountEntity, Int> by lazy {
+        context.getDataBaseManager().getAccountDao()
+    }
 
+    override fun existAdmin(): Boolean {
+        return adminDao.queryForAll().isNotEmpty()
+    }
+
+    override fun create(item: AdminItem): Boolean {
+
+        val admins = adminDao.queryForEq(NAME, item.name)
+
+        if (admins.isNotEmpty()) return false
+
+        return adminDao.create(
+            AdminMapper.transformItem(item)
+        ) > 0
+    }
+
+    override fun update(item: AdminItem): Boolean {
+        return adminDao.update(
+            AdminMapper.transformItem(item)
+        ) > 0
+    }
+
+    override fun create(item: AccountItem): Boolean {
+        return accountDao.create(
+            AccountMapper.transformItem(item)
+        ) > 0
+    }
+
+    override fun update(item: AccountItem): Boolean {
+        return accountDao.update(
+            AccountMapper.transformItem(item)
+        ) > 0
+    }
+
+    override fun delete(item: AccountItem): Boolean {
+        return adminDao.deleteById(item.id) > 0
+    }
+
+    class Builder(val context: IAppContext) {
+
+        fun build(): IAccountManager {
+            return AccountManager(this)
+        }
+    }
+
+    companion object {
+
+        private const val NAME = "name"
+
+        fun create(context: IAppContext, init: AccountManager.Builder.() -> Unit): IAccountManager {
+            return AccountManager.Builder(context).apply(init).build()
+        }
+    }
 }

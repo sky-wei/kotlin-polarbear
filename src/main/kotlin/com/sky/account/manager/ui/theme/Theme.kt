@@ -46,7 +46,7 @@ private val DarkThemeColors = darkColors(
 )
 
 @Composable
-fun PolarBearTheme(
+fun BearTheme(
     darkTheme: Boolean = false,
     content: @Composable () -> Unit
 ) {

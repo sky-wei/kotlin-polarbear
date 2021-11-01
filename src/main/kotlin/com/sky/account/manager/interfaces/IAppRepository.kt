@@ -16,22 +16,10 @@
 
 package com.sky.account.manager.interfaces
 
-import com.j256.ormlite.dao.Dao
-import com.sky.account.manager.data.disk.entity.AccountEntity
-import com.sky.account.manager.data.disk.entity.AdminEntity
-
 /**
- * Created by sky on 2021/10/31.
+ * Created by sky on 2021/11/1.
  */
-interface IDBManager : IComponent {
+interface IAppRepository : IComponent {
 
-    /**
-     * 获取AdminDao
-     */
-    fun getAdminDao(): Dao<AdminEntity, Int>
 
-    /**
-     * 获取AccountDao
-     */
-    fun getAccountDao(): Dao<AccountEntity, Int>
 }

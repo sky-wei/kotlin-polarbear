@@ -16,10 +16,7 @@
 
 package com.sky.account.manager.component
 
-import com.sky.account.manager.interfaces.IAccountManager
-import com.sky.account.manager.interfaces.IAppContext
-import com.sky.account.manager.interfaces.IComponent
-import com.sky.account.manager.interfaces.IComponentManager
+import com.sky.account.manager.interfaces.*
 
 /**
  * Created by sky on 2021/10/31.
@@ -32,7 +29,17 @@ class ComponentFactory : IComponentManager.Factory {
     ): IComponent {
         return when(name) {
             IAccountManager::class.java -> {
-                AccountManager(context)
+                AccountManager.create(context) {
+
+                }
+            }
+            IDataBaseManager::class.java -> {
+                DataBaseManager.create(context) {
+                    this.name = "account.db"
+                }
+            }
+            IAppRepository::class.java -> {
+                AppRepository(context)
             }
             else -> throw NullPointerException()
         }

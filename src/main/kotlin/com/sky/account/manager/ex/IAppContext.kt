@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.data.disk.entity
+package com.sky.account.manager.ex
 
-import com.j256.ormlite.field.DatabaseField
-import com.j256.ormlite.table.DatabaseTable
+import com.sky.account.manager.interfaces.IAppRepository
+import com.sky.account.manager.interfaces.IAppContext
+import com.sky.account.manager.interfaces.IDataBaseManager
 
 /**
- * Created by sky on 2021/10/31.
+ * Created by sky on 2021/11/1.
  */
-@DatabaseTable(tableName = "admin")
-data class AdminEntity(
-    @DatabaseField(generatedId = true) val id: Int = 0,
-    @DatabaseField(canBeNull = true, unique = true) var name: String,
-    @DatabaseField(canBeNull = true) var password: String,
-    @DatabaseField var desc: String = "",
-    @DatabaseField var createTime: Long = System.currentTimeMillis()
-) {
+fun IAppContext.getDataBaseManager(): IDataBaseManager {
+    return getComponent(IDataBaseManager::class.java)
+}
 
+fun IAppContext.getAppRepository(): IAppRepository {
+    return getComponent(IAppRepository::class.java)
 }

@@ -17,7 +17,7 @@ fun BigBearButton(
     onClick: () -> Unit,
 ) {
     Button(
-        modifier = Modifier.size(280.dp, 50.dp),
+        modifier = Modifier.size(280.dp, 56.dp),
         onClick = onClick
     ) {
         Text(

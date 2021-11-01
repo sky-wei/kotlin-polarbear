@@ -16,10 +16,23 @@
 
 package com.sky.account.manager.interfaces
 
+import com.sky.account.manager.data.model.AccountItem
+import com.sky.account.manager.data.model.AdminItem
+
 /**
  * Created by sky on 2021/10/31.
  */
 interface IAccountManager : IComponent {
 
-    
+    fun existAdmin(): Boolean
+
+    fun create(item: AdminItem): Boolean
+
+    fun update(item: AdminItem): Boolean
+
+    fun create(item: AccountItem): Boolean
+
+    fun update(item: AccountItem): Boolean
+
+    fun delete(item: AccountItem): Boolean
 }

@@ -21,7 +21,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.rememberWindowState
 import com.sky.account.manager.ex.stringResource
-import com.sky.account.manager.ui.theme.PolarBearTheme
+import com.sky.account.manager.ui.theme.BearTheme
 
 /**
  * Created by sky on 2021/10/31.
@@ -38,7 +38,7 @@ fun PolarBearWindow(
         state = state,
         title = title
     ) {
-        PolarBearTheme(
+        BearTheme(
             content = content
         )
     }

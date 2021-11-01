@@ -14,21 +14,31 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.data.disk.entity
-
-import com.j256.ormlite.field.DatabaseField
-import com.j256.ormlite.table.DatabaseTable
+package com.sky.account.manager.data.model
 
 /**
- * Created by sky on 2021/10/31.
+ * Created by sky on 2021/11/1.
  */
-@DatabaseTable(tableName = "admin")
-data class AdminEntity(
-    @DatabaseField(generatedId = true) val id: Int = 0,
-    @DatabaseField(canBeNull = true, unique = true) var name: String,
-    @DatabaseField(canBeNull = true) var password: String,
-    @DatabaseField var desc: String = "",
-    @DatabaseField var createTime: Long = System.currentTimeMillis()
+data class AdminItem(
+    val id: Int = 0,
+    var name: String,
+    var password: String,
+    var desc: String = "",
+    var createTime: Long = System.currentTimeMillis()
 ) {
 
+    companion object {
+
+        fun valueOf(
+            name: String,
+            password: String,
+            desc: String = ""
+        ): AdminItem {
+            return AdminItem(
+                name = name,
+                password = password,
+                desc = desc
+            )
+        }
+    }
 }

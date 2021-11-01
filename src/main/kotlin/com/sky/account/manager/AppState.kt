@@ -19,6 +19,9 @@ package com.sky.account.manager
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import com.sky.account.manager.ex.getAppRepository
+import com.sky.account.manager.interfaces.IAppContext
+import com.sky.account.manager.interfaces.IAppRepository
 import com.sky.account.manager.ui.NavType
 
 /**
@@ -30,6 +33,9 @@ fun rememberAppState() = remember {
 }
 
 class AppState {
+
+    private val _context: IAppContext by lazy { AppContext() }
+    private val _repository: IAppRepository by lazy { _context.getAppRepository() }
 
     private val _navType = mutableStateOf(NavType.LOGIN)
 

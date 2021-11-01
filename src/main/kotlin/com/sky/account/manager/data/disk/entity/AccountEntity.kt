@@ -24,13 +24,13 @@ import com.j256.ormlite.table.DatabaseTable
  */
 @DatabaseTable(tableName = "account")
 data class AccountEntity(
-    @DatabaseField(generatedId = true) val id: Int,
+    @DatabaseField(generatedId = true) val id: Int = 0,
     @DatabaseField(canBeNull = true) val adminId: Int,
     @DatabaseField(canBeNull = true) var name: String,
     @DatabaseField(canBeNull = true) var password: String,
-    @DatabaseField var url: String,
-    @DatabaseField var desc: String,
-    @DatabaseField var createTime: Long
+    @DatabaseField var url: String = "",
+    @DatabaseField var desc: String = "",
+    @DatabaseField var createTime: Long = System.currentTimeMillis()
 ) {
 
 

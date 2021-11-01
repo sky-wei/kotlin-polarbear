@@ -17,7 +17,7 @@ import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowSize
 import androidx.compose.ui.window.rememberWindowState
 import com.sky.account.manager.AppState
-import com.sky.account.manager.ui.theme.PolarBearTheme
+import com.sky.account.manager.ui.theme.BearTheme
 
 /**
  * Created by sky on 2021-11-01.
@@ -35,7 +35,7 @@ fun AppSplash(
         ),
         undecorated = true
     ) {
-        PolarBearTheme {
+        BearTheme {
             SplashUI()
         }
     }
