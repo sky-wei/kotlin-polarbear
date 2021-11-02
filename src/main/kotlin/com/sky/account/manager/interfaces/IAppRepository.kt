@@ -21,5 +21,8 @@ package com.sky.account.manager.interfaces
  */
 interface IAppRepository : IComponent {
 
-
+    /**
+     * 是否需要注释
+     */
+    suspend fun isRegister(): Boolean
 }

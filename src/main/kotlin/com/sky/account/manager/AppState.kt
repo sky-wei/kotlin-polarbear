@@ -23,6 +23,11 @@ import com.sky.account.manager.ex.getAppRepository
 import com.sky.account.manager.interfaces.IAppContext
 import com.sky.account.manager.interfaces.IAppRepository
 import com.sky.account.manager.ui.NavType
+import com.sky.account.manager.util.Alog
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * Created by sky on 2021/10/31.
@@ -34,17 +39,39 @@ fun rememberAppState() = remember {
 
 class AppState {
 
-    private val _context: IAppContext by lazy { AppContext() }
-    private val _repository: IAppRepository by lazy { _context.getAppRepository() }
+    private val context: IAppContext = AppContext()
+    private val repository: IAppRepository by lazy { context.getAppRepository() }
 
-    private val _navType = mutableStateOf(NavType.LOGIN)
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
-    var navType: NavType
-        get() = _navType.value
-        set(value) { _navType.value = value }
+    private val navType = mutableStateOf(NavType.SPLASH)
+
+    fun navType(): NavType {
+        return navType.value
+    }
 
     init {
 
+        initData()
+    }
 
+    private fun initData() {
+
+        Alog.d(">>>>>>>>>>>  初始化。。。。")
+
+        scope.launch {
+
+            val isRegister = repository.isRegister()
+
+            Alog.d(">>>>>>>>>isRegister $isRegister")
+
+            delay(3000)
+
+            if (isRegister) {
+                navType.value = NavType.REGISTER
+            } else {
+                navType.value = NavType.LOGIN
+            }
+        }
     }
 }

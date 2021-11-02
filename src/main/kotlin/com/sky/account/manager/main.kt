@@ -31,7 +31,7 @@ fun main() = application {
 
     val appState = rememberAppState()
 
-    when(appState.navType) {
+    when(appState.navType()) {
         NavType.SPLASH -> {
             AppSplash(appState) {
                 exitApplication()

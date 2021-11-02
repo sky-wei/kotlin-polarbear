@@ -22,7 +22,7 @@ import com.sky.account.manager.component.ComponentManager
 import com.sky.account.manager.interfaces.IAccountManager
 import com.sky.account.manager.interfaces.IAppContext
 import com.sky.account.manager.interfaces.IComponentManager
-import com.sky.account.manager.util.ALog
+import com.sky.account.manager.util.Alog
 
 /**
  * Created by sky on 2021/8/28.
@@ -33,8 +33,8 @@ class AppContext : IAppContext {
 
     init {
 
-        ALog.setSingletonInstance(
-            ALog.create {
+        Alog.setSingletonInstance(
+            Alog.create {
                 debug = true
                 adapter = Log4JAdapter()
             }

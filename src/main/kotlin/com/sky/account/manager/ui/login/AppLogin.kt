@@ -28,7 +28,6 @@ import androidx.compose.ui.window.WindowSize
 import androidx.compose.ui.window.rememberWindowState
 import com.sky.account.manager.AppState
 import com.sky.account.manager.ex.stringResource
-import com.sky.account.manager.ui.NavType
 import com.sky.account.manager.ui.common.BearEditText
 import com.sky.account.manager.ui.common.BigBearButton
 import com.sky.account.manager.ui.common.BigBearTitle
@@ -98,7 +97,7 @@ fun LoginUI(
             BigBearButton(
                 text = stringResource("app.login")
             ) {
-                appState.navType = NavType.HOME
+
             }
         }
     }

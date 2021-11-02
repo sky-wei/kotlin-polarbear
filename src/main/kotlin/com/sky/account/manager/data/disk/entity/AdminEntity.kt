@@ -31,4 +31,5 @@ data class AdminEntity(
     @DatabaseField var createTime: Long = System.currentTimeMillis()
 ) {
 
+    constructor() : this(name = "", password = "")
 }

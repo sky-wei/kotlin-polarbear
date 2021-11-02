@@ -16,7 +16,7 @@
 
 package com.sky.account.manager.adapter
 
-import com.sky.account.manager.util.ALog
+import com.sky.account.manager.util.Alog
 import com.sky.account.manager.util.ResUtil
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
@@ -26,7 +26,7 @@ import org.apache.log4j.PropertyConfigurator
 /**
  * Created by sky on 2021/8/28.
  */
-class Log4JAdapter : ALog.Adapter {
+class Log4JAdapter : Alog.Adapter {
 
     companion object {
 
@@ -49,11 +49,11 @@ class Log4JAdapter : ALog.Adapter {
 
     private fun transform(priority: Int): Priority {
         return when(priority) {
-            ALog.VERBOSE -> Level.ALL
-            ALog.DEBUG -> Level.DEBUG
-            ALog.INFO -> Level.INFO
-            ALog.WARN -> Level.WARN
-            ALog.ERROR -> Level.ERROR
+            Alog.VERBOSE -> Level.ALL
+            Alog.DEBUG -> Level.DEBUG
+            Alog.INFO -> Level.INFO
+            Alog.WARN -> Level.WARN
+            Alog.ERROR -> Level.ERROR
             else -> Level.ALL
         }
     }

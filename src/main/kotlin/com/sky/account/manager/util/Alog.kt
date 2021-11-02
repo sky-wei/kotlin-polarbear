@@ -20,7 +20,7 @@ package com.sky.account.manager.util
 /**
  * Created by sky on 2021/8/28.
  */
-class ALog(builder: Builder) {
+class Alog(builder: Builder) {
 
     companion object {
 
@@ -55,12 +55,12 @@ class ALog(builder: Builder) {
         const val ASSERT = 7
 
 
-        @Volatile private var INSTANCE: ALog? = null
+        @Volatile private var INSTANCE: Alog? = null
 
         /**
          * 获取实例类
          */
-        fun getInstance(): ALog =
+        fun getInstance(): Alog =
             INSTANCE ?: synchronized(this) {
                 INSTANCE ?: create {  }.also { INSTANCE = it }
             }
@@ -69,10 +69,10 @@ class ALog(builder: Builder) {
          * 设置实例类
          * @param ALog
          */
-        fun setSingletonInstance(ALog: ALog) {
-            synchronized(ALog::class.java) {
+        fun setSingletonInstance(log: Alog) {
+            synchronized(Alog::class.java) {
                 check(INSTANCE == null) { "Singleton instance already exists." }
-                INSTANCE = ALog
+                INSTANCE = log
             }
         }
 
@@ -147,7 +147,7 @@ class ALog(builder: Builder) {
         /**
          * 创建对你
          */
-        fun create(init: Builder.() -> Unit): ALog {
+        fun create(init: Builder.() -> Unit): Alog {
             return Builder().apply(init).build()
         }
     }
@@ -231,8 +231,8 @@ class ALog(builder: Builder) {
         var debug = false
         var adapter: Adapter = InternalAdapter()
 
-        fun build(): ALog {
-            return ALog(this)
+        fun build(): Alog {
+            return Alog(this)
         }
     }
 

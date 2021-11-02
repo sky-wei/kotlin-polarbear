@@ -17,8 +17,9 @@
 package com.sky.account.manager.component
 
 import com.sky.account.manager.base.AbstractComponent
-import com.sky.account.manager.interfaces.IAppRepository
+import com.sky.account.manager.interfaces.IAccountManager
 import com.sky.account.manager.interfaces.IAppContext
+import com.sky.account.manager.interfaces.IAppRepository
 
 /**
  * Created by sky on 2021/11/1.
@@ -27,5 +28,9 @@ class AppRepository(
     context: IAppContext
 ) : AbstractComponent(context), IAppRepository {
 
+    private val mAccountManager: IAccountManager by lazy { context.getAccountManager() }
 
+    override suspend fun isRegister(): Boolean {
+        return !mAccountManager.existAdmin()
+    }
 }
