@@ -22,16 +22,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowPosition
-import androidx.compose.ui.window.WindowSize
 import androidx.compose.ui.window.rememberWindowState
 import com.sky.account.manager.AppState
 import com.sky.account.manager.ex.stringResource
 import com.sky.account.manager.ui.common.BearEditText
+import com.sky.account.manager.ui.common.BearWindow
 import com.sky.account.manager.ui.common.BigBearButton
 import com.sky.account.manager.ui.common.BigBearTitle
-import com.sky.account.manager.ui.common.PolarBearWindow
 
 /**
  * Created by sky on 2021/10/31.
@@ -41,11 +41,11 @@ fun AppRegister(
     appState: AppState,
     onCloseRequest: () -> Unit,
 ) {
-    PolarBearWindow(
+    BearWindow(
         onCloseRequest = onCloseRequest,
         state = rememberWindowState(
             position = WindowPosition(Alignment.Center),
-            size = WindowSize(800.dp, 600.dp)
+            size = DpSize(800.dp, 600.dp)
         )
     ) {
         RegisterUI(appState)

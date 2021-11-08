@@ -9,11 +9,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
-import androidx.compose.ui.window.WindowSize
 import androidx.compose.ui.window.rememberWindowState
 import com.sky.account.manager.AppState
 import com.sky.account.manager.ui.theme.BearTheme
@@ -30,7 +30,7 @@ fun AppSplash(
         onCloseRequest = onCloseRequest,
         state = rememberWindowState(
             position = WindowPosition(Alignment.Center),
-            size = WindowSize(900.dp, 260.dp)
+            size = DpSize(900.dp, 260.dp)
         ),
         undecorated = true
     ) {

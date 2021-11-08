@@ -30,6 +30,8 @@ private val LightThemeColors = lightColors(
     primary = Red700,
     primaryVariant = Red900,
     onPrimary = Color.White,
+    background = Background,
+    surface = Background,
     secondary = Red700,
     secondaryVariant = Red900,
     onSecondary = Color.White,
@@ -50,15 +52,8 @@ fun BearTheme(
     darkTheme: Boolean = false,
     content: @Composable () -> Unit
 ) {
-
-    val colors = if (darkTheme) {
-        DarkThemeColors
-    } else {
-        LightThemeColors
-    }
-
     MaterialTheme(
-        colors = colors,
+        colors = if (darkTheme) DarkThemeColors else LightThemeColors,
         typography = Typography,
         shapes = Shapes,
         content = content

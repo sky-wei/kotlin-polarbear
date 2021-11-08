@@ -27,7 +27,7 @@ import com.sky.account.manager.ui.theme.BearTheme
  * Created by sky on 2021/10/31.
  */
 @Composable
-fun PolarBearWindow(
+fun BearWindow(
     onCloseRequest: () -> Unit,
     state: WindowState = rememberWindowState(),
     title: String = stringResource("app.name"),

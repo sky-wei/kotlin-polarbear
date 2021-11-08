@@ -49,7 +49,7 @@ class AppState {
 
     private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
-    private val navType = mutableStateOf(NavType.SPLASH)
+    private val navType = mutableStateOf(NavType.HOME)
     private val adminUser = mutableStateOf(AdminItem.valueOf("", ""))
 
     fun navType(): NavType {
@@ -145,17 +145,17 @@ class AppState {
 
     private fun initData() {
 
-        scope.launch {
-
-            val isRegister = repository.isRegister()
-
-            delay(800)
-
-            if (isRegister) {
-                navType.value = NavType.REGISTER
-            } else {
-                navType.value = NavType.LOGIN
-            }
-        }
+//        scope.launch {
+//
+//            val isRegister = repository.isRegister()
+//
+//            delay(800)
+//
+//            if (isRegister) {
+//                navType.value = NavType.REGISTER
+//            } else {
+//                navType.value = NavType.LOGIN
+//            }
+//        }
     }
 }
