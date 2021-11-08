@@ -33,4 +33,9 @@ interface IAppRepository : IComponent {
      * 注册管理账号
      */
     suspend fun register(item: AdminItem): XResult<AdminItem>
+
+    /**
+     * 登录
+     */
+    suspend fun login(item: AdminItem): XResult<AdminItem>
 }

@@ -97,7 +97,8 @@ fun LoginUI(
             BigBearButton(
                 text = stringResource("app.login")
             ) {
-
+                // 登录
+                appState.login(userName, userPassword)
             }
         }
     }

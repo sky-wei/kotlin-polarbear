@@ -16,19 +16,19 @@
 
 package com.sky.account.manager
 
-import androidx.compose.material.AlertDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.sky.account.manager.data.model.AdminItem
+import com.sky.account.manager.ex.doFailure
+import com.sky.account.manager.ex.doSuccess
 import com.sky.account.manager.ex.getAppRepository
 import com.sky.account.manager.interfaces.IAppContext
 import com.sky.account.manager.interfaces.IAppRepository
 import com.sky.account.manager.ui.NavType
+import com.sky.account.manager.ui.view.cleanMessage
 import com.sky.account.manager.ui.view.showMessage
-import com.sky.account.manager.util.Alog
 import com.sky.account.manager.util.MD5Util
-import com.sky.account.manager.util.SecretUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -50,6 +50,7 @@ class AppState {
     private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
     private val navType = mutableStateOf(NavType.SPLASH)
+    private val adminUser = mutableStateOf(AdminItem.valueOf("", ""))
 
     fun navType(): NavType {
         return navType.value
@@ -69,18 +70,39 @@ class AppState {
         confirmPassword: String
     ) {
 
-        Alog.d(">>>>>>>>>>>>>>>>>")
-        showMessage("哈哈中哈哈")
+        if (userName.isEmpty()) {
+            showMessage("用户名不能为空！")
+            return
+        }
 
-//        scope.launch {
-//
-//            repository.register(
-//                AdminItem.valueOf(
-//                    name = userName,
-//                    password = MD5Util.md5sum(password)
-//                )
-//            )
-//        }
+        if (password.isEmpty()) {
+            showMessage("密码不能为空！")
+            return
+        }
+
+        if (password != confirmPassword) {
+            showMessage("输入的密码不一致！")
+            return
+        }
+
+        scope.launch {
+            // 注册
+            val result = repository.register(
+                AdminItem.valueOf(
+                    name = userName,
+                    password = MD5Util.md5sum(password)
+                )
+            )
+
+            result.doSuccess {
+                // 注册成功
+                cleanMessage()
+                adminUser.value = it.copy(password = password)
+                navType.value = NavType.HOME
+            }.doFailure {
+                showMessage("${it.message}")
+            }
+        }
     }
 
     /**
@@ -91,6 +113,34 @@ class AppState {
         password: String
     ) {
 
+        if (userName.isEmpty()) {
+            showMessage("用户名不能为空！")
+            return
+        }
+
+        if (password.isEmpty()) {
+            showMessage("密码不能为空！")
+            return
+        }
+
+        scope.launch {
+            // 登录
+            val result = repository.login(
+                AdminItem.valueOf(
+                    name = userName,
+                    password = MD5Util.md5sum(password)
+                )
+            )
+
+            result.doSuccess {
+                // 登录成功
+                cleanMessage()
+                adminUser.value = it.copy(password = password)
+                navType.value = NavType.HOME
+            }.doFailure {
+                showMessage("${it.message}")
+            }
+        }
     }
 
     private fun initData() {
@@ -99,7 +149,7 @@ class AppState {
 
             val isRegister = repository.isRegister()
 
-            delay(1000)
+            delay(800)
 
             if (isRegister) {
                 navType.value = NavType.REGISTER

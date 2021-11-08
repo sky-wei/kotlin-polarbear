@@ -40,4 +40,8 @@ class AppRepository(
     override suspend fun register(item: AdminItem): XResult<AdminItem> {
         return runOfResult { mAccountManager.create(item) }
     }
+
+    override suspend fun login(item: AdminItem): XResult<AdminItem> {
+        return runOfResult { mAccountManager.login(item) }
+    }
 }

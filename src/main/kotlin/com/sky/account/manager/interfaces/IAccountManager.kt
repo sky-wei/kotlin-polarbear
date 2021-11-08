@@ -28,6 +28,8 @@ interface IAccountManager : IComponent {
 
     fun create(item: AdminItem): AdminItem
 
+    fun login(item: AdminItem): AdminItem
+
     fun update(item: AdminItem): Boolean
 
     fun create(item: AccountItem): Boolean

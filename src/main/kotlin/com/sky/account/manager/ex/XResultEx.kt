@@ -19,7 +19,7 @@ inline fun <reified T> XResult<T>.doSuccess(success: (T) -> Unit): XResult<T> {
     return this
 }
 
-inline fun <reified T> XResult<T>.doFailure(failure: (Throwable?) -> Unit): XResult<T> {
+inline fun <reified T> XResult<T>.doFailure(failure: (Throwable) -> Unit): XResult<T> {
     if (this is XResult.Failure) {
         Alog.e("处理异常", throwable)
         failure(throwable)

@@ -62,6 +62,25 @@ class AccountManager(
         return item.copy(id = id)
     }
 
+    override fun login(item: AdminItem): AdminItem {
+
+        val admins = adminDao.queryForEq(NAME, item.name)
+
+        if (admins.isEmpty()) {
+            // 用户不存在
+            throw DataException("输入的用户名或密码错误!")
+        }
+
+        val admin = admins[0]
+
+        if (admin.password != item.password) {
+            // 密码错误
+            throw DataException("输入的用户名或密码错误!")
+        }
+
+        return AdminMapper.transform(admin)
+    }
+
     override fun update(item: AdminItem): Boolean {
         return adminDao.update(
             AdminMapper.transformItem(item)
