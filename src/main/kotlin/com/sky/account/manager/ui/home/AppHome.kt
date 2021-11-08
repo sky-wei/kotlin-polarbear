@@ -16,6 +16,7 @@
 
 package com.sky.account.manager.ui.home
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,23 +26,21 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberWindowState
 import com.sky.account.manager.AppState
+import com.sky.account.manager.ui.HomeNavType
 import com.sky.account.manager.ui.common.BearWindow
 
 /**
@@ -67,14 +66,19 @@ fun AppHome(
 fun HomeUI(
     appState: AppState
 ) {
+    val navItemState = rememberSaveable { mutableStateOf(HomeNavType.HOME) }
+
     Row {
-        BearSideBar()
-        BearContent()
+        BearSideBar(appState, navItemState)
+        BearContent(appState, navItemState.value)
     }
 }
 
 @Composable
-fun BearSideBar() {
+fun BearSideBar(
+    appState: AppState,
+    navItemState: MutableState<HomeNavType>
+) {
     Box(
         modifier = Modifier
             .width(260.dp)
@@ -107,35 +111,40 @@ fun BearSideBar() {
             SideBarNavItem(
                 "Home",
                 painterResource("image/ic_home.svg"),
-                true
+                navItemState.value == HomeNavType.HOME
             ) {
-
+                navItemState.value = HomeNavType.HOME
             }
             Spacer(Modifier.height(10.dp))
             SideBarNavItem(
                 "Profile",
                 painterResource("image/ic_profile.svg"),
-                false
+                navItemState.value == HomeNavType.PROFILE
             ) {
-
+                navItemState.value = HomeNavType.PROFILE
             }
             Spacer(Modifier.height(10.dp))
             SideBarNavItem(
                 "New",
                 painterResource("image/ic_create.svg"),
-                false
+                navItemState.value == HomeNavType.NEW
             ) {
-
+                navItemState.value = HomeNavType.NEW
             }
             Spacer(Modifier.height(10.dp))
             SideBarNavItem(
                 "Setting",
                 painterResource("image/ic_settings.svg"),
-                false
+                navItemState.value == HomeNavType.SETTING
             ) {
-
+                navItemState.value = HomeNavType.SETTING
             }
         }
+
+        Text(
+            text = "Version: 1.2.3",
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
     }
 }
 
@@ -179,10 +188,24 @@ fun SideBarNavItem(
 }
 
 @Composable
-fun BearContent() {
-    Box(
-        modifier = Modifier.fillMaxSize().padding()
-    ) {
+fun BearContent(
+    appState: AppState,
+    navType: HomeNavType
+) {
+    Crossfade(targetState = navType) {
+        when(it) {
+            HomeNavType.HOME -> {
 
+            }
+            HomeNavType.PROFILE -> {
+
+            }
+            HomeNavType.NEW -> {
+
+            }
+            HomeNavType.SETTING -> {
+                SettingUI(appState)
+            }
+        }
     }
 }

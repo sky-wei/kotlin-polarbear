@@ -22,3 +22,7 @@ package com.sky.account.manager.ui
 enum class NavType {
     SPLASH, REGISTER, LOGIN, HOME
 }
+
+enum class HomeNavType {
+    HOME, PROFILE, NEW, SETTING
+}
