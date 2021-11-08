@@ -16,14 +16,19 @@
 
 package com.sky.account.manager
 
+import androidx.compose.material.AlertDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import com.sky.account.manager.data.model.AdminItem
 import com.sky.account.manager.ex.getAppRepository
 import com.sky.account.manager.interfaces.IAppContext
 import com.sky.account.manager.interfaces.IAppRepository
 import com.sky.account.manager.ui.NavType
+import com.sky.account.manager.ui.view.showMessage
 import com.sky.account.manager.util.Alog
+import com.sky.account.manager.util.MD5Util
+import com.sky.account.manager.util.SecretUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -55,17 +60,46 @@ class AppState {
         initData()
     }
 
-    private fun initData() {
+    /**
+     * 注册账号
+     */
+    fun register(
+        userName: String,
+        password: String,
+        confirmPassword: String
+    ) {
 
-        Alog.d(">>>>>>>>>>>  初始化。。。。")
+        Alog.d(">>>>>>>>>>>>>>>>>")
+        showMessage("哈哈中哈哈")
+
+//        scope.launch {
+//
+//            repository.register(
+//                AdminItem.valueOf(
+//                    name = userName,
+//                    password = MD5Util.md5sum(password)
+//                )
+//            )
+//        }
+    }
+
+    /**
+     * 登录
+     */
+    fun login(
+        userName: String,
+        password: String
+    ) {
+
+    }
+
+    private fun initData() {
 
         scope.launch {
 
             val isRegister = repository.isRegister()
 
-            Alog.d(">>>>>>>>>isRegister $isRegister")
-
-            delay(3000)
+            delay(1000)
 
             if (isRegister) {
                 navType.value = NavType.REGISTER

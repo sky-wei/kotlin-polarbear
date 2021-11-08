@@ -18,6 +18,7 @@ package com.sky.account.manager.component
 
 import com.j256.ormlite.dao.Dao
 import com.sky.account.manager.base.AbstractComponent
+import com.sky.account.manager.data.DataException
 import com.sky.account.manager.data.disk.entity.AccountEntity
 import com.sky.account.manager.data.disk.entity.AdminEntity
 import com.sky.account.manager.data.disk.mapper.AccountMapper
@@ -46,15 +47,19 @@ class AccountManager(
         return adminDao.queryForAll().isNotEmpty()
     }
 
-    override fun create(item: AdminItem): Boolean {
+    override fun create(item: AdminItem): AdminItem {
 
         val admins = adminDao.queryForEq(NAME, item.name)
 
-        if (admins.isNotEmpty()) return false
+        if (admins.isNotEmpty()) {
+            // 已经存在不需要处理
+            throw DataException("账号${item.name}已经存在不能重复创建!")
+        }
 
-        return adminDao.create(
+        val id = adminDao.create(
             AdminMapper.transformItem(item)
-        ) > 0
+        )
+        return item.copy(id = id)
     }
 
     override fun update(item: AdminItem): Boolean {

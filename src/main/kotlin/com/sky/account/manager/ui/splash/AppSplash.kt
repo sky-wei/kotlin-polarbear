@@ -9,7 +9,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
@@ -51,10 +50,9 @@ fun SplashUI() {
             )
     ) {
         Text(
-            "Account Manager",
+            "Loading...",
             Modifier.align(Alignment.Center),
-            fontWeight = FontWeight.Bold,
-            fontSize = 100.sp
+            fontSize = 28.sp
         )
     }
 }

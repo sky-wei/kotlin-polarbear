@@ -17,6 +17,9 @@
 package com.sky.account.manager.component
 
 import com.sky.account.manager.base.AbstractComponent
+import com.sky.account.manager.data.model.AdminItem
+import com.sky.account.manager.data.model.XResult
+import com.sky.account.manager.ex.runOfResult
 import com.sky.account.manager.interfaces.IAccountManager
 import com.sky.account.manager.interfaces.IAppContext
 import com.sky.account.manager.interfaces.IAppRepository
@@ -32,5 +35,9 @@ class AppRepository(
 
     override suspend fun isRegister(): Boolean {
         return !mAccountManager.existAdmin()
+    }
+
+    override suspend fun register(item: AdminItem): XResult<AdminItem> {
+        return runOfResult { mAccountManager.create(item) }
     }
 }

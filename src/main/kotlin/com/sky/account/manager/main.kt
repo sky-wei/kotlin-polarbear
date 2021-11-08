@@ -17,12 +17,19 @@
 
 package com.sky.account.manager
 
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.WindowPosition
+import androidx.compose.ui.window.WindowSize
 import androidx.compose.ui.window.application
+import androidx.compose.ui.window.rememberWindowState
 import com.sky.account.manager.ui.NavType
-import com.sky.account.manager.ui.home.AppHome
-import com.sky.account.manager.ui.login.AppLogin
-import com.sky.account.manager.ui.register.AppRegister
-import com.sky.account.manager.ui.splash.AppSplash
+import com.sky.account.manager.ui.common.PolarBearWindow
+import com.sky.account.manager.ui.home.HomeUI
+import com.sky.account.manager.ui.login.LoginUI
+import com.sky.account.manager.ui.register.RegisterUI
+import com.sky.account.manager.ui.splash.SplashUI
+import com.sky.account.manager.ui.view.MessageUI
 
 /**
  * Created by sky on 2021/8/26.
@@ -31,26 +38,28 @@ fun main() = application {
 
     val appState = rememberAppState()
 
-    when(appState.navType()) {
-        NavType.SPLASH -> {
-            AppSplash(appState) {
-                exitApplication()
+    PolarBearWindow(
+        onCloseRequest = { exitApplication() },
+        state = rememberWindowState(
+            position = WindowPosition(Alignment.Center),
+            size = WindowSize(1000.dp, 800.dp)
+        )
+    ) {
+
+        when(appState.navType()) {
+            NavType.SPLASH -> {
+                SplashUI()
+            }
+            NavType.REGISTER -> {
+                RegisterUI(appState)
+            }
+            NavType.LOGIN -> {
+                LoginUI(appState)
+            }
+            NavType.HOME -> {
+                HomeUI(appState)
             }
         }
-        NavType.REGISTER -> {
-            AppRegister(appState) {
-                exitApplication()
-            }
-        }
-        NavType.LOGIN -> {
-            AppLogin(appState) {
-                exitApplication()
-            }
-        }
-        NavType.HOME -> {
-            AppHome(appState) {
-                exitApplication()
-            }
-        }
+        MessageUI()
     }
 }

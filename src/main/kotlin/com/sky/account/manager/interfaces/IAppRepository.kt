@@ -16,13 +16,21 @@
 
 package com.sky.account.manager.interfaces
 
+import com.sky.account.manager.data.model.AdminItem
+import com.sky.account.manager.data.model.XResult
+
 /**
  * Created by sky on 2021/11/1.
  */
 interface IAppRepository : IComponent {
 
     /**
-     * 是否需要注释
+     * 是否需要注册
      */
     suspend fun isRegister(): Boolean
+
+    /**
+     * 注册管理账号
+     */
+    suspend fun register(item: AdminItem): XResult<AdminItem>
 }

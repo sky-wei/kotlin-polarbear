@@ -31,12 +31,14 @@ fun PolarBearWindow(
     onCloseRequest: () -> Unit,
     state: WindowState = rememberWindowState(),
     title: String = stringResource("app.name"),
+    undecorated: Boolean = false,
     content: @Composable () -> Unit
 ) {
     Window(
         onCloseRequest = onCloseRequest,
         state = state,
-        title = title
+        title = title,
+        undecorated = undecorated
     ) {
         BearTheme(
             content = content

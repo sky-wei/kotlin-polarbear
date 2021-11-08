@@ -33,3 +33,6 @@ val Red700 = Color(0xffdd0d3c)
 val Red800 = Color(0xffd00036)
 val Red900 = Color(0xffc20029)
 
+val ToastBackground = Color(23, 23, 23)
+val Foreground = Color(210, 210, 210)
+

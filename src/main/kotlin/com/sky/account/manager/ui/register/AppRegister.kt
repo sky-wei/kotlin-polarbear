@@ -110,7 +110,8 @@ fun RegisterUI(
             BigBearButton(
                 text = stringResource("app.register")
             ) {
-
+                // 注册
+                appState.register(userName, userPassword, confirmPassword)
             }
         }
     }

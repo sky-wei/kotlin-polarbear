@@ -26,7 +26,7 @@ interface IAccountManager : IComponent {
 
     fun existAdmin(): Boolean
 
-    fun create(item: AdminItem): Boolean
+    fun create(item: AdminItem): AdminItem
 
     fun update(item: AdminItem): Boolean
 

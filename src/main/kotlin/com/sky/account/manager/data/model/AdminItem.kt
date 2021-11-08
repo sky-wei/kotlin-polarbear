@@ -32,7 +32,7 @@ data class AdminItem(
         fun valueOf(
             name: String,
             password: String,
-            desc: String = ""
+            desc: String = "admin"
         ): AdminItem {
             return AdminItem(
                 name = name,
