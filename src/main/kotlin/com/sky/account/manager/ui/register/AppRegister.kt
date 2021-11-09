@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.DpSize
@@ -28,10 +29,10 @@ import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberWindowState
 import com.sky.account.manager.AppState
 import com.sky.account.manager.ex.stringResource
+import com.sky.account.manager.ui.common.BearBigTitle
 import com.sky.account.manager.ui.common.BearEditText
 import com.sky.account.manager.ui.common.BearWindow
 import com.sky.account.manager.ui.common.BigBearButton
-import com.sky.account.manager.ui.common.BearBigTitle
 
 /**
  * Created by sky on 2021/10/31.
@@ -74,7 +75,7 @@ fun RegisterUI(
             var confirmPassword by remember { mutableStateOf("") }
 
             BearEditText(
-                icon = "image/ic_user.svg",
+                icon = painterResource("image/ic_user.svg"),
                 label = stringResource("label.userName"),
                 value = userName
             ) {
@@ -84,7 +85,7 @@ fun RegisterUI(
             Spacer(Modifier.height(20.dp))
 
             BearEditText(
-                icon = "image/ic_password.svg",
+                icon = painterResource("image/ic_password.svg"),
                 label = stringResource("label.password"),
                 value = userPassword,
                 visualTransformation = PasswordVisualTransformation(),
@@ -96,7 +97,7 @@ fun RegisterUI(
             Spacer(Modifier.height(20.dp))
 
             BearEditText(
-                icon = "image/ic_password.svg",
+                icon = painterResource("image/ic_password.svg"),
                 label = stringResource("label.confirmPassword"),
                 value = confirmPassword,
                 visualTransformation = PasswordVisualTransformation(),

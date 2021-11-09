@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.DpSize
@@ -73,7 +74,7 @@ fun LoginUI(
             var userPassword by remember { mutableStateOf("") }
 
             BearEditText(
-                icon = "image/ic_user.svg",
+                icon = painterResource("image/ic_user.svg"),
                 label = stringResource("label.userName"),
                 value = userName
             ) {
@@ -83,7 +84,7 @@ fun LoginUI(
             Spacer(Modifier.height(20.dp))
 
             BearEditText(
-                icon = "image/ic_password.svg",
+                icon = painterResource("image/ic_password.svg"),
                 label = stringResource("label.password"),
                 value = userPassword,
                 visualTransformation = PasswordVisualTransformation(),

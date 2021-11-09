@@ -1,11 +1,9 @@
 package com.sky.account.manager.ui.home
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -13,7 +11,6 @@ import androidx.compose.ui.unit.dp
 import com.sky.account.manager.AppState
 import com.sky.account.manager.data.model.AccountItem
 import com.sky.account.manager.ex.stringResource
-import com.sky.account.manager.ui.common.BearBigTitle
 import com.sky.account.manager.ui.common.BearEditText
 import com.sky.account.manager.ui.common.BearTopBar
 import com.sky.account.manager.ui.common.BigBearButton
@@ -25,7 +22,7 @@ import com.sky.account.manager.ui.common.BigBearButton
 fun AccountEditUI(
     appState: AppState,
     item: AccountItem,
-    back: () -> Unit
+    onBack: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -34,10 +31,10 @@ fun AccountEditUI(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BearTopBar(
-            back = "Home",
+            backText = "Account",
             backIcon = painterResource("image/ic_back.svg"),
-            title = "",
-            click = back
+            title = "Edit",
+            onBack = onBack
         )
         Spacer(Modifier.height(10.dp))
         Box(
@@ -63,11 +60,11 @@ fun AccountEditUI(
         var userUrl by remember { mutableStateOf(item.url) }
         var userDesc by remember { mutableStateOf(item.desc) }
 
-        BearBigTitle("Account")
-        Spacer(Modifier.height(40.dp))
+//        BearBigTitle("Account")
+//        Spacer(Modifier.height(40.dp))
 
         BearEditText(
-            icon = "image/ic_user.svg",
+            icon = painterResource("image/ic_user.svg"),
             label = stringResource("label.userName"),
             value = userName
         ) {
@@ -77,7 +74,7 @@ fun AccountEditUI(
         Spacer(Modifier.height(20.dp))
 
         BearEditText(
-            icon = "image/ic_password.svg",
+            icon = painterResource("image/ic_password.svg"),
             label = stringResource("label.password"),
             value = userPassword,
             visualTransformation = PasswordVisualTransformation(),
@@ -89,7 +86,7 @@ fun AccountEditUI(
         Spacer(Modifier.height(20.dp))
 
         BearEditText(
-            icon = "image/ic_url.svg",
+            icon = painterResource("image/ic_url.svg"),
             label = "Url",
             value = userUrl,
         ) {
@@ -99,7 +96,7 @@ fun AccountEditUI(
         Spacer(Modifier.height(20.dp))
 
         BearEditText(
-            icon = "image/ic_desc.svg",
+            icon = painterResource("image/ic_desc.svg"),
             label = "Description",
             value = userDesc,
             singleLine = false,

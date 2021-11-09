@@ -1,4 +1,20 @@
-package com.sky.account.manager.ui.new
+/*
+ * Copyright (c) 2021 The sky Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.sky.account.manager.ui.profile
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -9,18 +25,20 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.sky.account.manager.AppState
+import com.sky.account.manager.data.model.AdminItem
 import com.sky.account.manager.ex.stringResource
-import com.sky.account.manager.ui.common.BearBigTitle
 import com.sky.account.manager.ui.common.BearEditText
-import com.sky.account.manager.ui.common.BearSubTitle
+import com.sky.account.manager.ui.common.BearTopBar
 import com.sky.account.manager.ui.common.BigBearButton
 
 /**
- * Created by sky on 2021-11-09.
+ * Created by sky on 2021/11/9.
  */
 @Composable
-fun NewUI(
-    appState: AppState
+fun ProfileEditUI(
+    appState: AppState,
+    item: AdminItem,
+    onBack: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -28,36 +46,45 @@ fun NewUI(
             .absolutePadding(left = 30.dp, top = 54.dp, right = 30.dp, bottom = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        BearSubTitle("Account")
+        BearTopBar(
+            backText = "Admin",
+            backIcon = painterResource("image/ic_back.svg"),
+            title = "Edit",
+            onBack = onBack
+        )
         Spacer(Modifier.height(10.dp))
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            NewAccountUI(appState)
+            ProfileEditUI(item) {
+
+            }
         }
     }
 }
 
 @Composable
-fun NewAccountUI(
-    appState: AppState
+fun ProfileEditUI(
+    item: AdminItem,
+    onChange: (item: AdminItem) -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        var userName by remember { mutableStateOf("") }
+        var userName by remember { mutableStateOf(item.name) }
         var userPassword by remember { mutableStateOf("") }
-        var userUrl by remember { mutableStateOf("") }
-        var userDesc by remember { mutableStateOf("") }
+        var userNewPassword by remember { mutableStateOf("") }
+        var userDesc by remember { mutableStateOf(item.desc) }
 
-//        BearBigTitle("Account")
+//        BearBigTitle("Admin")
 //        Spacer(Modifier.height(40.dp))
 
         BearEditText(
             icon = painterResource("image/ic_user.svg"),
             label = stringResource("label.userName"),
+            readOnly = true,
             value = userName
         ) {
             userName = it
@@ -78,11 +105,13 @@ fun NewAccountUI(
         Spacer(Modifier.height(20.dp))
 
         BearEditText(
-            icon = painterResource("image/ic_url.svg"),
-            label = "Url",
-            value = userUrl,
+            icon = painterResource("image/ic_password.svg"),
+            label = "NewPassword",
+            value = userNewPassword,
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardType = KeyboardType.Password
         ) {
-            userUrl = it
+            userNewPassword = it
         }
 
         Spacer(Modifier.height(20.dp))
@@ -100,9 +129,9 @@ fun NewAccountUI(
         Spacer(Modifier.height(40.dp))
 
         BigBearButton(
-            text = "Create"
+            text = "Change"
         ) {
-            // 创建
+            // 修改
 
         }
     }

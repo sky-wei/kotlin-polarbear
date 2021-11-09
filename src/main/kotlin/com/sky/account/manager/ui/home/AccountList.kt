@@ -23,7 +23,7 @@ import com.sky.account.manager.ui.theme.GrayText
  * Created by sky on 2021-11-09.
  */
 enum class AccountType {
-    LIST, DISPLAY, EDIT
+    LIST, DISPLAY, EDIT, DELETE
 }
 
 
@@ -42,13 +42,16 @@ fun HomeContentUI(
             }
         }
         AccountType.DISPLAY -> {
-            AccountDisplay(appState, accountItem.value) {
-                accountState.value = AccountType.LIST
-            }
+            AccountDisplay(
+                item = accountItem.value,
+                onBack = { accountState.value = AccountType.LIST },
+                onEdit = { accountState.value = AccountType.EDIT },
+                onDelete = {  }
+            )
         }
         AccountType.EDIT -> {
             AccountEditUI(appState, accountItem.value) {
-                accountState.value = AccountType.LIST
+                accountState.value = AccountType.DISPLAY
             }
         }
     }

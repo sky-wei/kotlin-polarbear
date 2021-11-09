@@ -40,16 +40,38 @@ fun BearSortTitle(
 
 @Composable
 fun BearTopBar(
-    back: String,
+    backText: String,
     backIcon: Painter,
     title: String,
-    click: () -> Unit
+    onBack: () -> Unit
+) {
+    BearTopBar(
+        backText = backText,
+        backIcon = backIcon,
+        title = title,
+        onBack = onBack
+    ) {
+
+    }
+}
+
+@Composable
+fun BearTopBar(
+    backText: String,
+    backIcon: Painter,
+    title: String,
+    onBack: () -> Unit,
+    content: @Composable RowScope.() -> Unit
 ) {
     Box(
-        modifier = Modifier.fillMaxWidth().padding(8.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .absolutePadding(top = 8.dp, bottom = 8.dp)
     ) {
         Row(
-            modifier = Modifier.clickable { click() }.padding(6.dp),
+            modifier = Modifier
+                .clickable { onBack() }
+                .absolutePadding(top = 6.dp, bottom = 6.dp, right = 10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -59,8 +81,32 @@ fun BearTopBar(
                 modifier = Modifier.size(24.dp)
             )
             Spacer(Modifier.width(6.dp))
-            Text(back)
+            Text(backText)
         }
+        Text(
+            text = title,
+            modifier = Modifier.align(Alignment.Center),
+            style = MaterialTheme.typography.h6,
+            fontWeight = FontWeight.Bold
+        )
+        Row(
+            modifier = Modifier.align(Alignment.CenterEnd),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            content()
+        }
+    }
+}
+
+@Composable
+fun BearSubTitle(
+    title: String
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .absolutePadding(top = 16.dp, bottom = 16.dp)
+    ) {
         Text(
             text = title,
             modifier = Modifier.align(Alignment.Center),

@@ -106,10 +106,10 @@ private fun AboutUI(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BearTopBar(
-            back = "Setting",
+            backText = "Setting",
             backIcon = painterResource("image/ic_back.svg"),
             title = "About",
-            click = back
+            onBack = back
         )
         Spacer(Modifier.height(40.dp))
         Image(
@@ -117,7 +117,7 @@ private fun AboutUI(
             contentDescription = null,
             modifier = Modifier.size(130.dp)
         )
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(26.dp))
         BearTextMenu(
             title = "Version",
             desc = "1.2.3"

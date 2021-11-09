@@ -1,16 +1,16 @@
 package com.sky.account.manager.ui.common
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
  */
 @Composable
 fun BearEditText(
-    icon: String,
+    icon: Painter,
     label: String = "",
     readOnly: Boolean = false,
     value: String = "",
@@ -40,10 +40,11 @@ fun BearEditText(
         maxLines = maxLines,
         label = { Text(text = label) },
         leadingIcon = {
-            Image(
+            Icon(
                 modifier = Modifier.size(30.dp, 30.dp),
-                painter = painterResource(icon),
-                contentDescription = label
+                painter = icon,
+                contentDescription = label,
+                tint = MaterialTheme.colors.onSurface
             )
         },
         visualTransformation = visualTransformation,
@@ -69,10 +70,11 @@ fun BearSearch(
         singleLine = true,
         label = { Text(text = label) },
         leadingIcon = {
-            Image(
+            Icon(
                 modifier = Modifier.size(30.dp, 30.dp),
                 painter = icon,
-                contentDescription = label
+                contentDescription = label,
+                tint = MaterialTheme.colors.onSurface
             )
         },
         keyboardOptions = KeyboardOptions(

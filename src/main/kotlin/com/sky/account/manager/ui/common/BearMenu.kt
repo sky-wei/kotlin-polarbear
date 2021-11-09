@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -90,11 +91,16 @@ fun BearTextMenu(
             color = MaterialTheme.colors.onSurface
         )
 
-        Text(
-            text = desc,
-            style = MaterialTheme.typography.body1,
-            modifier = Modifier.align(Alignment.CenterEnd),
-            color = GrayText
-        )
+        Box(
+            modifier = Modifier.align(Alignment.CenterEnd)
+        ) {
+            SelectionContainer {
+                Text(
+                    text = desc,
+                    style = MaterialTheme.typography.body1,
+                    color = GrayText
+                )
+            }
+        }
     }
 }
