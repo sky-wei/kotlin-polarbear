@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowPosition
@@ -42,6 +43,10 @@ import androidx.compose.ui.window.rememberWindowState
 import com.sky.account.manager.AppState
 import com.sky.account.manager.ui.HomeNavType
 import com.sky.account.manager.ui.common.BearWindow
+import com.sky.account.manager.ui.new.NewUI
+import com.sky.account.manager.ui.profile.ProfileUI
+import com.sky.account.manager.ui.setting.SettingUI
+import com.sky.account.manager.ui.theme.GrayText
 
 /**
  * Created by sky on 2021/10/31.
@@ -103,7 +108,8 @@ fun BearSideBar(
                 )
                 Spacer(Modifier.width(15.dp))
                 Text(
-                    text = "Account Manager"
+                    text = "Account Manager",
+                    fontWeight = FontWeight.Bold
                 )
             }
 
@@ -143,7 +149,9 @@ fun BearSideBar(
 
         Text(
             text = "Version: 1.2.3",
-            modifier = Modifier.align(Alignment.BottomCenter)
+            color = GrayText,
+            modifier = Modifier.align(Alignment.BottomCenter),
+            style = MaterialTheme.typography.body2
         )
     }
 }
@@ -195,13 +203,13 @@ fun BearContent(
     Crossfade(targetState = navType) {
         when(it) {
             HomeNavType.HOME -> {
-
+                HomeContentUI(appState)
             }
             HomeNavType.PROFILE -> {
-
+                ProfileUI(appState)
             }
             HomeNavType.NEW -> {
-
+                NewUI(appState)
             }
             HomeNavType.SETTING -> {
                 SettingUI(appState)

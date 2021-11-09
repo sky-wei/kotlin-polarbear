@@ -19,6 +19,7 @@ package com.sky.account.manager
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import com.sky.account.manager.data.model.AccountItem
 import com.sky.account.manager.data.model.AdminItem
 import com.sky.account.manager.ex.doFailure
 import com.sky.account.manager.ex.doSuccess
@@ -31,7 +32,6 @@ import com.sky.account.manager.ui.view.showMessage
 import com.sky.account.manager.util.MD5Util
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
@@ -51,9 +51,18 @@ class AppState {
 
     private val navType = mutableStateOf(NavType.HOME)
     private val adminUser = mutableStateOf(AdminItem.valueOf("", ""))
+    private val accounts = mutableStateOf(ArrayList<AccountItem>())
 
     fun navType(): NavType {
         return navType.value
+    }
+
+    fun adminUser(): AdminItem {
+        return adminUser.value
+    }
+
+    fun accounts(): List<AccountItem> {
+        return accounts.value
     }
 
     init {
@@ -157,5 +166,19 @@ class AppState {
 //                navType.value = NavType.LOGIN
 //            }
 //        }
+
+        accounts.value = arrayListOf(
+            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
+            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
+            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
+            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
+            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
+            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
+            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
+            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
+            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
+            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
+            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
+        )
     }
 }

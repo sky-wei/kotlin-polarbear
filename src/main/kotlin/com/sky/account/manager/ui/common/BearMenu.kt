@@ -18,11 +18,12 @@ package com.sky.account.manager.ui.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -30,18 +31,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
+import com.sky.account.manager.ui.theme.GrayText
 
 /**
  * Created by sky on 2021/11/8.
  */
 
 @Composable
-fun BearMenu(
+fun BearTextMenu(
     title: String,
     icon: Painter,
     onClick: () -> Unit
 ) {
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
             .background(
@@ -49,20 +51,50 @@ fun BearMenu(
                 shape = RoundedCornerShape(6.dp)
             )
             .clickable { onClick.invoke() }
-            .padding(28.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .absolutePadding(left = 28.dp, top = 24.dp, right = 28.dp, bottom = 24.dp),
     ) {
-//        Icon(
-//            painter = icon,
-//            contentDescription = null,
-//            tint = animatedContentColor,
-//            modifier = Modifier.size(28.dp)
-//        )
-//        Spacer(Modifier.width(10.dp))
         Text(
-            title,
+            text = title,
             style = MaterialTheme.typography.body1,
-            modifier = Modifier.absolutePadding(top = 4.dp)
+            modifier = Modifier.align(Alignment.CenterStart),
+            color = MaterialTheme.colors.onSurface
+        )
+
+        Icon(
+            painter = icon,
+            contentDescription = null,
+            tint = MaterialTheme.colors.onSurface,
+            modifier = Modifier.size(20.dp).align(Alignment.CenterEnd)
+        )
+    }
+}
+
+@Composable
+fun BearTextMenu(
+    title: String,
+    desc: String
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = MaterialTheme.colors.onPrimary,
+                shape = RoundedCornerShape(6.dp)
+            )
+            .absolutePadding(left = 28.dp, top = 24.dp, right = 28.dp, bottom = 24.dp),
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.body1,
+            modifier = Modifier.align(Alignment.CenterStart),
+            color = MaterialTheme.colors.onSurface
+        )
+
+        Text(
+            text = desc,
+            style = MaterialTheme.typography.body1,
+            modifier = Modifier.align(Alignment.CenterEnd),
+            color = GrayText
         )
     }
 }

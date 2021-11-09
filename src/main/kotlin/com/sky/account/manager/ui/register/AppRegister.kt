@@ -31,7 +31,7 @@ import com.sky.account.manager.ex.stringResource
 import com.sky.account.manager.ui.common.BearEditText
 import com.sky.account.manager.ui.common.BearWindow
 import com.sky.account.manager.ui.common.BigBearButton
-import com.sky.account.manager.ui.common.BigBearTitle
+import com.sky.account.manager.ui.common.BearBigTitle
 
 /**
  * Created by sky on 2021/10/31.
@@ -66,7 +66,7 @@ fun RegisterUI(
         ) {
 
             Spacer(Modifier.height(10.dp))
-            BigBearTitle("Welcome")
+            BearBigTitle("Welcome")
             Spacer(Modifier.height(40.dp))
 
             var userName by remember { mutableStateOf("") }
