@@ -47,9 +47,9 @@ fun ProfileEditUI(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BearTopBar(
-            backText = "Admin",
+            backText = stringResource("label.admin"),
             backIcon = painterResource("image/ic_back.svg"),
-            title = "Edit",
+            title = stringResource("label.edit"),
             onBack = onBack
         )
         Spacer(Modifier.height(10.dp))
@@ -106,7 +106,7 @@ fun ProfileEditUI(
 
         BearEditText(
             icon = painterResource("image/ic_password.svg"),
-            label = "NewPassword",
+            label = stringResource("label.newPassword"),
             value = userNewPassword,
             visualTransformation = PasswordVisualTransformation(),
             keyboardType = KeyboardType.Password
@@ -118,7 +118,7 @@ fun ProfileEditUI(
 
         BearEditText(
             icon = painterResource("image/ic_desc.svg"),
-            label = "Description",
+            label = stringResource("label.desc"),
             value = userDesc,
             singleLine = false,
             maxLines = 5
@@ -129,7 +129,7 @@ fun ProfileEditUI(
         Spacer(Modifier.height(40.dp))
 
         BigBearButton(
-            text = "Change"
+            text = stringResource("label.change")
         ) {
             // 修改
 

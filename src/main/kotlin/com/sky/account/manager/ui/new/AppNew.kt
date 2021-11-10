@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2021 The sky Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.sky.account.manager.ui.new
 
 import androidx.compose.foundation.layout.*
@@ -10,7 +26,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.sky.account.manager.AppState
 import com.sky.account.manager.ex.stringResource
-import com.sky.account.manager.ui.common.BearBigTitle
 import com.sky.account.manager.ui.common.BearEditText
 import com.sky.account.manager.ui.common.BearSubTitle
 import com.sky.account.manager.ui.common.BigBearButton
@@ -28,7 +43,7 @@ fun NewUI(
             .absolutePadding(left = 30.dp, top = 54.dp, right = 30.dp, bottom = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        BearSubTitle("Account")
+        BearSubTitle(stringResource("label.account"))
         Spacer(Modifier.height(10.dp))
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -79,7 +94,7 @@ fun NewAccountUI(
 
         BearEditText(
             icon = painterResource("image/ic_url.svg"),
-            label = "Url",
+            label = stringResource("label.url"),
             value = userUrl,
         ) {
             userUrl = it
@@ -89,7 +104,7 @@ fun NewAccountUI(
 
         BearEditText(
             icon = painterResource("image/ic_desc.svg"),
-            label = "Description",
+            label = stringResource("label.desc"),
             value = userDesc,
             singleLine = false,
             maxLines = 5
@@ -100,7 +115,7 @@ fun NewAccountUI(
         Spacer(Modifier.height(40.dp))
 
         BigBearButton(
-            text = "Create"
+            text = stringResource("label.create")
         ) {
             // 创建
 

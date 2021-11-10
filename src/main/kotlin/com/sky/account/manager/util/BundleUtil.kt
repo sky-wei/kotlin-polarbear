@@ -30,7 +30,7 @@ object BundleUtil {
         ResourceBundle.getBundle(mBaseName)
     } catch (tr: Throwable) {
         // 异常了加载默认的
-        ResourceBundle.getBundle(mBaseName, Locale.CHINA)
+        ResourceBundle.getBundle(mBaseName, Locale.ENGLISH)
     }
 
     fun getResourceBundle(): ResourceBundle {

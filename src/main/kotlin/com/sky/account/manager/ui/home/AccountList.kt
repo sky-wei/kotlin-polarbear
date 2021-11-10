@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2021 The sky Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.sky.account.manager.ui.home
 
 import androidx.compose.foundation.background
@@ -16,6 +32,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.sky.account.manager.AppState
 import com.sky.account.manager.data.model.AccountItem
+import com.sky.account.manager.ex.stringResource
 import com.sky.account.manager.ui.common.BearSearch
 import com.sky.account.manager.ui.theme.GrayText
 
@@ -73,7 +90,7 @@ fun AccountListUI(
         Column {
             BearSearch(
                 icon = painterResource("image/ic_search.svg"),
-                label = "Search",
+                label = stringResource("app.search"),
                 value = search
             ) {
                 search = it
@@ -115,13 +132,13 @@ fun AccountItemUI(
             )
             Spacer(Modifier.height(6.dp))
             Text(
-                text = "Url: ${item.url}",
+                text = stringResource("label.urlX", item.url),
                 style = MaterialTheme.typography.body2,
                 color = GrayText
             )
             Spacer(Modifier.height(2.dp))
             Text(
-                text = "Description: ${item.desc}",
+                text = stringResource("label.descX", item.desc),
                 style = MaterialTheme.typography.body2,
                 color = GrayText
             )

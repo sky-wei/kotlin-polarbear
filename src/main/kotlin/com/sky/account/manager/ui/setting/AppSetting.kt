@@ -27,8 +27,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.sky.account.manager.AppState
+import com.sky.account.manager.XConstant
+import com.sky.account.manager.ex.stringResource
 import com.sky.account.manager.ui.common.BearSortTitle
 import com.sky.account.manager.ui.common.BearTextMenu
+import com.sky.account.manager.ui.common.BearTextMoreMenu
 import com.sky.account.manager.ui.common.BearTopBar
 
 /**
@@ -66,27 +69,24 @@ private fun SettingListUI(
     ) {
         Column {
             Spacer(Modifier.height(25.dp))
-            BearSortTitle("Account")
+            BearSortTitle(stringResource("label.account"))
             Spacer(Modifier.height(15.dp))
-            BearTextMenu(
-                title = "Import",
-                icon = painterResource("image/ic_arrow_right.svg")
+            BearTextMoreMenu(
+                title = stringResource("label.import"),
             ) {
 
             }
             Spacer(Modifier.height(15.dp))
-            BearTextMenu(
-                title = "Export",
-                icon = painterResource("image/ic_arrow_right.svg")
+            BearTextMoreMenu(
+                title = stringResource("label.export"),
             ) {
 
             }
             Spacer(Modifier.height(30.dp))
-            BearSortTitle("Other")
+            BearSortTitle(stringResource("label.other"))
             Spacer(Modifier.height(15.dp))
-            BearTextMenu(
-                title = "About",
-                icon = painterResource("image/ic_arrow_right.svg")
+            BearTextMoreMenu(
+                title = stringResource("label.about"),
             ) {
                 // 显示关于
                 setState.value = SetType.ABOUT
@@ -106,9 +106,9 @@ private fun AboutUI(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BearTopBar(
-            backText = "Setting",
+            backText = stringResource("label.settings"),
             backIcon = painterResource("image/ic_back.svg"),
-            title = "About",
+            title = stringResource("label.about"),
             onBack = back
         )
         Spacer(Modifier.height(40.dp))
@@ -119,17 +119,17 @@ private fun AboutUI(
         )
         Spacer(Modifier.height(26.dp))
         BearTextMenu(
-            title = "Version",
-            desc = "1.2.3"
+            title = stringResource("label.version"),
+            desc = XConstant.Version.Name
         )
         Spacer(Modifier.height(15.dp))
         BearTextMenu(
-            title = "Mail",
+            title = stringResource("label.mail"),
             desc = "jingcai.wei@163.com"
         )
         Spacer(Modifier.height(15.dp))
         BearTextMenu(
-            title = "Source",
+            title = stringResource("label.source"),
             desc = "https://github.com/sky-wei/kotlin-polarbear"
         )
     }

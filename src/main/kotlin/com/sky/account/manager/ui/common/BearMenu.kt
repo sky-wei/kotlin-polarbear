@@ -31,12 +31,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.sky.account.manager.ui.theme.GrayText
 
 /**
  * Created by sky on 2021/11/8.
  */
+@Composable
+fun BearTextMoreMenu(
+    title: String,
+    icon: Painter = painterResource("image/ic_arrow_right.svg"),
+    onClick: () -> Unit
+) {
+    BearTextMenu(title, icon, onClick)
+}
 
 @Composable
 fun BearTextMenu(

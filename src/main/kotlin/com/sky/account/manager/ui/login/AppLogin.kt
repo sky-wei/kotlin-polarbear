@@ -29,10 +29,10 @@ import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberWindowState
 import com.sky.account.manager.AppState
 import com.sky.account.manager.ex.stringResource
+import com.sky.account.manager.ui.common.BearBigTitle
 import com.sky.account.manager.ui.common.BearEditText
 import com.sky.account.manager.ui.common.BearWindow
 import com.sky.account.manager.ui.common.BigBearButton
-import com.sky.account.manager.ui.common.BearBigTitle
 
 /**
  * Created by sky on 2021/10/31.
@@ -67,7 +67,7 @@ fun LoginUI(
         ) {
 
             Spacer(Modifier.height(10.dp))
-            BearBigTitle("Welcome")
+            BearBigTitle(stringResource("label.welcome"))
             Spacer(Modifier.height(40.dp))
 
             var userName by remember { mutableStateOf("") }
@@ -96,7 +96,7 @@ fun LoginUI(
             Spacer(Modifier.height(40.dp))
 
             BigBearButton(
-                text = stringResource("app.login")
+                text = stringResource("label.login")
             ) {
                 // 登录
                 appState.login(userName, userPassword)

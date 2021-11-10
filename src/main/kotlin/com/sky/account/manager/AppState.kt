@@ -50,7 +50,7 @@ class AppState {
 
     private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
-    private val navType = mutableStateOf(NavType.SPLASH)
+    private val navType = mutableStateOf(NavType.HOME)
     private val adminUser = mutableStateOf(AdminItem.valueOf("", ""))
     private val accounts = mutableStateOf(ArrayList<AccountItem>())
 
@@ -155,18 +155,18 @@ class AppState {
 
     private fun initData() {
 
-        scope.launch {
-
-            val isRegister = repository.isRegister()
-
-            delay(800)
-
-            if (isRegister) {
-                navType.value = NavType.REGISTER
-            } else {
-                navType.value = NavType.LOGIN
-            }
-        }
+//        scope.launch {
+//
+//            val isRegister = repository.isRegister()
+//
+//            delay(800)
+//
+//            if (isRegister) {
+//                navType.value = NavType.REGISTER
+//            } else {
+//                navType.value = NavType.LOGIN
+//            }
+//        }
 
         accounts.value = arrayListOf(
             AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),

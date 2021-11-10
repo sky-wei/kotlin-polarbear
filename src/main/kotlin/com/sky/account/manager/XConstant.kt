@@ -23,6 +23,6 @@ object XConstant {
 
     object Version {
 
-        const val Name = "1.2.3"
+        const val Name = "3.0.0"
     }
 }

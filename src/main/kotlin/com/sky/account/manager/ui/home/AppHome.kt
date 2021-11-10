@@ -41,6 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberWindowState
 import com.sky.account.manager.AppState
+import com.sky.account.manager.XConstant
+import com.sky.account.manager.ex.stringResource
 import com.sky.account.manager.ui.HomeNavType
 import com.sky.account.manager.ui.common.BearWindow
 import com.sky.account.manager.ui.new.NewUI
@@ -108,14 +110,14 @@ fun BearSideBar(
                 )
                 Spacer(Modifier.width(15.dp))
                 Text(
-                    text = "Account Manager",
+                    text = stringResource("label.accountManager"),
                     fontWeight = FontWeight.Bold
                 )
             }
 
             Spacer(Modifier.height(40.dp))
             SideBarNavItem(
-                "Home",
+                stringResource("label.home"),
                 painterResource("image/ic_home.svg"),
                 navItemState.value == HomeNavType.HOME
             ) {
@@ -123,7 +125,7 @@ fun BearSideBar(
             }
             Spacer(Modifier.height(10.dp))
             SideBarNavItem(
-                "Profile",
+                stringResource("label.profile"),
                 painterResource("image/ic_profile.svg"),
                 navItemState.value == HomeNavType.PROFILE
             ) {
@@ -131,7 +133,7 @@ fun BearSideBar(
             }
             Spacer(Modifier.height(10.dp))
             SideBarNavItem(
-                "New",
+                stringResource("label.new"),
                 painterResource("image/ic_create.svg"),
                 navItemState.value == HomeNavType.NEW
             ) {
@@ -139,7 +141,7 @@ fun BearSideBar(
             }
             Spacer(Modifier.height(10.dp))
             SideBarNavItem(
-                "Setting",
+                stringResource("label.settings"),
                 painterResource("image/ic_settings.svg"),
                 navItemState.value == HomeNavType.SETTING
             ) {
@@ -148,7 +150,7 @@ fun BearSideBar(
         }
 
         Text(
-            text = "Version: 1.2.3",
+            text = stringResource("label.versionX", XConstant.Version.Name),
             color = GrayText,
             modifier = Modifier.align(Alignment.BottomCenter),
             style = MaterialTheme.typography.body2
@@ -163,10 +165,12 @@ fun SideBarNavItem(
     selected: Boolean,
     onClick: () -> Unit
 ) {
-    val animatedBackgroundColor by
-        animateColorAsState(if (selected) MaterialTheme.colors.secondary else MaterialTheme.colors.background)
-    val animatedContentColor by
-        animateColorAsState(if (selected) MaterialTheme.colors.onPrimary else MaterialTheme.colors.onSurface)
+    val animatedBackgroundColor by animateColorAsState(
+        if (selected) MaterialTheme.colors.secondary else MaterialTheme.colors.background
+    )
+    val animatedContentColor by animateColorAsState(
+        if (selected) MaterialTheme.colors.onPrimary else MaterialTheme.colors.onSurface
+    )
 
     Row(
         modifier = Modifier

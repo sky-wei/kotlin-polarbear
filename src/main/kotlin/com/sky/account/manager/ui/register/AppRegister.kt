@@ -67,7 +67,7 @@ fun RegisterUI(
         ) {
 
             Spacer(Modifier.height(10.dp))
-            BearBigTitle("Welcome")
+            BearBigTitle(stringResource("label.welcome"))
             Spacer(Modifier.height(40.dp))
 
             var userName by remember { mutableStateOf("") }
@@ -109,7 +109,7 @@ fun RegisterUI(
             Spacer(Modifier.height(40.dp))
 
             BigBearButton(
-                text = stringResource("app.register")
+                text = stringResource("label.register")
             ) {
                 // 注册
                 appState.register(userName, userPassword, confirmPassword)

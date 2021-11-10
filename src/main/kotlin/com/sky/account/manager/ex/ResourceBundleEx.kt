@@ -25,3 +25,7 @@ import com.sky.account.manager.util.BundleUtil
 fun stringResource(key: String): String {
     return BundleUtil.getString(key)
 }
+
+fun stringResource(key: String, vararg args: Any): String {
+    return String.format(BundleUtil.getString(key), *args)
+}

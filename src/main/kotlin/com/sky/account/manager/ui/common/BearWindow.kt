@@ -30,7 +30,7 @@ import com.sky.account.manager.ui.theme.BearTheme
 fun BearWindow(
     onCloseRequest: () -> Unit,
     state: WindowState = rememberWindowState(),
-    title: String = stringResource("app.name"),
+    title: String = stringResource("label.appName"),
     undecorated: Boolean = false,
     content: @Composable () -> Unit
 ) {

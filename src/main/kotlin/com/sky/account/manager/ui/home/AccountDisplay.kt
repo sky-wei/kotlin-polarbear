@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2021 The sky Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.sky.account.manager.ui.home
 
 import androidx.compose.foundation.layout.*
@@ -30,9 +46,9 @@ fun AccountDisplay(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BearTopBar(
-            backText = "Home",
+            backText = stringResource("label.home"),
             backIcon = painterResource("image/ic_back.svg"),
-            title = "Account",
+            title = stringResource("label.account"),
             onBack = onBack
         )
         Spacer(Modifier.height(40.dp))
@@ -47,12 +63,12 @@ fun AccountDisplay(
         )
         Spacer(Modifier.height(15.dp))
         BearTextMenu(
-            title = "Url",
+            title = stringResource("label.url"),
             desc = item.url
         )
         Spacer(Modifier.height(15.dp))
         BearTextMenu(
-            title = "Description",
+            title = stringResource("label.desc"),
             desc = item.desc
         )
         Spacer(Modifier.height(40.dp))
@@ -62,14 +78,14 @@ fun AccountDisplay(
         ) {
             BearIconText(
                 icon = painterResource("image/ic_edit.svg"),
-                text = "Edit",
+                text = stringResource("label.edit"),
                 color = MaterialTheme.colors.onSurface,
                 onClick = onEdit
             )
             Spacer(Modifier.width(30.dp))
             BearIconText(
                 icon = painterResource("image/ic_delete.svg"),
-                text = "Delete",
+                text = stringResource("label.delete"),
                 color = MaterialTheme.colors.secondary,
                 onClick = onDelete
             )

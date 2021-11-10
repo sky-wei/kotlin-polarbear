@@ -41,7 +41,7 @@ fun ProfileDisplayUI(
             .absolutePadding(left = 30.dp, top = 54.dp, right = 30.dp, bottom = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        BearSubTitle("Admin")
+        BearSubTitle(stringResource("label.admin"))
         Spacer(Modifier.height(40.dp))
         BearTextMenu(
             title = stringResource("label.userName"),
@@ -54,7 +54,7 @@ fun ProfileDisplayUI(
         )
         Spacer(Modifier.height(15.dp))
         BearTextMenu(
-            title = "Description",
+            title = stringResource("label.desc"),
             desc = item.desc
         )
         Spacer(Modifier.height(40.dp))
@@ -64,7 +64,7 @@ fun ProfileDisplayUI(
         ) {
             BearIconText(
                 icon = painterResource("image/ic_edit.svg"),
-                text = "Edit",
+                text = stringResource("label.edit"),
                 color = MaterialTheme.colors.onSurface,
                 onClick = onEdit
             )
