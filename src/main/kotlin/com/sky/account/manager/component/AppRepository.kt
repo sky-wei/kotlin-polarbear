@@ -17,6 +17,7 @@
 package com.sky.account.manager.component
 
 import com.sky.account.manager.base.AbstractComponent
+import com.sky.account.manager.data.model.AccountItem
 import com.sky.account.manager.data.model.AdminItem
 import com.sky.account.manager.data.model.XResult
 import com.sky.account.manager.ex.runOfResult
@@ -43,5 +44,9 @@ class AppRepository(
 
     override suspend fun login(item: AdminItem): XResult<AdminItem> {
         return runOfResult { mAccountManager.login(item) }
+    }
+
+    override suspend fun create(item: AccountItem): XResult<AccountItem> {
+        return runOfResult { mAccountManager.create(item) }
     }
 }

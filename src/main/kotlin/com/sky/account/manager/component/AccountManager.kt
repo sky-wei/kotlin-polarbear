@@ -81,26 +81,26 @@ class AccountManager(
         return AdminMapper.transform(admin)
     }
 
-    override fun update(item: AdminItem): Boolean {
-        return adminDao.update(
-            AdminMapper.transformItem(item)
-        ) > 0
+    override fun update(item: AdminItem): AdminItem {
+        adminDao.update(AdminMapper.transformItem(item))
+        return item
     }
 
-    override fun create(item: AccountItem): Boolean {
-        return accountDao.create(
+    override fun create(item: AccountItem): AccountItem {
+        val id = accountDao.create(
             AccountMapper.transformItem(item)
-        ) > 0
+        )
+        return item.copy(id = id)
     }
 
-    override fun update(item: AccountItem): Boolean {
-        return accountDao.update(
-            AccountMapper.transformItem(item)
-        ) > 0
+    override fun update(item: AccountItem): AccountItem {
+        accountDao.update(AccountMapper.transformItem(item))
+        return item
     }
 
-    override fun delete(item: AccountItem): Boolean {
-        return adminDao.deleteById(item.id) > 0
+    override fun delete(item: AccountItem): AccountItem {
+        adminDao.deleteById(item.id)
+        return item
     }
 
     class Builder(val context: IAppContext) {

@@ -30,22 +30,23 @@ import com.sky.account.manager.ui.NavType
 import com.sky.account.manager.ui.view.cleanMessage
 import com.sky.account.manager.ui.view.showMessage
 import com.sky.account.manager.util.MD5Util
+import com.sky.account.manager.util.SecretUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
  * Created by sky on 2021/10/31.
  */
 @Composable
-fun rememberAppState() = remember {
-    AppState()
+fun rememberAppState(context: IAppContext) = remember {
+    AppState(context)
 }
 
-class AppState {
+class AppState(
+    private val context: IAppContext
+) {
 
-    private val context: IAppContext = AppContext()
     private val repository: IAppRepository by lazy { context.getAppRepository() }
 
     private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
@@ -147,6 +148,48 @@ class AppState {
                 cleanMessage()
                 adminUser.value = it.copy(password = password)
                 navType.value = NavType.HOME
+            }.doFailure {
+                showMessage("${it.message}")
+            }
+        }
+    }
+
+    /**
+     * 创建账号
+     */
+    fun create(
+        userName: String,
+        password: String,
+        url: String,
+        desc: String
+    ) {
+        if (userName.isEmpty()) {
+            showMessage("用户名不能为空！")
+            return
+        }
+
+        if (password.isEmpty()) {
+            showMessage("密码不能为空！")
+            return
+        }
+
+        scope.launch {
+            // 创建
+            val admin = adminUser()
+
+            val result = repository.create(
+                AccountItem.valueOf(
+                    adminId = admin.id,
+                    name = userName,
+                    password = SecretUtil.encrypt(admin.password, password),
+                    url = url,
+                    desc = desc
+                )
+            )
+
+            result.doSuccess {
+                // 创建成功
+
             }.doFailure {
                 showMessage("${it.message}")
             }

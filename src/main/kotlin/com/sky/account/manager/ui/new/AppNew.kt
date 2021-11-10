@@ -114,11 +114,9 @@ fun NewAccountUI(
 
         Spacer(Modifier.height(40.dp))
 
-        BigBearButton(
-            text = stringResource("label.create")
-        ) {
+        BigBearButton(stringResource("label.create")) {
             // 创建
-
+            appState.create(userName, userPassword, userUrl, userDesc)
         }
     }
 }

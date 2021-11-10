@@ -16,6 +16,7 @@
 
 package com.sky.account.manager.interfaces
 
+import com.sky.account.manager.data.model.AccountItem
 import com.sky.account.manager.data.model.AdminItem
 import com.sky.account.manager.data.model.XResult
 
@@ -38,4 +39,9 @@ interface IAppRepository : IComponent {
      * 登录
      */
     suspend fun login(item: AdminItem): XResult<AdminItem>
+
+    /**
+     * 创建账号
+     */
+    suspend fun create(item: AccountItem): XResult<AccountItem>
 }

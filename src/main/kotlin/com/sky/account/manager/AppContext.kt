@@ -16,6 +16,8 @@
 
 package com.sky.account.manager
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import com.sky.account.manager.adapter.Log4JAdapter
 import com.sky.account.manager.component.ComponentFactory
 import com.sky.account.manager.component.ComponentManager
@@ -27,6 +29,11 @@ import com.sky.account.manager.util.Alog
 /**
  * Created by sky on 2021/8/28.
  */
+@Composable
+fun rememberAppContext() = remember {
+    AppContext()
+}
+
 class AppContext : IAppContext {
 
     private val mComponentManager: IComponentManager
@@ -43,6 +50,10 @@ class AppContext : IAppContext {
         mComponentManager = ComponentManager.create(this) {
             factory = ComponentFactory()
         }
+    }
+
+    fun release() {
+        mComponentManager.release()
     }
 
     override fun getAccountManager(): IAccountManager {

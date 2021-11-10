@@ -27,7 +27,7 @@ import javax.crypto.spec.IvParameterSpec
  */
 object SecretUtil {
 
-    private val A = byteArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    private val A = byteArrayOf(98, 10, 60, 80, 20, 1, 9, 8, 9, 20, 21, 11, 10, 26, 6, 97)
 
     fun buildKey(password: String): SecretKey {
 

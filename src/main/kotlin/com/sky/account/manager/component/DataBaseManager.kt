@@ -58,6 +58,11 @@ class DataBaseManager(
         TableUtils.createTableIfNotExists(connectionSource, AccountEntity::class.java)
     }
 
+    override fun release() {
+        super.release()
+        connectionSource.closeQuietly()
+    }
+
     override fun getAdminDao(): Dao<AdminEntity, Int> {
         return adminDao
     }
