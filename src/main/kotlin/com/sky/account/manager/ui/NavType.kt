@@ -26,3 +26,15 @@ enum class AppNav {
 enum class HomeNav {
     LIST, PROFILE, NEW, SETTING
 }
+
+enum class AccountNav {
+    LIST, DISPLAY, EDIT, DELETE
+}
+
+enum class SetNav {
+    LIST, ABOUT
+}
+
+enum class ProfileNav {
+    DISPLAY, EDIT
+}

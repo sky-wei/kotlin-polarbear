@@ -23,11 +23,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.sky.account.manager.AppState
 import com.sky.account.manager.ui.theme.Foreground
 import com.sky.account.manager.ui.theme.ToastBackground
 
@@ -38,32 +38,12 @@ enum class ToastDuration(val value: Int) {
     Short(1000), Long(3000)
 }
 
-private val message = mutableStateOf("")
-
-fun message(): String {
-    return message.value
-}
-
-/**
- * 清除消息
- */
-fun cleanMessage() {
-    message.value = ""
-}
-
-/**
- * 显示消息
- */
-fun showMessage(text: String) {
-    message.value = text
-}
-
 @Composable
 fun MessageUI(
-    text: String = message()
+    appState: AppState
 ) {
 
-    if (text.isEmpty()) return
+    if (appState.message.isEmpty()) return
 
     Box(
         modifier = Modifier.fillMaxSize().padding(top = 20.dp),
@@ -79,7 +59,7 @@ fun MessageUI(
                 modifier = Modifier.padding(8.dp)
             ) {
                 Text(
-                    text = text,
+                    text = appState.message,
                     color = Foreground
                 )
             }
@@ -88,7 +68,7 @@ fun MessageUI(
                 contentAlignment = Alignment.TopEnd
             ) {
                 Image(
-                    modifier = Modifier.padding(10.dp).size(20.dp).clickable { cleanMessage() },
+                    modifier = Modifier.padding(10.dp).size(20.dp).clickable { appState.resetMessage() },
                     alignment = Alignment.TopEnd,
                     painter = painterResource("image/ic_close.svg"),
                     contentDescription = null

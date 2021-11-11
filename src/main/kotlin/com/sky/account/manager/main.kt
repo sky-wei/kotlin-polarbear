@@ -51,7 +51,7 @@ fun main() = application {
         )
     ) {
         Surface {
-            when(appState.navType()) {
+            when(appState.appNav) {
                 AppNav.SPLASH -> {
                     SplashUI()
                 }
@@ -65,7 +65,7 @@ fun main() = application {
                     HomeUI(appState)
                 }
             }
-            MessageUI()
+            MessageUI(appState)
         }
     }
 }

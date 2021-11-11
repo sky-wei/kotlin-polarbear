@@ -37,7 +37,7 @@ import com.sky.account.manager.ui.common.BigBearButton
 @Composable
 fun ProfileEditUI(
     appState: AppState,
-    item: AdminItem,
+    admin: AdminItem,
     onBack: () -> Unit
 ) {
     Column(
@@ -57,7 +57,7 @@ fun ProfileEditUI(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            ProfileEditUI(item) {
+            ProfileEditUI(admin) {
 
             }
         }

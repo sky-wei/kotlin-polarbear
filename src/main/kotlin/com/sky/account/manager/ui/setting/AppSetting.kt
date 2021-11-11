@@ -18,10 +18,7 @@ package com.sky.account.manager.ui.setting
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -29,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.sky.account.manager.AppState
 import com.sky.account.manager.XConstant
 import com.sky.account.manager.ex.stringResource
+import com.sky.account.manager.ui.SetNav
 import com.sky.account.manager.ui.common.BearSortTitle
 import com.sky.account.manager.ui.common.BearTextMenu
 import com.sky.account.manager.ui.common.BearTextMoreMenu
@@ -37,22 +35,20 @@ import com.sky.account.manager.ui.common.BearTopBar
 /**
  * Created by sky on 2021/11/8.
  */
-enum class SetType {
-    SETTING, ABOUT
-}
-
 @Composable
 fun SettingUI(
     appState: AppState
 ) {
-    val setState = remember { mutableStateOf(SetType.SETTING) }
+    var setNavState by remember { mutableStateOf(SetNav.LIST) }
 
-    when(setState.value) {
-        SetType.SETTING -> {
-            SettingListUI(appState, setState)
+    when(setNavState) {
+        SetNav.LIST -> {
+            SettingListUI(appState) {
+                setNavState = it
+            }
         }
-        SetType.ABOUT -> {
-            AboutUI { setState.value = SetType.SETTING }
+        SetNav.ABOUT -> {
+            AboutUI { setNavState = SetNav.LIST }
         }
     }
 }
@@ -60,7 +56,7 @@ fun SettingUI(
 @Composable
 private fun SettingListUI(
     appState: AppState,
-    setState: MutableState<SetType>
+    onNavChange: (setNav: SetNav) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -89,15 +85,15 @@ private fun SettingListUI(
                 title = stringResource("label.about"),
             ) {
                 // 显示关于
-                setState.value = SetType.ABOUT
+                onNavChange(SetNav.ABOUT)
             }
         }
     }
 }
 
 @Composable
-private fun AboutUI(
-    back: () -> Unit
+fun AboutUI(
+    onBack: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -109,7 +105,7 @@ private fun AboutUI(
             backText = stringResource("label.settings"),
             backIcon = painterResource("image/ic_back.svg"),
             title = stringResource("label.about"),
-            onBack = back
+            onBack = onBack
         )
         Spacer(Modifier.height(40.dp))
         Image(

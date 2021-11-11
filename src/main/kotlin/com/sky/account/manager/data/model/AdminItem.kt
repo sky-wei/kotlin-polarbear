@@ -29,6 +29,8 @@ data class AdminItem(
 
     companion object {
 
+        val EMPTY = valueOf("", "", "")
+
         fun valueOf(
             name: String,
             password: String,

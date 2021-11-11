@@ -33,42 +33,38 @@ import androidx.compose.ui.unit.dp
 import com.sky.account.manager.AppState
 import com.sky.account.manager.data.model.AccountItem
 import com.sky.account.manager.ex.stringResource
+import com.sky.account.manager.ui.AccountNav
 import com.sky.account.manager.ui.common.BearSearch
 import com.sky.account.manager.ui.theme.GrayText
 
 /**
  * Created by sky on 2021-11-09.
  */
-enum class AccountType {
-    LIST, DISPLAY, EDIT, DELETE
-}
-
-
 @Composable
 fun HomeContentUI(
     appState: AppState
 ) {
-    val accountState = remember { mutableStateOf(AccountType.LIST) }
+    var accountNavState by remember { mutableStateOf(AccountNav.LIST) }
     val accountItem = remember { mutableStateOf(AccountItem.valueOf(0, "", "")) }
 
-    when(accountState.value) {
-        AccountType.LIST -> {
+    when(accountNavState) {
+        AccountNav.LIST -> {
             AccountListUI(appState) {
                 accountItem.value = it
-                accountState.value = AccountType.DISPLAY
+                accountNavState = AccountNav.DISPLAY
             }
         }
-        AccountType.DISPLAY -> {
+        AccountNav.DISPLAY -> {
             AccountDisplay(
                 item = accountItem.value,
-                onBack = { accountState.value = AccountType.LIST },
-                onEdit = { accountState.value = AccountType.EDIT },
+                onBack = { accountNavState = AccountNav.LIST },
+                onEdit = { accountNavState = AccountNav.EDIT },
                 onDelete = {  }
             )
         }
-        AccountType.EDIT -> {
+        AccountNav.EDIT -> {
             AccountEditUI(appState, accountItem.value) {
-                accountState.value = AccountType.DISPLAY
+                accountNavState = AccountNav.DISPLAY
             }
         }
     }
@@ -99,7 +95,7 @@ fun AccountListUI(
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
-                items(appState.accounts()) { value ->
+                items(appState.accounts) { value ->
                     AccountItemUI(value) { onClick(value) }
                 }
             }

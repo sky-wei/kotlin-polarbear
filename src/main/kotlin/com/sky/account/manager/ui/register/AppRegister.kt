@@ -70,16 +70,16 @@ fun RegisterUI(
             BearBigTitle(stringResource("label.welcome"))
             Spacer(Modifier.height(40.dp))
 
-            var userName by remember { mutableStateOf("") }
-            var userPassword by remember { mutableStateOf("") }
+            var name by remember { mutableStateOf("") }
+            var password by remember { mutableStateOf("") }
             var confirmPassword by remember { mutableStateOf("") }
 
             BearEditText(
                 icon = painterResource("image/ic_user.svg"),
                 label = stringResource("label.userName"),
-                value = userName
+                value = name
             ) {
-                userName = it
+                name = it
             }
 
             Spacer(Modifier.height(20.dp))
@@ -87,11 +87,11 @@ fun RegisterUI(
             BearEditText(
                 icon = painterResource("image/ic_password.svg"),
                 label = stringResource("label.password"),
-                value = userPassword,
+                value = password,
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardType = KeyboardType.Password
             ) {
-                userPassword = it
+                password = it
             }
 
             Spacer(Modifier.height(20.dp))
@@ -108,11 +108,9 @@ fun RegisterUI(
 
             Spacer(Modifier.height(40.dp))
 
-            BigBearButton(
-                text = stringResource("label.register")
-            ) {
+            BigBearButton(stringResource("label.register")) {
                 // 注册
-                appState.register(userName, userPassword, confirmPassword)
+                appState.register(name, password, confirmPassword)
             }
         }
     }
