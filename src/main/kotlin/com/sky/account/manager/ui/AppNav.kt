@@ -19,10 +19,10 @@ package com.sky.account.manager.ui
 /**
  * Created by sky on 2021/10/31.
  */
-enum class NavType {
+enum class AppNav {
     SPLASH, REGISTER, LOGIN, HOME
 }
 
-enum class HomeNavType {
-    HOME, PROFILE, NEW, SETTING
+enum class HomeNav {
+    LIST, PROFILE, NEW, SETTING
 }

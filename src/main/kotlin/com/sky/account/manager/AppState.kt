@@ -26,7 +26,7 @@ import com.sky.account.manager.ex.doSuccess
 import com.sky.account.manager.ex.getAppRepository
 import com.sky.account.manager.interfaces.IAppContext
 import com.sky.account.manager.interfaces.IAppRepository
-import com.sky.account.manager.ui.NavType
+import com.sky.account.manager.ui.AppNav
 import com.sky.account.manager.ui.view.cleanMessage
 import com.sky.account.manager.ui.view.showMessage
 import com.sky.account.manager.util.MD5Util
@@ -51,11 +51,11 @@ class AppState(
 
     private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
-    private val navType = mutableStateOf(NavType.HOME)
+    private val navType = mutableStateOf(AppNav.HOME)
     private val adminUser = mutableStateOf(AdminItem.valueOf("", ""))
     private val accounts = mutableStateOf(ArrayList<AccountItem>())
 
-    fun navType(): NavType {
+    fun navType(): AppNav {
         return navType.value
     }
 
@@ -109,7 +109,7 @@ class AppState(
                 // 注册成功
                 cleanMessage()
                 adminUser.value = it.copy(password = password)
-                navType.value = NavType.HOME
+                navType.value = AppNav.HOME
             }.doFailure {
                 showMessage("${it.message}")
             }
@@ -147,7 +147,7 @@ class AppState(
                 // 登录成功
                 cleanMessage()
                 adminUser.value = it.copy(password = password)
-                navType.value = NavType.HOME
+                navType.value = AppNav.HOME
             }.doFailure {
                 showMessage("${it.message}")
             }

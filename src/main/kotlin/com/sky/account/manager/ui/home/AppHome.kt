@@ -43,7 +43,7 @@ import androidx.compose.ui.window.rememberWindowState
 import com.sky.account.manager.AppState
 import com.sky.account.manager.XConstant
 import com.sky.account.manager.ex.stringResource
-import com.sky.account.manager.ui.HomeNavType
+import com.sky.account.manager.ui.HomeNav
 import com.sky.account.manager.ui.common.BearWindow
 import com.sky.account.manager.ui.new.NewUI
 import com.sky.account.manager.ui.profile.ProfileUI
@@ -73,7 +73,7 @@ fun AppHome(
 fun HomeUI(
     appState: AppState
 ) {
-    val navItemState = rememberSaveable { mutableStateOf(HomeNavType.HOME) }
+    val navItemState = rememberSaveable { mutableStateOf(HomeNav.LIST) }
 
     Row {
         BearSideBar(appState, navItemState)
@@ -84,7 +84,7 @@ fun HomeUI(
 @Composable
 fun BearSideBar(
     appState: AppState,
-    navItemState: MutableState<HomeNavType>
+    navItemState: MutableState<HomeNav>
 ) {
     Box(
         modifier = Modifier
@@ -119,33 +119,33 @@ fun BearSideBar(
             SideBarNavItem(
                 stringResource("label.home"),
                 painterResource("image/ic_home.svg"),
-                navItemState.value == HomeNavType.HOME
+                navItemState.value == HomeNav.LIST
             ) {
-                navItemState.value = HomeNavType.HOME
+                navItemState.value = HomeNav.LIST
             }
             Spacer(Modifier.height(10.dp))
             SideBarNavItem(
                 stringResource("label.profile"),
                 painterResource("image/ic_profile.svg"),
-                navItemState.value == HomeNavType.PROFILE
+                navItemState.value == HomeNav.PROFILE
             ) {
-                navItemState.value = HomeNavType.PROFILE
+                navItemState.value = HomeNav.PROFILE
             }
             Spacer(Modifier.height(10.dp))
             SideBarNavItem(
                 stringResource("label.new"),
                 painterResource("image/ic_create.svg"),
-                navItemState.value == HomeNavType.NEW
+                navItemState.value == HomeNav.NEW
             ) {
-                navItemState.value = HomeNavType.NEW
+                navItemState.value = HomeNav.NEW
             }
             Spacer(Modifier.height(10.dp))
             SideBarNavItem(
                 stringResource("label.settings"),
                 painterResource("image/ic_settings.svg"),
-                navItemState.value == HomeNavType.SETTING
+                navItemState.value == HomeNav.SETTING
             ) {
-                navItemState.value = HomeNavType.SETTING
+                navItemState.value = HomeNav.SETTING
             }
         }
 
@@ -202,20 +202,20 @@ fun SideBarNavItem(
 @Composable
 fun BearContent(
     appState: AppState,
-    navType: HomeNavType
+    homeNav: HomeNav
 ) {
-    Crossfade(targetState = navType) {
+    Crossfade(targetState = homeNav) {
         when(it) {
-            HomeNavType.HOME -> {
+            HomeNav.LIST -> {
                 HomeContentUI(appState)
             }
-            HomeNavType.PROFILE -> {
+            HomeNav.PROFILE -> {
                 ProfileUI(appState)
             }
-            HomeNavType.NEW -> {
+            HomeNav.NEW -> {
                 NewUI(appState)
             }
-            HomeNavType.SETTING -> {
+            HomeNav.SETTING -> {
                 SettingUI(appState)
             }
         }

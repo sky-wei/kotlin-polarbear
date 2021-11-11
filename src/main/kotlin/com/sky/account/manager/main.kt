@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import com.sky.account.manager.ui.NavType
+import com.sky.account.manager.ui.AppNav
 import com.sky.account.manager.ui.common.BearWindow
 import com.sky.account.manager.ui.home.HomeUI
 import com.sky.account.manager.ui.login.LoginUI
@@ -52,16 +52,16 @@ fun main() = application {
     ) {
         Surface {
             when(appState.navType()) {
-                NavType.SPLASH -> {
+                AppNav.SPLASH -> {
                     SplashUI()
                 }
-                NavType.REGISTER -> {
+                AppNav.REGISTER -> {
                     RegisterUI(appState)
                 }
-                NavType.LOGIN -> {
+                AppNav.LOGIN -> {
                     LoginUI(appState)
                 }
-                NavType.HOME -> {
+                AppNav.HOME -> {
                     HomeUI(appState)
                 }
             }
