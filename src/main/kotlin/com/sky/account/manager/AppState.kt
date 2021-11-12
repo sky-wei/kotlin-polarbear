@@ -50,6 +50,7 @@ class AppState(
     private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
     private val _loading = mutableStateOf(false)
+    private val _chooseFile = mutableStateOf(false)
     private val _message = mutableStateOf("")
 
     private var _appNav = mutableStateOf(AppNav.HOME)
@@ -72,6 +73,10 @@ class AppState(
     var accounts: ArrayList<AccountItem>
         get() = _accounts.value
         private set(value) { _accounts.value = value }
+
+    var chooseFile: Boolean
+        get() = _chooseFile.value
+        set(value) { _chooseFile.value = value }
 
     /**
      * 清除消息

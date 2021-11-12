@@ -16,38 +16,38 @@
 
 package com.sky.account.manager.util
 
-import java.security.SecureRandom
+import java.security.MessageDigest
 import javax.crypto.Cipher
-import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.SecretKeySpec
 
 /**
  * Created by sky on 2021-11-05.
  */
 object SecretUtil {
 
-    private val A = byteArrayOf(98, 10, 60, 80, 20, 1, 9, 8, 9, 20, 21, 11, 10, 26, 6, 97)
+    private const val HASH_ALGORITHM = "SHA-256"
+    private val ivBytes = byteArrayOf(98, 10, 60, 80, 20, 1, 9, 8, 9, 20, 21, 11, 10, 26, 6, 97)
 
     fun buildKey(password: String): SecretKey {
-
-        val random = SecureRandom.getInstance("SHA1PRNG")
-        random.setSeed(password.toByteArray())
-
-        val keyGenerator = KeyGenerator.getInstance("AES")
-        keyGenerator.init(128, random)
-        return keyGenerator.generateKey()
+        val key = MessageDigest.getInstance(HASH_ALGORITHM).run {
+            val bytes = password.toByteArray()
+            update(bytes, 0, bytes.size)
+            digest()
+        }
+        return SecretKeySpec(key, "AES")
     }
 
     fun decrypt(key: SecretKey, value: ByteArray): ByteArray {
         val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
-        cipher.init(Cipher.DECRYPT_MODE, key, IvParameterSpec(A))
+        cipher.init(Cipher.DECRYPT_MODE, key, IvParameterSpec(ivBytes))
         return cipher.doFinal(value)
     }
 
     fun encrypt(key: SecretKey, value: ByteArray): ByteArray {
         val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
-        cipher.init(Cipher.ENCRYPT_MODE, key, IvParameterSpec(A))
+        cipher.init(Cipher.ENCRYPT_MODE, key, IvParameterSpec(ivBytes))
         return cipher.doFinal(value)
     }
 

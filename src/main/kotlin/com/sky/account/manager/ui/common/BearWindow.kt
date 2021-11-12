@@ -17,6 +17,7 @@
 package com.sky.account.manager.ui.common
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.rememberWindowState
@@ -32,7 +33,7 @@ fun BearWindow(
     state: WindowState = rememberWindowState(),
     title: String = stringResource("label.appName"),
     undecorated: Boolean = false,
-    content: @Composable () -> Unit
+    content: @Composable FrameWindowScope.() -> Unit
 ) {
     Window(
         onCloseRequest = onCloseRequest,
@@ -40,8 +41,6 @@ fun BearWindow(
         title = title,
         undecorated = undecorated
     ) {
-        BearTheme(
-            content = content
-        )
+        BearTheme { content() }
     }
 }
