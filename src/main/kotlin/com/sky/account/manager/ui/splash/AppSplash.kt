@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberWindowState
@@ -39,26 +40,7 @@ import com.sky.account.manager.ui.theme.BearTheme
  * Created by sky on 2021-11-01.
  */
 @Composable
-fun AppSplash(
-    appState: AppState,
-    onCloseRequest: () -> Unit,
-) {
-    Window(
-        onCloseRequest = onCloseRequest,
-        state = rememberWindowState(
-            position = WindowPosition(Alignment.Center),
-            size = DpSize(900.dp, 260.dp)
-        ),
-        undecorated = true
-    ) {
-        BearTheme {
-            SplashUI()
-        }
-    }
-}
-
-@Composable
-fun SplashUI() {
+fun FrameWindowScope.SplashUI() {
     Box(
         modifier = Modifier.fillMaxSize()
             .background(

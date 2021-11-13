@@ -34,16 +34,12 @@ import com.sky.account.manager.ui.theme.ToastBackground
 /**
  * Created by sky on 2021-11-03.
  */
-enum class ToastDuration(val value: Int) {
-    Short(1000), Long(3000)
-}
-
 @Composable
 fun MessageUI(
     appState: AppState
 ) {
 
-    if (appState.message.isEmpty()) return
+    val message = appState.message?: return
 
     Box(
         modifier = Modifier.fillMaxSize().padding(top = 20.dp),
@@ -59,7 +55,7 @@ fun MessageUI(
                 modifier = Modifier.padding(8.dp)
             ) {
                 Text(
-                    text = appState.message,
+                    text = message,
                     color = Foreground
                 )
             }
@@ -68,7 +64,7 @@ fun MessageUI(
                 contentAlignment = Alignment.TopEnd
             ) {
                 Image(
-                    modifier = Modifier.padding(10.dp).size(20.dp).clickable { appState.resetMessage() },
+                    modifier = Modifier.padding(10.dp).size(20.dp).clickable { appState.cleanMessage() },
                     alignment = Alignment.TopEnd,
                     painter = painterResource("image/ic_close.svg"),
                     contentDescription = null

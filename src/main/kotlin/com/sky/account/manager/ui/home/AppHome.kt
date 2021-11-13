@@ -36,15 +36,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.WindowPosition
-import androidx.compose.ui.window.rememberWindowState
+import androidx.compose.ui.window.FrameWindowScope
 import com.sky.account.manager.AppState
 import com.sky.account.manager.XConstant
 import com.sky.account.manager.ex.stringResource
 import com.sky.account.manager.ui.HomeNav
-import com.sky.account.manager.ui.common.BearWindow
 import com.sky.account.manager.ui.new.NewUI
 import com.sky.account.manager.ui.profile.ProfileUI
 import com.sky.account.manager.ui.setting.SettingUI
@@ -54,23 +51,7 @@ import com.sky.account.manager.ui.theme.GrayText
  * Created by sky on 2021/10/31.
  */
 @Composable
-fun AppHome(
-    appState: AppState,
-    onCloseRequest: () -> Unit,
-) {
-    BearWindow(
-        onCloseRequest = onCloseRequest,
-        state = rememberWindowState(
-            position = WindowPosition(Alignment.Center),
-            size = DpSize(1000.dp, 800.dp)
-        )
-    ) {
-        HomeUI(appState)
-    }
-}
-
-@Composable
-fun HomeUI(
+fun FrameWindowScope.HomeUI(
     appState: AppState
 ) {
     var homeNavState by rememberSaveable { mutableStateOf(HomeNav.LIST) }

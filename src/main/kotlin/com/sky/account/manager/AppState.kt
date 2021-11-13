@@ -16,15 +16,17 @@
 
 package com.sky.account.manager
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.WindowPosition
+import androidx.compose.ui.window.WindowState
 import com.sky.account.manager.data.model.AccountItem
 import com.sky.account.manager.data.model.AdminItem
 import com.sky.account.manager.ex.doFailure
 import com.sky.account.manager.ex.doSuccess
 import com.sky.account.manager.ex.getAppRepository
-import com.sky.account.manager.interfaces.IAppContext
 import com.sky.account.manager.interfaces.IAppRepository
 import com.sky.account.manager.ui.AppNav
 import com.sky.account.manager.util.CheckUtil
@@ -38,56 +40,54 @@ import kotlinx.coroutines.launch
  * Created by sky on 2021/10/31.
  */
 @Composable
-fun rememberAppState(context: IAppContext) = remember {
-    AppState(context)
+fun rememberAppState(onAppExit: () -> Unit) = remember {
+    AppState(AppContext(), onAppExit)
 }
 
 class AppState(
-    private val context: IAppContext
+    private val context: AppContext,
+    private val onAppExit: () -> Unit
 ) {
 
     private val repository: IAppRepository by lazy { context.getAppRepository() }
     private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
-    private val _loading = mutableStateOf(false)
-    private val _chooseFile = mutableStateOf(false)
-    private val _message = mutableStateOf("")
+    val windowState = WindowState(
+        position = WindowPosition(Alignment.Center),
+        size = DpSize(1000.dp, 800.dp)
+    )
 
-    private var _appNav = mutableStateOf(AppNav.HOME)
+    var loading: Boolean by mutableStateOf(false)
+        private set
+    var message: String? by mutableStateOf(null)
+        private set
 
-    private val _admin = mutableStateOf(AdminItem.EMPTY)
-    private val _accounts = mutableStateOf(ArrayList<AccountItem>())
+    var appNav: AppNav by mutableStateOf(AppNav.HOME)
+        private set
 
-    var appNav: AppNav
-        get() = _appNav.value
-        private set(value) { _appNav.value = value }
-
-    var message: String
-        get() = _message.value
-        private set(value) { _message.value = value }
-
-    var admin: AdminItem
-        get() = _admin.value
-        private set(value) { _admin.value = value }
-
-    var accounts: ArrayList<AccountItem>
-        get() = _accounts.value
-        private set(value) { _accounts.value = value }
-
-    var chooseFile: Boolean
-        get() = _chooseFile.value
-        set(value) { _chooseFile.value = value }
+    var admin: AdminItem by mutableStateOf(AdminItem.EMPTY)
+        private set
+    var accounts: ArrayList<AccountItem> by mutableStateOf(ArrayList<AccountItem>())
+        private set
 
     /**
      * 清除消息
      */
-    fun resetMessage() {
-        message = ""
+    fun cleanMessage() {
+        message = null
     }
 
     init {
 
         initData()
+    }
+
+    /**
+     * 退出
+     */
+    fun exit() {
+        context.release()
+        onAppExit()
     }
 
     /**
@@ -116,7 +116,7 @@ class AppState(
 
             result.doSuccess {
                 // 注册成功
-                resetMessage()
+                cleanMessage()
                 admin = it.copy(password = password)
                 appNav = AppNav.HOME
             }.doFailure {
@@ -147,7 +147,7 @@ class AppState(
 
             result.doSuccess {
                 // 登录成功
-                resetMessage()
+                cleanMessage()
                 admin = it.copy(password = password)
                 appNav = AppNav.HOME
             }.doFailure {
@@ -204,7 +204,7 @@ class AppState(
 //            }
 //        }
 
-        _accounts.value = arrayListOf(
+        accounts = arrayListOf(
             AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
             AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
             AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),

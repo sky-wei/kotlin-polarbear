@@ -18,12 +18,7 @@
 package com.sky.account.manager
 
 import androidx.compose.material.Surface
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
-import androidx.compose.ui.window.rememberWindowState
 import com.sky.account.manager.ui.AppNav
 import com.sky.account.manager.ui.common.BearWindow
 import com.sky.account.manager.ui.home.HomeUI
@@ -37,18 +32,13 @@ import com.sky.account.manager.ui.view.MessageUI
  */
 fun main() = application {
 
-    val context = rememberAppContext()
-    val appState = rememberAppState(context)
+    val appState = rememberAppState {
+        exitApplication()
+    }
 
     BearWindow(
-        onCloseRequest = {
-            context.release()
-            exitApplication()
-        },
-        state = rememberWindowState(
-            position = WindowPosition(Alignment.Center),
-            size = DpSize(1000.dp, 800.dp)
-        )
+        onCloseRequest = appState::exit,
+        state = appState.windowState
     ) {
         Surface {
             when(appState.appNav) {
