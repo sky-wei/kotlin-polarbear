@@ -28,12 +28,14 @@ import com.sky.account.manager.ex.doFailure
 import com.sky.account.manager.ex.doSuccess
 import com.sky.account.manager.ex.getAppRepository
 import com.sky.account.manager.interfaces.IAppRepository
+import com.sky.account.manager.ui.AccountNav
 import com.sky.account.manager.ui.AppNav
 import com.sky.account.manager.util.CheckUtil
 import com.sky.account.manager.util.MD5Util
 import com.sky.account.manager.util.SecretUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
@@ -59,16 +61,17 @@ class AppState(
 
     var loading: Boolean by mutableStateOf(false)
         private set
+    var chooseFile: Boolean by mutableStateOf(false)
     var message: String? by mutableStateOf(null)
         private set
 
-    var appNav: AppNav by mutableStateOf(AppNav.HOME)
+    var appNav: AppNav by mutableStateOf(AppNav.SPLASH)
         private set
-
     var admin: AdminItem by mutableStateOf(AdminItem.EMPTY)
         private set
-    var accounts: ArrayList<AccountItem> by mutableStateOf(ArrayList<AccountItem>())
-        private set
+
+    val newAccountState by lazy { NewAccountState(this) }
+    val accountListState by lazy { AccountListState(this) }
 
     /**
      * 清除消息
@@ -78,7 +81,6 @@ class AppState(
     }
 
     init {
-
         initData()
     }
 
@@ -116,9 +118,7 @@ class AppState(
 
             result.doSuccess {
                 // 注册成功
-                cleanMessage()
-                admin = it.copy(password = password)
-                appNav = AppNav.HOME
+                toHome(it.copy(password = password))
             }.doFailure {
                 message = "${it.message}"
             }
@@ -147,9 +147,7 @@ class AppState(
 
             result.doSuccess {
                 // 登录成功
-                cleanMessage()
-                admin = it.copy(password = password)
-                appNav = AppNav.HOME
+                toHome(it.copy(password = password))
             }.doFailure {
                 message = "${it.message}"
             }
@@ -181,30 +179,46 @@ class AppState(
             )
 
             result.doSuccess {
-                // 创建成功
-
+                newAccountState.reset()
+                message = "创建账号成功！"
             }.doFailure {
                 message = "${it.message}"
             }
         }
     }
 
+    /**
+     * 修改账号
+     */
+    fun change(account: AccountItem) {
+
+    }
+
+    /**
+     * 切换到Home
+     */
+    private fun toHome(admin: AdminItem) {
+        cleanMessage()
+        this.admin = admin
+        this.appNav = AppNav.HOME
+    }
+
     private fun initData() {
 
-//        scope.launch {
-//
-//            val isRegister = repository.isRegister()
-//
-//            delay(800)
-//
-//            appNav = if (isRegister) {
-//                AppNav.REGISTER
-//            } else {
-//                AppNav.LOGIN
-//            }
-//        }
+        scope.launch {
 
-        accounts = arrayListOf(
+            val isRegister = repository.isRegister()
+
+            delay(800)
+
+            appNav = if (isRegister) {
+                AppNav.REGISTER
+            } else {
+                AppNav.LOGIN
+            }
+        }
+
+        accountListState.accounts = arrayListOf(
             AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
             AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
             AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
@@ -218,4 +232,30 @@ class AppState(
             AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
         )
     }
+}
+
+class NewAccountState(
+    private val appState: AppState
+) {
+
+    var name by mutableStateOf("")
+    var password by mutableStateOf("")
+    var url by mutableStateOf("")
+    var desc by mutableStateOf("")
+
+    fun reset() {
+        name = ""
+        password = ""
+        url = ""
+        desc = ""
+    }
+}
+
+class AccountListState(
+    private val appState: AppState
+) {
+
+    var accountNav: AccountNav by mutableStateOf(AccountNav.LIST)
+    var accounts: ArrayList<AccountItem> by mutableStateOf(ArrayList())
+    var account: AccountItem? by mutableStateOf(null)
 }

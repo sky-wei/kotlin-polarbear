@@ -24,7 +24,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.FrameWindowScope
 import com.sky.account.manager.AppState
 import com.sky.account.manager.ex.stringResource
 import com.sky.account.manager.ui.common.BearBigTitle
@@ -35,7 +34,7 @@ import com.sky.account.manager.ui.common.BigBearButton
  * Created by sky on 2021/10/31.
  */
 @Composable
-fun FrameWindowScope.RegisterUI(
+fun RegisterUI(
     appState: AppState
 ) {
     Box(

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.ui.home
+package com.sky.account.manager.ui.home.profile
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -25,19 +25,19 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.sky.account.manager.AppState
-import com.sky.account.manager.data.model.AccountItem
+import com.sky.account.manager.data.model.AdminItem
 import com.sky.account.manager.ex.stringResource
 import com.sky.account.manager.ui.common.BearEditText
 import com.sky.account.manager.ui.common.BearTopBar
 import com.sky.account.manager.ui.common.BigBearButton
 
 /**
- * Created by sky on 2021-11-09.
+ * Created by sky on 2021/11/9.
  */
 @Composable
-fun AccountEditUI(
+fun ProfileEditUI(
     appState: AppState,
-    item: AccountItem,
+    admin: AdminItem,
     onBack: () -> Unit
 ) {
     Column(
@@ -47,7 +47,7 @@ fun AccountEditUI(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BearTopBar(
-            backText = stringResource("label.account"),
+            backText = stringResource("label.admin"),
             backIcon = painterResource("image/ic_back.svg"),
             title = stringResource("label.edit"),
             onBack = onBack
@@ -57,31 +57,34 @@ fun AccountEditUI(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            AccountEditUI(appState, item)
+            ProfileEditUI(admin) {
+
+            }
         }
     }
 }
 
 @Composable
-fun AccountEditUI(
-    appState: AppState,
-    item: AccountItem
+fun ProfileEditUI(
+    item: AdminItem,
+    onChange: (item: AdminItem) -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         var userName by remember { mutableStateOf(item.name) }
-        var userPassword by remember { mutableStateOf(item.password) }
-        var userUrl by remember { mutableStateOf(item.url) }
+        var userPassword by remember { mutableStateOf("") }
+        var userNewPassword by remember { mutableStateOf("") }
         var userDesc by remember { mutableStateOf(item.desc) }
 
-//        BearBigTitle("Account")
+//        BearBigTitle("Admin")
 //        Spacer(Modifier.height(40.dp))
 
         BearEditText(
             icon = painterResource("image/ic_user.svg"),
             label = stringResource("label.userName"),
+            readOnly = true,
             value = userName
         ) {
             userName = it
@@ -102,11 +105,13 @@ fun AccountEditUI(
         Spacer(Modifier.height(20.dp))
 
         BearEditText(
-            icon = painterResource("image/ic_url.svg"),
-            label = stringResource("label.url"),
-            value = userUrl,
+            icon = painterResource("image/ic_password.svg"),
+            label = stringResource("label.newPassword"),
+            value = userNewPassword,
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardType = KeyboardType.Password
         ) {
-            userUrl = it
+            userNewPassword = it
         }
 
         Spacer(Modifier.height(20.dp))
@@ -126,7 +131,7 @@ fun AccountEditUI(
         BigBearButton(
             text = stringResource("label.change")
         ) {
-            // 创建
+            // 修改
 
         }
     }

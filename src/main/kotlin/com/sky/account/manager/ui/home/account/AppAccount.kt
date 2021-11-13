@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.ui.profile
+package com.sky.account.manager.ui.home.account
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -25,20 +25,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.sky.account.manager.AppState
-import com.sky.account.manager.data.model.AdminItem
 import com.sky.account.manager.ex.stringResource
 import com.sky.account.manager.ui.common.BearEditText
-import com.sky.account.manager.ui.common.BearTopBar
+import com.sky.account.manager.ui.common.BearSubTitle
 import com.sky.account.manager.ui.common.BigBearButton
 
 /**
- * Created by sky on 2021/11/9.
+ * Created by sky on 2021-11-09.
  */
 @Composable
-fun ProfileEditUI(
-    appState: AppState,
-    admin: AdminItem,
-    onBack: () -> Unit
+fun NewUI(
+    appState: AppState
 ) {
     Column(
         modifier = Modifier
@@ -46,48 +43,33 @@ fun ProfileEditUI(
             .absolutePadding(left = 30.dp, top = 54.dp, right = 30.dp, bottom = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        BearTopBar(
-            backText = stringResource("label.admin"),
-            backIcon = painterResource("image/ic_back.svg"),
-            title = stringResource("label.edit"),
-            onBack = onBack
-        )
+        BearSubTitle(stringResource("label.account"))
         Spacer(Modifier.height(10.dp))
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            ProfileEditUI(admin) {
-
-            }
+            NewAccountUI(appState)
         }
     }
 }
 
 @Composable
-fun ProfileEditUI(
-    item: AdminItem,
-    onChange: (item: AdminItem) -> Unit
+fun NewAccountUI(
+    appState: AppState
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        var userName by remember { mutableStateOf(item.name) }
-        var userPassword by remember { mutableStateOf("") }
-        var userNewPassword by remember { mutableStateOf("") }
-        var userDesc by remember { mutableStateOf(item.desc) }
-
-//        BearBigTitle("Admin")
+//        BearBigTitle("Account")
 //        Spacer(Modifier.height(40.dp))
 
         BearEditText(
             icon = painterResource("image/ic_user.svg"),
             label = stringResource("label.userName"),
-            readOnly = true,
-            value = userName
+            value = appState.newAccountState.name
         ) {
-            userName = it
+            appState.newAccountState.name = it
         }
 
         Spacer(Modifier.height(20.dp))
@@ -95,23 +77,21 @@ fun ProfileEditUI(
         BearEditText(
             icon = painterResource("image/ic_password.svg"),
             label = stringResource("label.password"),
-            value = userPassword,
+            value = appState.newAccountState.password,
             visualTransformation = PasswordVisualTransformation(),
             keyboardType = KeyboardType.Password
         ) {
-            userPassword = it
+            appState.newAccountState.password = it
         }
 
         Spacer(Modifier.height(20.dp))
 
         BearEditText(
-            icon = painterResource("image/ic_password.svg"),
-            label = stringResource("label.newPassword"),
-            value = userNewPassword,
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardType = KeyboardType.Password
+            icon = painterResource("image/ic_url.svg"),
+            label = stringResource("label.url"),
+            value = appState.newAccountState.url,
         ) {
-            userNewPassword = it
+            appState.newAccountState.url = it
         }
 
         Spacer(Modifier.height(20.dp))
@@ -119,20 +99,23 @@ fun ProfileEditUI(
         BearEditText(
             icon = painterResource("image/ic_desc.svg"),
             label = stringResource("label.desc"),
-            value = userDesc,
+            value = appState.newAccountState.desc,
             singleLine = false,
             maxLines = 5
         ) {
-            userDesc = it
+            appState.newAccountState.desc = it
         }
 
         Spacer(Modifier.height(40.dp))
 
-        BigBearButton(
-            text = stringResource("label.change")
-        ) {
-            // 修改
-
+        BigBearButton(stringResource("label.create")) {
+            // 创建
+            appState.create(
+                appState.newAccountState.name,
+                appState.newAccountState.password,
+                appState.newAccountState.url,
+                appState.newAccountState.desc,
+            )
         }
     }
 }

@@ -28,7 +28,7 @@ enum class HomeNav {
 }
 
 enum class AccountNav {
-    LIST, DISPLAY, EDIT, DELETE
+    LIST, DISPLAY, EDIT
 }
 
 enum class SetNav {

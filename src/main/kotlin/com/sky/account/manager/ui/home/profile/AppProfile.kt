@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.ui.profile
+package com.sky.account.manager.ui.home.profile
 
 import androidx.compose.runtime.*
 import com.sky.account.manager.AppState

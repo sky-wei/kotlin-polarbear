@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.ui.profile
+package com.sky.account.manager.ui.home.account
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -23,17 +23,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.sky.account.manager.data.model.AdminItem
+import com.sky.account.manager.data.model.AccountItem
 import com.sky.account.manager.ex.stringResource
-import com.sky.account.manager.ui.common.*
+import com.sky.account.manager.ui.common.BearIconText
+import com.sky.account.manager.ui.common.BearTextMenu
+import com.sky.account.manager.ui.common.BearTopBar
 
 /**
- * Created by sky on 2021/11/9.
+ * Created by sky on 2021-11-09.
  */
 @Composable
-fun ProfileDisplayUI(
-    item: AdminItem,
-    onEdit: () -> Unit
+fun AccountDisplay(
+    item: AccountItem,
+    onBack: () -> Unit,
+    onEdit: () -> Unit,
+    onDelete: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -41,7 +45,12 @@ fun ProfileDisplayUI(
             .absolutePadding(left = 30.dp, top = 54.dp, right = 30.dp, bottom = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        BearSubTitle(stringResource("label.admin"))
+        BearTopBar(
+            backText = stringResource("label.home"),
+            backIcon = painterResource("image/ic_back.svg"),
+            title = stringResource("label.account"),
+            onBack = onBack
+        )
         Spacer(Modifier.height(40.dp))
         BearTextMenu(
             title = stringResource("label.userName"),
@@ -50,7 +59,12 @@ fun ProfileDisplayUI(
         Spacer(Modifier.height(15.dp))
         BearTextMenu(
             title = stringResource("label.password"),
-            desc = "******"// item.password
+            desc = item.password
+        )
+        Spacer(Modifier.height(15.dp))
+        BearTextMenu(
+            title = stringResource("label.url"),
+            desc = item.url
         )
         Spacer(Modifier.height(15.dp))
         BearTextMenu(
@@ -67,6 +81,13 @@ fun ProfileDisplayUI(
                 text = stringResource("label.edit"),
                 color = MaterialTheme.colors.onSurface,
                 onClick = onEdit
+            )
+            Spacer(Modifier.width(30.dp))
+            BearIconText(
+                icon = painterResource("image/ic_delete.svg"),
+                text = stringResource("label.delete"),
+                color = MaterialTheme.colors.secondary,
+                onClick = onDelete
             )
         }
     }

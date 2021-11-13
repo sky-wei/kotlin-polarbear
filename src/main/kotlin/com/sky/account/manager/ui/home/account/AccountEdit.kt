@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.ui.new
+package com.sky.account.manager.ui.home.account
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -25,17 +25,20 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.sky.account.manager.AppState
+import com.sky.account.manager.data.model.AccountItem
 import com.sky.account.manager.ex.stringResource
 import com.sky.account.manager.ui.common.BearEditText
-import com.sky.account.manager.ui.common.BearSubTitle
+import com.sky.account.manager.ui.common.BearTopBar
 import com.sky.account.manager.ui.common.BigBearButton
 
 /**
  * Created by sky on 2021-11-09.
  */
 @Composable
-fun NewUI(
-    appState: AppState
+fun AccountEditUI(
+    appState: AppState,
+    item: AccountItem,
+    onBack: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -43,29 +46,35 @@ fun NewUI(
             .absolutePadding(left = 30.dp, top = 54.dp, right = 30.dp, bottom = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        BearSubTitle(stringResource("label.account"))
+        BearTopBar(
+            backText = stringResource("label.account"),
+            backIcon = painterResource("image/ic_back.svg"),
+            title = stringResource("label.edit"),
+            onBack = onBack
+        )
         Spacer(Modifier.height(10.dp))
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            NewAccountUI(appState)
+            AccountEditUI(appState, item)
         }
     }
 }
 
 @Composable
-fun NewAccountUI(
-    appState: AppState
+fun AccountEditUI(
+    appState: AppState,
+    item: AccountItem
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        var userName by remember { mutableStateOf("") }
-        var userPassword by remember { mutableStateOf("") }
-        var userUrl by remember { mutableStateOf("") }
-        var userDesc by remember { mutableStateOf("") }
+        var userName by remember { mutableStateOf(item.name) }
+        var userPassword by remember { mutableStateOf(item.password) }
+        var userUrl by remember { mutableStateOf(item.url) }
+        var userDesc by remember { mutableStateOf(item.desc) }
 
 //        BearBigTitle("Account")
 //        Spacer(Modifier.height(40.dp))
@@ -114,9 +123,10 @@ fun NewAccountUI(
 
         Spacer(Modifier.height(40.dp))
 
-        BigBearButton(stringResource("label.create")) {
-            // 创建
-            appState.create(userName, userPassword, userUrl, userDesc)
+        BigBearButton(
+            text = stringResource("label.change")
+        ) {
+            // 修改
         }
     }
 }

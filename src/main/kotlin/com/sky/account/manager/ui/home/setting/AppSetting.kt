@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.ui.setting
+package com.sky.account.manager.ui.home.setting
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*

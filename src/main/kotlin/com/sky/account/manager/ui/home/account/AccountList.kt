@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.ui.home
+package com.sky.account.manager.ui.home.account
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -41,30 +41,32 @@ import com.sky.account.manager.ui.theme.GrayText
  * Created by sky on 2021-11-09.
  */
 @Composable
-fun HomeContentUI(
+fun AccountListUI(
     appState: AppState
 ) {
-    var accountNavState by remember { mutableStateOf(AccountNav.LIST) }
-    val accountItem = remember { mutableStateOf(AccountItem.valueOf(0, "", "")) }
-
-    when(accountNavState) {
+    when(appState.accountListState.accountNav) {
         AccountNav.LIST -> {
-            AccountListUI(appState) {
-                accountItem.value = it
-                accountNavState = AccountNav.DISPLAY
+            AccountListUI(
+                accounts = appState.accountListState.accounts
+            ) {
+                appState.accountListState.account = it
+                appState.accountListState.accountNav = AccountNav.DISPLAY
             }
         }
         AccountNav.DISPLAY -> {
             AccountDisplay(
-                item = accountItem.value,
-                onBack = { accountNavState = AccountNav.LIST },
-                onEdit = { accountNavState = AccountNav.EDIT },
+                item = appState.accountListState.account!!,
+                onBack = { appState.accountListState.accountNav = AccountNav.LIST },
+                onEdit = { appState.accountListState.accountNav = AccountNav.EDIT },
                 onDelete = {  }
             )
         }
         AccountNav.EDIT -> {
-            AccountEditUI(appState, accountItem.value) {
-                accountNavState = AccountNav.DISPLAY
+            AccountEditUI(
+                appState = appState,
+                item = appState.accountListState.account!!
+            ) {
+                appState.accountListState.accountNav = AccountNav.DISPLAY
             }
         }
     }
@@ -72,7 +74,7 @@ fun HomeContentUI(
 
 @Composable
 fun AccountListUI(
-    appState: AppState,
+    accounts: List<AccountItem>,
     onClick: (item: AccountItem) -> Unit
 ) {
     Box(
@@ -95,7 +97,7 @@ fun AccountListUI(
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
-                items(appState.accounts) { value ->
+                items(accounts) { value ->
                     AccountItemUI(value) { onClick(value) }
                 }
             }

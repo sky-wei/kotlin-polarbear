@@ -25,22 +25,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.FrameWindowScope
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.WindowPosition
-import androidx.compose.ui.window.rememberWindowState
-import com.sky.account.manager.AppState
 import com.sky.account.manager.ex.stringResource
-import com.sky.account.manager.ui.theme.BearTheme
 
 /**
  * Created by sky on 2021-11-01.
  */
 @Composable
-fun FrameWindowScope.SplashUI() {
+fun SplashUI() {
     Box(
         modifier = Modifier.fillMaxSize()
             .background(

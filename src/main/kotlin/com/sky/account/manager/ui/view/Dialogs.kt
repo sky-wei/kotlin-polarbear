@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.ui.util
+package com.sky.account.manager.ui.view
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.AwtWindow
-import androidx.compose.ui.window.FrameWindowScope
 import java.awt.FileDialog
+import java.awt.Frame
 import java.io.File
 import java.nio.file.Path
 
@@ -27,13 +27,14 @@ import java.nio.file.Path
  * Created by sky on 2021-11-12.
  */
 @Composable
-fun FrameWindowScope.FileDialog(
+fun FileDialog(
     title: String,
     isLoad: Boolean,
     onResult: (result: Path?) -> Unit
 ) = AwtWindow(
     create = {
-        object : FileDialog(window, "Choose a file", if (isLoad) LOAD else SAVE) {
+        val owner: Frame? = null
+        object : FileDialog(owner, "Choose a file", if (isLoad) LOAD else SAVE) {
             override fun setVisible(value: Boolean) {
                 super.setVisible(value)
                 if (value) {
