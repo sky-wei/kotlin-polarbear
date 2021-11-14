@@ -41,7 +41,40 @@ interface IAppRepository : IComponent {
     suspend fun login(item: AdminItem): XResult<AdminItem>
 
     /**
+     * 更新账号
+     */
+    suspend fun update(item: AdminItem): XResult<AdminItem>
+
+    /**
+     * 加载账号
+     */
+    suspend fun load(adminId: Int): XResult<List<AccountItem>>
+
+    /**
+     * 搜索账号
+     */
+    suspend fun search(adminId: Int, keyword: String): XResult<List<AccountItem>>
+
+    /**
      * 创建账号
      */
     suspend fun create(item: AccountItem): XResult<AccountItem>
+
+    /**
+     * 更新账号
+     */
+    suspend fun update(item: AccountItem): XResult<AccountItem>
+
+    /**
+     * 更新账号
+     */
+    suspend fun update(
+        item: AdminItem,
+        items: List<AccountItem>
+    ): XResult<List<AccountItem>>
+
+    /**
+     * 删除账号
+     */
+    suspend fun delete(item: AccountItem): XResult<AccountItem>
 }

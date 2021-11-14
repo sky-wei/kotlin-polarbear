@@ -57,37 +57,32 @@ fun ProfileEditUI(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            ProfileEditUI(admin) {
-
-            }
+            ProfileEditUI(appState, admin)
         }
     }
 }
 
 @Composable
 fun ProfileEditUI(
-    item: AdminItem,
-    onChange: (item: AdminItem) -> Unit
+    appState: AppState,
+    item: AdminItem
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        var userName by remember { mutableStateOf(item.name) }
-        var userPassword by remember { mutableStateOf("") }
-        var userNewPassword by remember { mutableStateOf("") }
-        var userDesc by remember { mutableStateOf(item.desc) }
-
-//        BearBigTitle("Admin")
-//        Spacer(Modifier.height(40.dp))
+        var name by remember { mutableStateOf(item.name) }
+        var password by remember { mutableStateOf("") }
+        var newPassword by remember { mutableStateOf("") }
+        var desc by remember { mutableStateOf(item.desc) }
 
         BearEditText(
             icon = painterResource("image/ic_user.svg"),
             label = stringResource("label.userName"),
             readOnly = true,
-            value = userName
+            value = name
         ) {
-            userName = it
+            name = it
         }
 
         Spacer(Modifier.height(20.dp))
@@ -95,11 +90,11 @@ fun ProfileEditUI(
         BearEditText(
             icon = painterResource("image/ic_password.svg"),
             label = stringResource("label.password"),
-            value = userPassword,
+            value = password,
             visualTransformation = PasswordVisualTransformation(),
             keyboardType = KeyboardType.Password
         ) {
-            userPassword = it
+            password = it
         }
 
         Spacer(Modifier.height(20.dp))
@@ -107,11 +102,11 @@ fun ProfileEditUI(
         BearEditText(
             icon = painterResource("image/ic_password.svg"),
             label = stringResource("label.newPassword"),
-            value = userNewPassword,
+            value = newPassword,
             visualTransformation = PasswordVisualTransformation(),
             keyboardType = KeyboardType.Password
         ) {
-            userNewPassword = it
+            newPassword = it
         }
 
         Spacer(Modifier.height(20.dp))
@@ -119,20 +114,23 @@ fun ProfileEditUI(
         BearEditText(
             icon = painterResource("image/ic_desc.svg"),
             label = stringResource("label.desc"),
-            value = userDesc,
+            value = desc,
             singleLine = false,
             maxLines = 5
         ) {
-            userDesc = it
+            desc = it
         }
 
         Spacer(Modifier.height(40.dp))
 
-        BigBearButton(
-            text = stringResource("label.change")
-        ) {
+        BigBearButton(stringResource("label.change")) {
             // 修改
-
+            appState.change(
+                item = item,
+                oldPassword = password,
+                newPassword = newPassword,
+                desc = desc
+            )
         }
     }
 }

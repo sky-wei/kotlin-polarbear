@@ -16,9 +16,8 @@
 
 package com.sky.account.manager.ui.home.profile
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import com.sky.account.manager.AppState
-import com.sky.account.manager.data.model.AdminItem
 import com.sky.account.manager.ui.ProfileNav
 
 /**
@@ -26,20 +25,17 @@ import com.sky.account.manager.ui.ProfileNav
  */
 @Composable
 fun ProfileUI(
-    appState: AppState,
-    admin: AdminItem
+    appState: AppState
 ) {
-    var profileNavState by remember { mutableStateOf(ProfileNav.DISPLAY) }
-
-    when(profileNavState) {
+    when(appState.profileState.profileNav) {
         ProfileNav.DISPLAY -> {
-            ProfileDisplayUI(admin) {
-                profileNavState = ProfileNav.EDIT
+            ProfileDisplayUI(appState.admin) {
+                appState.profileState.profileNav = ProfileNav.EDIT
             }
         }
         ProfileNav.EDIT -> {
-            ProfileEditUI(appState, admin) {
-                profileNavState = ProfileNav.DISPLAY
+            ProfileEditUI(appState, appState.admin) {
+                appState.profileState.profileNav = ProfileNav.DISPLAY
             }
         }
     }

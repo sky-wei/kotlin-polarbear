@@ -16,6 +16,9 @@
 
 package com.sky.account.manager.util
 
+import com.sky.account.manager.data.model.AccountItem
+import com.sky.account.manager.data.model.AdminItem
+
 /**
  * Created by sky on 2021/11/11.
  */
@@ -67,5 +70,37 @@ object CheckUtil {
             return false
         }
         return true
+    }
+
+    /**
+     * 检验合法
+     */
+    fun checkUser(
+        item: AdminItem,
+        password: String,
+        newPassword: String,
+        onError: (message: String) -> Unit
+    ): Boolean {
+
+        if (item.password != password) {
+            onError("密码不一致！")
+            return false
+        }
+
+        if (newPassword.isEmpty()) {
+            onError("新密码不能为空！")
+            return false
+        }
+        return true
+    }
+
+    /**
+     * 检验合法
+     */
+    fun checkUser(
+        item: AccountItem,
+        onError: (message: String) -> Unit
+    ): Boolean {
+        return checkUser(item.name, item.password, onError)
     }
 }

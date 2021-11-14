@@ -81,6 +81,27 @@ class AccountManager(
         return AdminMapper.transform(admin)
     }
 
+    override fun load(adminId: Int): List<AccountItem> {
+        return accountDao.queryBuilder()
+            .orderBy(CREATE_TIME, false)
+            .where()
+            .eq(ADMIN_ID, adminId)
+            .query()
+            .map { AccountMapper.transform(it) }
+    }
+
+    override fun search(adminId: Int, keyword: String): List<AccountItem> {
+        return accountDao.queryBuilder()
+            .orderBy(CREATE_TIME, false)
+            .where()
+            .eq(ADMIN_ID, adminId)
+            .and()
+            .like(DESC, "%$keyword%")
+            .query()
+            .map { AccountMapper.transform(it) }
+
+    }
+
     override fun update(item: AdminItem): AdminItem {
         adminDao.update(AdminMapper.transformItem(item))
         return item
@@ -98,8 +119,22 @@ class AccountManager(
         return item
     }
 
+    override fun update(item: AdminItem, items: List<AccountItem>): List<AccountItem> {
+
+        val admins = adminDao.queryForEq(NAME, item.name)
+
+        if (admins.isEmpty()) {
+            // 用户不存在
+            throw DataException("修改用户名信息错误!")
+        }
+
+        update(item)
+        items.forEach { update(it) }
+        return items
+    }
+
     override fun delete(item: AccountItem): AccountItem {
-        adminDao.deleteById(item.id)
+        accountDao.deleteById(item.id)
         return item
     }
 
@@ -114,8 +149,14 @@ class AccountManager(
 
         private const val NAME = "name"
 
-        fun create(context: IAppContext, init: AccountManager.Builder.() -> Unit): IAccountManager {
-            return AccountManager.Builder(context).apply(init).build()
+        private const val ADMIN_ID = "adminId"
+
+        private const val DESC = "desc"
+
+        private const val CREATE_TIME = "createTime"
+
+        fun create(context: IAppContext, init: Builder.() -> Unit): IAccountManager {
+            return Builder(context).apply(init).build()
         }
     }
 }

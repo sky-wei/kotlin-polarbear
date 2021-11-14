@@ -46,7 +46,31 @@ class AppRepository(
         return runOfResult { mAccountManager.login(item) }
     }
 
+    override suspend fun update(item: AdminItem): XResult<AdminItem> {
+        return runOfResult { mAccountManager.update(item) }
+    }
+
+    override suspend fun load(adminId: Int): XResult<List<AccountItem>> {
+        return runOfResult { mAccountManager.load(adminId) }
+    }
+
+    override suspend fun search(adminId: Int, keyword: String): XResult<List<AccountItem>> {
+        return runOfResult { mAccountManager.search(adminId, keyword) }
+    }
+
     override suspend fun create(item: AccountItem): XResult<AccountItem> {
         return runOfResult { mAccountManager.create(item) }
+    }
+
+    override suspend fun update(item: AccountItem): XResult<AccountItem> {
+        return runOfResult { mAccountManager.update(item) }
+    }
+
+    override suspend fun update(item: AdminItem, items: List<AccountItem>): XResult<List<AccountItem>> {
+        return runOfResult { mAccountManager.update(item, items) }
+    }
+
+    override suspend fun delete(item: AccountItem): XResult<AccountItem> {
+        return runOfResult { mAccountManager.delete(item) }
     }
 }

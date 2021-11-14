@@ -193,7 +193,7 @@ fun BearContent(
                 AccountListUI(appState)
             }
             HomeNav.PROFILE -> {
-                ProfileUI(appState, appState.admin)
+                ProfileUI(appState)
             }
             HomeNav.NEW -> {
                 NewUI(appState)

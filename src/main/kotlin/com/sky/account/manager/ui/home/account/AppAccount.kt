@@ -61,9 +61,6 @@ fun NewAccountUI(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-//        BearBigTitle("Account")
-//        Spacer(Modifier.height(40.dp))
-
         BearEditText(
             icon = painterResource("image/ic_user.svg"),
             label = stringResource("label.userName"),

@@ -71,20 +71,17 @@ fun AccountEditUI(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        var userName by remember { mutableStateOf(item.name) }
-        var userPassword by remember { mutableStateOf(item.password) }
-        var userUrl by remember { mutableStateOf(item.url) }
-        var userDesc by remember { mutableStateOf(item.desc) }
-
-//        BearBigTitle("Account")
-//        Spacer(Modifier.height(40.dp))
+        var name by remember { mutableStateOf(item.name) }
+        var password by remember { mutableStateOf(item.password) }
+        var url by remember { mutableStateOf(item.url) }
+        var desc by remember { mutableStateOf(item.desc) }
 
         BearEditText(
             icon = painterResource("image/ic_user.svg"),
             label = stringResource("label.userName"),
-            value = userName
+            value = name
         ) {
-            userName = it
+            name = it
         }
 
         Spacer(Modifier.height(20.dp))
@@ -92,11 +89,11 @@ fun AccountEditUI(
         BearEditText(
             icon = painterResource("image/ic_password.svg"),
             label = stringResource("label.password"),
-            value = userPassword,
+            value = password,
             visualTransformation = PasswordVisualTransformation(),
             keyboardType = KeyboardType.Password
         ) {
-            userPassword = it
+            password = it
         }
 
         Spacer(Modifier.height(20.dp))
@@ -104,9 +101,9 @@ fun AccountEditUI(
         BearEditText(
             icon = painterResource("image/ic_url.svg"),
             label = stringResource("label.url"),
-            value = userUrl,
+            value = url,
         ) {
-            userUrl = it
+            url = it
         }
 
         Spacer(Modifier.height(20.dp))
@@ -114,19 +111,25 @@ fun AccountEditUI(
         BearEditText(
             icon = painterResource("image/ic_desc.svg"),
             label = stringResource("label.desc"),
-            value = userDesc,
+            value = desc,
             singleLine = false,
             maxLines = 5
         ) {
-            userDesc = it
+            desc = it
         }
 
         Spacer(Modifier.height(40.dp))
 
-        BigBearButton(
-            text = stringResource("label.change")
-        ) {
+        BigBearButton(stringResource("label.change")) {
             // 修改
+            appState.change(
+                item.copy(
+                    name = name,
+                    password = password,
+                    url = url,
+                    desc = desc
+                )
+            )
         }
     }
 }

@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
+import com.sky.account.manager.data.DataException
 import com.sky.account.manager.data.model.AccountItem
 import com.sky.account.manager.data.model.AdminItem
 import com.sky.account.manager.ex.doFailure
@@ -30,6 +31,7 @@ import com.sky.account.manager.ex.getAppRepository
 import com.sky.account.manager.interfaces.IAppRepository
 import com.sky.account.manager.ui.AccountNav
 import com.sky.account.manager.ui.AppNav
+import com.sky.account.manager.ui.ProfileNav
 import com.sky.account.manager.util.CheckUtil
 import com.sky.account.manager.util.MD5Util
 import com.sky.account.manager.util.SecretUtil
@@ -70,8 +72,9 @@ class AppState(
     var admin: AdminItem by mutableStateOf(AdminItem.EMPTY)
         private set
 
-    val newAccountState by lazy { NewAccountState(this) }
-    val accountListState by lazy { AccountListState(this) }
+    val profileState = ProfileState(this)
+    val newAccountState = NewAccountState(this)
+    val accountListState = AccountListState(this)
 
     /**
      * 清除消息
@@ -109,14 +112,12 @@ class AppState(
 
         scope.launch {
             // 注册
-            val result = repository.register(
+            repository.register(
                 AdminItem.valueOf(
                     name = name,
                     password = MD5Util.md5sum(password)
                 )
-            )
-
-            result.doSuccess {
+            ).doSuccess {
                 // 注册成功
                 toHome(it.copy(password = password))
             }.doFailure {
@@ -138,19 +139,78 @@ class AppState(
 
         scope.launch {
             // 登录
-            val result = repository.login(
+            repository.login(
                 AdminItem.valueOf(
                     name = name,
                     password = MD5Util.md5sum(password)
                 )
-            )
-
-            result.doSuccess {
+            ).doSuccess {
                 // 登录成功
                 toHome(it.copy(password = password))
             }.doFailure {
                 message = "${it.message}"
             }
+        }
+    }
+
+    /**
+     * 修改
+     */
+    fun change(
+        item: AdminItem,
+        oldPassword: String,
+        newPassword: String,
+        desc: String
+    ) {
+        if (!CheckUtil.checkUser(item, oldPassword, newPassword) { message = it }) {
+            return
+        }
+
+        scope.launch {
+            repository.load(item.id)
+                .doSuccess {
+                    repository.update(
+                        item.copy(
+                            password = MD5Util.md5sum(newPassword),
+                            desc = desc
+                        ),
+                        it.map { account ->
+                            // 解密
+                            decrypt(account, oldPassword)
+                        }.map { account ->
+                            // 加密
+                            encrypt(account, newPassword)
+                        }
+                    ).doSuccess {
+                        admin = item.copy(
+                            password = newPassword,
+                            desc = desc
+                        )
+                        profileState.backDisplay()
+                        accountListState.refresh = true
+                    }.doFailure {
+                        message = "${it.message}"
+                    }
+                }.doFailure {
+                    message = "${it.message}"
+                }
+        }
+    }
+
+    /**
+     * 加载账号列表
+     */
+    fun refreshList() {
+
+        scope.launch {
+            // 加载账号
+            repository.load(admin.id)
+                .doSuccess {
+                    accountListState.refresh = false
+                    accountListState.accounts = it
+                }.doFailure {
+                    message = "${it.message}"
+                }
         }
     }
 
@@ -163,23 +223,25 @@ class AppState(
         url: String,
         desc: String
     ) {
+
         if (!CheckUtil.checkUser(name, password) { message = it }) {
             return
         }
 
         scope.launch {
-            val result = repository.create(
-                AccountItem.valueOf(
-                    adminId = admin.id,
-                    name = name,
-                    password = SecretUtil.encrypt(admin.password, password),
-                    url = url,
-                    desc = desc
+            repository.create(
+                encrypt(
+                    AccountItem.valueOf(
+                        adminId = admin.id,
+                        name = name,
+                        password = password,
+                        url = url,
+                        desc = desc
+                    )
                 )
-            )
-
-            result.doSuccess {
+            ).doSuccess {
                 newAccountState.reset()
+                accountListState.refresh = true
                 message = "创建账号成功！"
             }.doFailure {
                 message = "${it.message}"
@@ -190,8 +252,77 @@ class AppState(
     /**
      * 修改账号
      */
-    fun change(account: AccountItem) {
+    fun change(item: AccountItem) {
 
+        if (!CheckUtil.checkUser(item) { message = it }) {
+            return
+        }
+
+        scope.launch {
+            repository.update(
+                encrypt(item)
+            ).doSuccess {
+                accountListState.backList()
+            }.doFailure {
+                message = "${it.message}"
+            }
+        }
+    }
+
+    /**
+     * 删除账号
+     */
+    fun delete(item: AccountItem) {
+        scope.launch {
+            repository.delete(
+                encrypt(item)
+            ).doSuccess {
+                accountListState.backList()
+            }.doFailure {
+                message = "${it.message}"
+            }
+        }
+    }
+
+    /**
+     * 搜索
+     */
+    fun search(keyword: String) {
+        scope.launch {
+            if (keyword.isEmpty()) {
+                repository.load(admin.id)
+            } else {
+                repository.search(admin.id, keyword)
+            }.doSuccess {
+                accountListState.accounts = it
+            }.doFailure {
+                message = "${it.message}"
+            }
+        }
+    }
+
+    /**
+     * 加密
+     */
+    fun encrypt(
+        item: AccountItem,
+        password: String = admin.password
+    ): AccountItem {
+        return item.copy(
+            password = SecretUtil.encrypt(password, item.password)
+        )
+    }
+
+    /**
+     * 解密
+     */
+    fun decrypt(
+        item: AccountItem,
+        password: String = admin.password
+    ): AccountItem {
+        return item.copy(
+            password = SecretUtil.decrypt(password, item.password)
+        )
     }
 
     /**
@@ -217,27 +348,22 @@ class AppState(
                 AppNav.LOGIN
             }
         }
+    }
+}
 
-        accountListState.accounts = arrayListOf(
-            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
-            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
-            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
-            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
-            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
-            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
-            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
-            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
-            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
-            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
-            AccountItem.valueOf(0, "AAA", "AAA", "http://www.baidu.com", "哈哈，哈哈，哈哈"),
-        )
+class ProfileState(
+    private val appState: AppState
+) {
+    var profileNav by mutableStateOf(ProfileNav.DISPLAY)
+
+    fun backDisplay() {
+        profileNav = ProfileNav.DISPLAY
     }
 }
 
 class NewAccountState(
     private val appState: AppState
 ) {
-
     var name by mutableStateOf("")
     var password by mutableStateOf("")
     var url by mutableStateOf("")
@@ -254,8 +380,19 @@ class NewAccountState(
 class AccountListState(
     private val appState: AppState
 ) {
+    private var _account: AccountItem? by mutableStateOf(null)
 
+    var search: String by mutableStateOf("")
     var accountNav: AccountNav by mutableStateOf(AccountNav.LIST)
-    var accounts: ArrayList<AccountItem> by mutableStateOf(ArrayList())
-    var account: AccountItem? by mutableStateOf(null)
+    var refresh: Boolean by mutableStateOf(true)
+    var accounts: List<AccountItem> by mutableStateOf(ArrayList())
+    var account: AccountItem
+        get() = _account?: throw DataException("数据不能为空!")
+        set(value) { _account = appState.decrypt(value) }
+
+    fun backList() {
+        _account = null
+        accountNav = AccountNav.LIST
+        refresh = true
+    }
 }

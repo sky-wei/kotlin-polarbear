@@ -25,7 +25,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -46,8 +46,17 @@ fun AccountListUI(
 ) {
     when(appState.accountListState.accountNav) {
         AccountNav.LIST -> {
+            if (appState.accountListState.refresh) {
+                // 刷新列表
+                appState.refreshList()
+            }
             AccountListUI(
-                accounts = appState.accountListState.accounts
+                search = appState.accountListState.search,
+                accounts = appState.accountListState.accounts,
+                onSearch = {
+                    appState.accountListState.search = it
+                    appState.search(it)
+                }
             ) {
                 appState.accountListState.account = it
                 appState.accountListState.accountNav = AccountNav.DISPLAY
@@ -55,16 +64,16 @@ fun AccountListUI(
         }
         AccountNav.DISPLAY -> {
             AccountDisplay(
-                item = appState.accountListState.account!!,
+                item = appState.accountListState.account,
                 onBack = { appState.accountListState.accountNav = AccountNav.LIST },
                 onEdit = { appState.accountListState.accountNav = AccountNav.EDIT },
-                onDelete = {  }
+                onDelete = { appState.delete(appState.accountListState.account) }
             )
         }
         AccountNav.EDIT -> {
             AccountEditUI(
                 appState = appState,
-                item = appState.accountListState.account!!
+                item = appState.accountListState.account
             ) {
                 appState.accountListState.accountNav = AccountNav.DISPLAY
             }
@@ -74,7 +83,9 @@ fun AccountListUI(
 
 @Composable
 fun AccountListUI(
+    search: String,
     accounts: List<AccountItem>,
+    onSearch: (keyword: String) -> Unit,
     onClick: (item: AccountItem) -> Unit
 ) {
     Box(
@@ -83,15 +94,13 @@ fun AccountListUI(
             .absolutePadding(left = 30.dp, top = 50.dp, right = 30.dp, bottom = 30.dp)
     ) {
 
-        var search by remember { mutableStateOf("") }
-
         Column {
             BearSearch(
                 icon = painterResource("image/ic_search.svg"),
                 label = stringResource("app.search"),
                 value = search
             ) {
-                search = it
+                onSearch(it)
             }
             Spacer(Modifier.height(30.dp))
             LazyColumn(

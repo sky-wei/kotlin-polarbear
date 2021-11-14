@@ -30,11 +30,17 @@ interface IAccountManager : IComponent {
 
     fun login(item: AdminItem): AdminItem
 
+    fun load(adminId: Int): List<AccountItem>
+
+    fun search(adminId: Int, keyword: String): List<AccountItem>
+
     fun update(item: AdminItem): AdminItem
 
     fun create(item: AccountItem): AccountItem
 
     fun update(item: AccountItem): AccountItem
+
+    fun update(item: AdminItem, items: List<AccountItem>): List<AccountItem>
 
     fun delete(item: AccountItem): AccountItem
 }

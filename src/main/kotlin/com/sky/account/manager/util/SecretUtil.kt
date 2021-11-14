@@ -39,25 +39,29 @@ object SecretUtil {
         return SecretKeySpec(key, "AES")
     }
 
-    fun decrypt(key: SecretKey, value: ByteArray): ByteArray {
-        val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
-        cipher.init(Cipher.DECRYPT_MODE, key, IvParameterSpec(ivBytes))
-        return cipher.doFinal(value)
+    fun encrypt(key: SecretKey, value: ByteArray): ByteArray {
+        return Cipher.getInstance("AES/CBC/PKCS5Padding")
+            .run {
+                init(Cipher.ENCRYPT_MODE, key, IvParameterSpec(ivBytes))
+                doFinal(value)
+            }
     }
 
-    fun encrypt(key: SecretKey, value: ByteArray): ByteArray {
-        val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
-        cipher.init(Cipher.ENCRYPT_MODE, key, IvParameterSpec(ivBytes))
-        return cipher.doFinal(value)
+    fun decrypt(key: SecretKey, value: ByteArray): ByteArray {
+        return Cipher.getInstance("AES/CBC/PKCS5Padding")
+            .run {
+                init(Cipher.DECRYPT_MODE, key, IvParameterSpec(ivBytes))
+                doFinal(value)
+            }
     }
 
     fun encrypt(password: String, value: String): String {
-        val encryptValue = encrypt(buildKey(password), value.toByteArray())
-        return MD5Util.bytesToHexString(encryptValue)
+        return encrypt(buildKey(password), value.toByteArray())
+            .run { MD5Util.bytesToHexString(this) }
     }
 
     fun decrypt(password: String, value: String): String {
-        val decryptValue = decrypt(buildKey(password), MD5Util.hexStringToBytes(value))
-        return String(decryptValue)
+        return decrypt(buildKey(password), MD5Util.hexStringToBytes(value))
+            .run { String(this) }
     }
 }
