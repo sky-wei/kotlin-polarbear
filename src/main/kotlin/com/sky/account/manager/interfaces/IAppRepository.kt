@@ -61,6 +61,11 @@ interface IAppRepository : IComponent {
     suspend fun create(item: AccountItem): XResult<AccountItem>
 
     /**
+     * 创建账号
+     */
+    suspend fun create(items: List<AccountItem>): XResult<List<AccountItem>>
+
+    /**
      * 更新账号
      */
     suspend fun update(item: AccountItem): XResult<AccountItem>

@@ -38,6 +38,8 @@ interface IAccountManager : IComponent {
 
     fun create(item: AccountItem): AccountItem
 
+    fun create(items: List<AccountItem>): List<AccountItem>
+
     fun update(item: AccountItem): AccountItem
 
     fun update(item: AdminItem, items: List<AccountItem>): List<AccountItem>

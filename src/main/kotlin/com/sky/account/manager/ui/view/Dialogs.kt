@@ -21,7 +21,6 @@ import androidx.compose.ui.window.AwtWindow
 import java.awt.FileDialog
 import java.awt.Frame
 import java.io.File
-import java.nio.file.Path
 
 /**
  * Created by sky on 2021-11-12.
@@ -29,8 +28,9 @@ import java.nio.file.Path
 @Composable
 fun FileDialog(
     title: String,
-    isLoad: Boolean,
-    onResult: (result: Path?) -> Unit
+    isLoad: Boolean = true,
+    onFilter: (dir: File, name: String) -> Boolean = { _, _ -> true },
+    onResult: (result: File?) -> Unit
 ) = AwtWindow(
     create = {
         val owner: Frame? = null
@@ -39,7 +39,7 @@ fun FileDialog(
                 super.setVisible(value)
                 if (value) {
                     if (file != null) {
-                        onResult(File(directory).resolve(file).toPath())
+                        onResult(File(directory).resolve(file))
                     } else {
                         onResult(null)
                     }
@@ -47,6 +47,8 @@ fun FileDialog(
             }
         }.apply {
             this.title = title
+            this.isMultipleMode = false
+            this.setFilenameFilter { dir, name -> onFilter(dir, name) }
         }
     },
     dispose = FileDialog::dispose

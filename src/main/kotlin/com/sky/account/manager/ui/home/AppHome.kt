@@ -59,6 +59,7 @@ fun HomeUI(
     Row {
         BearSideBar(homeNavState) {
             homeNavState = it
+            appState.cleanMessage()
         }
         BearContent(appState, homeNavState)
     }

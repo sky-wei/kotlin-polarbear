@@ -52,20 +52,21 @@ fun MessageUI(
         ) {
             Box(
                 contentAlignment = Alignment.Center,
-                modifier = Modifier.padding(8.dp)
             ) {
                 Text(
                     text = message,
+                    modifier = Modifier.absolutePadding(
+                        left = 20.dp, top = 8.dp, right = 20.dp, bottom = 8.dp
+                    ),
                     color = Foreground
                 )
-            }
 
-            Box(
-                contentAlignment = Alignment.TopEnd
-            ) {
                 Image(
-                    modifier = Modifier.padding(10.dp).size(20.dp).clickable { appState.cleanMessage() },
-                    alignment = Alignment.TopEnd,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .size(20.dp)
+                        .align(Alignment.TopEnd)
+                        .clickable { appState.cleanMessage() },
                     painter = painterResource("image/ic_close.svg"),
                     contentDescription = null
                 )

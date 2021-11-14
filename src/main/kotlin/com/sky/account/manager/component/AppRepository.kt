@@ -62,6 +62,10 @@ class AppRepository(
         return runOfResult { mAccountManager.create(item) }
     }
 
+    override suspend fun create(items: List<AccountItem>): XResult<List<AccountItem>> {
+        return runOfResult { mAccountManager.create(items) }
+    }
+
     override suspend fun update(item: AccountItem): XResult<AccountItem> {
         return runOfResult { mAccountManager.update(item) }
     }

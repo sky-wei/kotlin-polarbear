@@ -114,6 +114,11 @@ class AccountManager(
         return item.copy(id = id)
     }
 
+    override fun create(items: List<AccountItem>): List<AccountItem> {
+        accountDao.create(AccountMapper.transformItem(items))
+        return items
+    }
+
     override fun update(item: AccountItem): AccountItem {
         accountDao.update(AccountMapper.transformItem(item))
         return item

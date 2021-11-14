@@ -22,6 +22,9 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import com.sky.account.manager.data.DataException
 import com.sky.account.manager.data.model.AccountItem
 import com.sky.account.manager.data.model.AdminItem
@@ -32,13 +35,12 @@ import com.sky.account.manager.interfaces.IAppRepository
 import com.sky.account.manager.ui.AccountNav
 import com.sky.account.manager.ui.AppNav
 import com.sky.account.manager.ui.ProfileNav
+import com.sky.account.manager.util.Alog
 import com.sky.account.manager.util.CheckUtil
 import com.sky.account.manager.util.MD5Util
 import com.sky.account.manager.util.SecretUtil
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import java.io.File
 
 /**
  * Created by sky on 2021/10/31.
@@ -63,7 +65,6 @@ class AppState(
 
     var loading: Boolean by mutableStateOf(false)
         private set
-    var chooseFile: Boolean by mutableStateOf(false)
     var message: String? by mutableStateOf(null)
         private set
 
@@ -75,6 +76,7 @@ class AppState(
     val profileState = ProfileState(this)
     val newAccountState = NewAccountState(this)
     val accountListState = AccountListState(this)
+    val settingsState = SettingsState(this)
 
     /**
      * 清除消息
@@ -302,6 +304,30 @@ class AppState(
     }
 
     /**
+     * 导入
+     */
+    fun import() {
+        scope.launch {
+            settingsState
+                .importDialog
+                .awaitResult()
+                ?.run { import(this) }
+        }
+    }
+
+    /**
+     * 导出
+     */
+    fun export() {
+        scope.launch {
+            settingsState
+                .exportDialog
+                .awaitResult()
+                ?.run { export(this) }
+        }
+    }
+
+    /**
      * 加密
      */
     fun encrypt(
@@ -334,6 +360,62 @@ class AppState(
         this.appNav = AppNav.HOME
     }
 
+    /**
+     * 导入
+     */
+    private suspend fun import(file: File) {
+        try {
+            var count = 0
+            repository.create(
+                Gson().fromJson<List<AccountItem>>(
+                    file.readText()
+                ).sortedBy {
+                    it.id
+                }.map {
+                    encrypt(it).copy(
+                        id = 0,
+                        adminId = admin.id,
+                        createTime = System.currentTimeMillis() + (count++)
+                    )
+                }
+            ).doSuccess {
+                accountListState.refresh = true
+                message = "导入成功！"
+            }.doFailure {
+                message = "${it.message}"
+            }
+        } catch (tr: Throwable) {
+            message = tr.message
+            Alog.e("处理异常", tr)
+        }
+    }
+
+    /**
+     * 导出
+     */
+    private suspend fun export(file: File) {
+        try {
+            repository.load(admin.id)
+                .doSuccess {
+                    file.writeText(
+                        GsonBuilder()
+                            .setPrettyPrinting()
+                            .create()
+                            .toJson(
+                                it.map { item -> decrypt(item) }
+                            )
+                    )
+                    message = "导出成功！"
+                }
+                .doFailure {
+                    message = "${it.message}"
+                }
+        } catch (tr: Throwable) {
+            message = tr.message
+            Alog.e("处理异常", tr)
+        }
+    }
+
     private fun initData() {
 
         scope.launch {
@@ -349,6 +431,8 @@ class AppState(
             }
         }
     }
+
+    inline fun <reified T> Gson.fromJson(json: String) = this.fromJson<T>(json, object: TypeToken<T>() {}.type)
 }
 
 class ProfileState(
@@ -395,4 +479,28 @@ class AccountListState(
         accountNav = AccountNav.LIST
         refresh = true
     }
+}
+
+class SettingsState(
+    private val appState: AppState
+) {
+
+    val importDialog = DialogState<File?>()
+    val exportDialog = DialogState<File?>()
+}
+
+class DialogState<T> {
+
+    private var onResult: CompletableDeferred<T>? by mutableStateOf(null)
+
+    val isAwaiting get() = onResult != null
+
+    suspend fun awaitResult(): T {
+        onResult = CompletableDeferred()
+        val result = onResult!!.await()
+        onResult = null
+        return result
+    }
+
+    fun onResult(result: T) = onResult!!.complete(result)
 }

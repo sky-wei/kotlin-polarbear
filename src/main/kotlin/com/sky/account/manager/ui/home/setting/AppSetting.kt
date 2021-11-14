@@ -31,6 +31,7 @@ import com.sky.account.manager.ui.common.BearSortTitle
 import com.sky.account.manager.ui.common.BearTextMenu
 import com.sky.account.manager.ui.common.BearTextMoreMenu
 import com.sky.account.manager.ui.common.BearTopBar
+import com.sky.account.manager.ui.view.FileDialog
 
 /**
  * Created by sky on 2021/11/8.
@@ -70,13 +71,13 @@ private fun SettingListUI(
             BearTextMoreMenu(
                 title = stringResource("label.import"),
             ) {
-
+                appState.import()
             }
             Spacer(Modifier.height(15.dp))
             BearTextMoreMenu(
                 title = stringResource("label.export"),
             ) {
-
+                appState.export()
             }
             Spacer(Modifier.height(30.dp))
             BearSortTitle(stringResource("label.other"))
@@ -88,6 +89,25 @@ private fun SettingListUI(
                 onNavChange(SetNav.ABOUT)
             }
         }
+    }
+
+    if (appState.settingsState.importDialog.isAwaiting) {
+        FileDialog(
+            title = stringResource("label.import"),
+            onResult = {
+                appState.settingsState.importDialog.onResult(it)
+            }
+        )
+    }
+
+    if (appState.settingsState.exportDialog.isAwaiting) {
+        FileDialog(
+            title = stringResource("label.export"),
+            isLoad = false,
+            onResult = {
+                appState.settingsState.exportDialog.onResult(it)
+            }
+        )
     }
 }
 
