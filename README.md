@@ -1,4 +1,11 @@
-## 帐号管理
+## 本地账号管理程序
+
+本程序使用的是 __Kotlin__ 编写基于 __Compose for Desktop__ 来实现的。
+
+### 截图
+![](screenshot/screenshot1.jpg)
+![](screenshot/screenshot2.jpg)
+![](screenshot/screenshot3.jpg)
 
 ## License
 
