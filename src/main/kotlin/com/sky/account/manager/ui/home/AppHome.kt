@@ -94,7 +94,7 @@ fun BearSideBar(
                 )
                 Spacer(Modifier.width(15.dp))
                 Text(
-                    text = stringResource("label.accountManager"),
+                    text = stringResource("label.accountManage"),
                     fontWeight = FontWeight.Bold
                 )
             }
