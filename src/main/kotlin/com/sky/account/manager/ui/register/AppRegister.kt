@@ -19,7 +19,12 @@ package com.sky.account.manager.ui.register
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -33,6 +38,7 @@ import com.sky.account.manager.ui.common.BigBearButton
 /**
  * Created by sky on 2021/10/31.
  */
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun RegisterUI(
     appState: AppState
@@ -81,7 +87,16 @@ fun RegisterUI(
                 label = stringResource("label.confirmPassword"),
                 value = confirmPassword,
                 visualTransformation = PasswordVisualTransformation(),
-                keyboardType = KeyboardType.Password
+                keyboardType = KeyboardType.Password,
+                onKeyEvent = {
+                    if (KeyEventType.KeyUp == it.type && Key.Enter == it.key) {
+                        // 注册
+                        appState.register(name, password, confirmPassword)
+                        true
+                    } else {
+                        false
+                    }
+                }
             ) {
                 confirmPassword = it
             }

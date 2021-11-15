@@ -27,6 +27,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.input.key.KeyEvent
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
@@ -45,11 +47,12 @@ fun BearEditText(
     keyboardType: KeyboardType = KeyboardType.Text,
     singleLine: Boolean = true,
     maxLines: Int = Int.MAX_VALUE,
+    onKeyEvent: (KeyEvent) -> Boolean = { false },
     onValueChange: (String) -> Unit,
 ) {
     OutlinedTextField(
         value = value,
-        modifier = Modifier.width(300.dp),
+        modifier = Modifier.width(300.dp).onKeyEvent(onKeyEvent),
         readOnly = readOnly,
         onValueChange = onValueChange,
         singleLine = singleLine,
