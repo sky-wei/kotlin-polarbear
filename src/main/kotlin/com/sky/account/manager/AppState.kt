@@ -56,7 +56,7 @@ class AppState(
 ) {
 
     private val repository: IAppRepository by lazy { context.getAppRepository() }
-    private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 
     val windowState = WindowState(
         position = WindowPosition(Alignment.Center),
@@ -308,10 +308,13 @@ class AppState(
      */
     fun import() {
         scope.launch {
-            settingsState
-                .importDialog
-                .awaitResult()
-                ?.run { import(this) }
+            delay(200)
+            withContext(Dispatchers.IO) {
+                settingsState
+                    .importDialog
+                    .awaitResult()
+                    ?.run { import(this) }
+            }
         }
     }
 
@@ -320,10 +323,13 @@ class AppState(
      */
     fun export() {
         scope.launch {
-            settingsState
-                .exportDialog
-                .awaitResult()
-                ?.run { export(this) }
+            delay(200)
+            withContext(Dispatchers.IO) {
+                settingsState
+                    .exportDialog
+                    .awaitResult()
+                    ?.run { export(this) }
+            }
         }
     }
 

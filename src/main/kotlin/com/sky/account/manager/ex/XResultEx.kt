@@ -43,9 +43,11 @@ inline fun <reified T> XResult<T>.doFailure(failure: (Throwable) -> Unit): XResu
     return this
 }
 
-fun <T> runOfResult(block: () -> T): XResult<T> {
+suspend fun <T> runOfResult(block: () -> T): XResult<T> {
     return try {
-        XResult.Success(block())
+        withContext(Dispatchers.IO) {
+            XResult.Success(block())
+        }
     } catch (tr: Throwable) {
         XResult.Failure(tr)
     }
