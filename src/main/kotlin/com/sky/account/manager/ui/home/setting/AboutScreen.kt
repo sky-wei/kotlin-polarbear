@@ -14,30 +14,26 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.ui.home.account
+package com.sky.account.manager.ui.home.setting
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.sky.account.manager.data.model.AccountItem
+import com.sky.account.manager.XConstant
 import com.sky.account.manager.ex.stringResource
-import com.sky.account.manager.ui.common.BearIconText
 import com.sky.account.manager.ui.common.BearTextMenu
 import com.sky.account.manager.ui.common.BearTopBar
 
 /**
- * Created by sky on 2021-11-09.
+ * Created by sky on 2021/11/15.
  */
 @Composable
-fun AccountDisplay(
-    item: AccountItem,
-    onBack: () -> Unit,
-    onEdit: () -> Unit,
-    onDelete: () -> Unit
+fun AboutScreen(
+    onBack: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -46,49 +42,31 @@ fun AccountDisplay(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BearTopBar(
-            backText = stringResource("label.home"),
+            backText = stringResource("label.settings"),
             backIcon = painterResource("image/ic_back.svg"),
-            title = stringResource("label.account"),
+            title = stringResource("label.about"),
             onBack = onBack
         )
         Spacer(Modifier.height(40.dp))
+        Image(
+            painter = painterResource("image/icon.png"),
+            contentDescription = null,
+            modifier = Modifier.size(130.dp)
+        )
+        Spacer(Modifier.height(26.dp))
         BearTextMenu(
-            title = stringResource("label.userName"),
-            desc = item.name
+            title = stringResource("label.version"),
+            desc = XConstant.Version.Name
         )
         Spacer(Modifier.height(15.dp))
         BearTextMenu(
-            title = stringResource("label.password"),
-            desc = item.password
+            title = stringResource("label.mail"),
+            desc = "jingcai.wei@163.com"
         )
         Spacer(Modifier.height(15.dp))
         BearTextMenu(
-            title = stringResource("label.url"),
-            desc = item.url
+            title = stringResource("label.source"),
+            desc = "https://github.com/sky-wei/kotlin-polarbear"
         )
-        Spacer(Modifier.height(15.dp))
-        BearTextMenu(
-            title = stringResource("label.desc"),
-            desc = item.desc
-        )
-        Spacer(Modifier.height(40.dp))
-        Row(
-            modifier = Modifier.align(Alignment.End),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            BearIconText(
-                icon = painterResource("image/ic_edit.svg"),
-                text = stringResource("label.edit"),
-                color = MaterialTheme.colors.onSurface,
-                onClick = onEdit
-            )
-            Spacer(Modifier.width(30.dp))
-            BearIconText(
-                icon = painterResource("image/ic_delete.svg"),
-                text = stringResource("label.delete"),
-                color = MaterialTheme.colors.secondary,
-                onClick = onDelete
-            )
-        }
     }
 }

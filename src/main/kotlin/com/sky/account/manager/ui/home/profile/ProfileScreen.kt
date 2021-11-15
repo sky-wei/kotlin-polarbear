@@ -24,17 +24,17 @@ import com.sky.account.manager.ui.ProfileNav
  * Created by sky on 2021-11-09.
  */
 @Composable
-fun ProfileUI(
+fun ProfileScreen(
     appState: AppState
 ) {
     when(appState.profileState.profileNav) {
         ProfileNav.DISPLAY -> {
-            ProfileDisplayUI(appState.admin) {
+            ProfileDisplayScreen(appState.admin) {
                 appState.profileState.profileNav = ProfileNav.EDIT
             }
         }
         ProfileNav.EDIT -> {
-            ProfileEditUI(appState, appState.admin) {
+            ProfileEditScreen(appState, appState.admin) {
                 appState.profileState.profileNav = ProfileNav.DISPLAY
             }
         }

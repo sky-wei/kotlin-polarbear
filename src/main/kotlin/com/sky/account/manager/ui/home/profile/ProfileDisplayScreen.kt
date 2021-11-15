@@ -31,7 +31,7 @@ import com.sky.account.manager.ui.common.*
  * Created by sky on 2021/11/9.
  */
 @Composable
-fun ProfileDisplayUI(
+fun ProfileDisplayScreen(
     item: AdminItem,
     onEdit: () -> Unit
 ) {

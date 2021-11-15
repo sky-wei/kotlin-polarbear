@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.ui.register
+package com.sky.account.manager.ui.login
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -40,7 +40,7 @@ import com.sky.account.manager.ui.common.BigBearButton
  */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun RegisterUI(
+fun LoginScreen(
     appState: AppState
 ) {
     Box(
@@ -58,7 +58,6 @@ fun RegisterUI(
 
             var name by remember { mutableStateOf("") }
             var password by remember { mutableStateOf("") }
-            var confirmPassword by remember { mutableStateOf("") }
 
             BearEditText(
                 icon = painterResource("image/ic_user.svg"),
@@ -75,37 +74,25 @@ fun RegisterUI(
                 label = stringResource("label.password"),
                 value = password,
                 visualTransformation = PasswordVisualTransformation(),
-                keyboardType = KeyboardType.Password
-            ) {
-                password = it
-            }
-
-            Spacer(Modifier.height(20.dp))
-
-            BearEditText(
-                icon = painterResource("image/ic_password.svg"),
-                label = stringResource("label.confirmPassword"),
-                value = confirmPassword,
-                visualTransformation = PasswordVisualTransformation(),
                 keyboardType = KeyboardType.Password,
                 onKeyEvent = {
                     if (KeyEventType.KeyUp == it.type && Key.Enter == it.key) {
-                        // 注册
-                        appState.register(name, password, confirmPassword)
+                        // 登录
+                        appState.login(name, password)
                         true
                     } else {
                         false
                     }
                 }
             ) {
-                confirmPassword = it
+                password = it
             }
 
             Spacer(Modifier.height(40.dp))
 
-            BigBearButton(stringResource("label.register")) {
-                // 注册
-                appState.register(name, password, confirmPassword)
+            BigBearButton(stringResource("label.login")) {
+                // 登录
+                appState.login(name, password)
             }
         }
     }

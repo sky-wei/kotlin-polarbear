@@ -33,7 +33,7 @@ import com.sky.account.manager.ex.stringResource
  * Created by sky on 2021-11-01.
  */
 @Composable
-fun SplashUI() {
+fun SplashScreen() {
     Box(
         modifier = Modifier.fillMaxSize()
             .background(

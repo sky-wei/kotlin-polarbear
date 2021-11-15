@@ -41,32 +41,32 @@ import com.sky.account.manager.AppState
 import com.sky.account.manager.XConstant
 import com.sky.account.manager.ex.stringResource
 import com.sky.account.manager.ui.HomeNav
-import com.sky.account.manager.ui.home.account.AccountListUI
-import com.sky.account.manager.ui.home.account.NewUI
-import com.sky.account.manager.ui.home.profile.ProfileUI
-import com.sky.account.manager.ui.home.setting.SettingUI
+import com.sky.account.manager.ui.home.account.AccountListScreen
+import com.sky.account.manager.ui.home.account.NewAccountScreen
+import com.sky.account.manager.ui.home.profile.ProfileScreen
+import com.sky.account.manager.ui.home.setting.SettingScreen
 import com.sky.account.manager.ui.theme.GrayText
 
 /**
  * Created by sky on 2021/10/31.
  */
 @Composable
-fun HomeUI(
+fun HomeScreen(
     appState: AppState
 ) {
-    var homeNavState by rememberSaveable { mutableStateOf(HomeNav.LIST) }
+    var homeNav by rememberSaveable { mutableStateOf(HomeNav.LIST) }
 
     Row {
-        BearSideBar(homeNavState) {
-            homeNavState = it
+        HomeSideBar(homeNav) {
+            homeNav = it
             appState.cleanMessage()
         }
-        BearContent(appState, homeNavState)
+        HomeFrameContent(appState, homeNav)
     }
 }
 
 @Composable
-fun BearSideBar(
+fun HomeSideBar(
     homeNav: HomeNav,
     onNavChange: (homeNav: HomeNav) -> Unit
 ) {
@@ -184,23 +184,23 @@ fun SideBarNavItem(
 }
 
 @Composable
-fun BearContent(
+fun HomeFrameContent(
     appState: AppState,
     homeNav: HomeNav
 ) {
     Crossfade(targetState = homeNav) {
         when(it) {
             HomeNav.LIST -> {
-                AccountListUI(appState)
+                AccountListScreen(appState)
             }
             HomeNav.PROFILE -> {
-                ProfileUI(appState)
+                ProfileScreen(appState)
             }
             HomeNav.NEW -> {
-                NewUI(appState)
+                NewAccountScreen(appState)
             }
             HomeNav.SETTING -> {
-                SettingUI(appState)
+                SettingScreen(appState)
             }
         }
     }

@@ -35,7 +35,7 @@ import com.sky.account.manager.ui.common.BigBearButton
  * Created by sky on 2021/11/9.
  */
 @Composable
-fun ProfileEditUI(
+fun ProfileEditScreen(
     appState: AppState,
     admin: AdminItem,
     onBack: () -> Unit
@@ -57,13 +57,13 @@ fun ProfileEditUI(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            ProfileEditUI(appState, admin)
+            ProfileEditScreen(appState, admin)
         }
     }
 }
 
 @Composable
-fun ProfileEditUI(
+fun ProfileEditScreen(
     appState: AppState,
     item: AdminItem
 ) {

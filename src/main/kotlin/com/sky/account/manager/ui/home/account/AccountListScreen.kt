@@ -41,7 +41,7 @@ import com.sky.account.manager.ui.theme.GrayText
  * Created by sky on 2021-11-09.
  */
 @Composable
-fun AccountListUI(
+fun AccountListScreen(
     appState: AppState
 ) {
     when(appState.accountListState.accountNav) {
@@ -50,7 +50,7 @@ fun AccountListUI(
                 // 刷新列表
                 appState.refreshList()
             }
-            AccountListUI(
+            AccountList(
                 search = appState.accountListState.search,
                 accounts = appState.accountListState.accounts,
                 onSearch = {
@@ -63,7 +63,7 @@ fun AccountListUI(
             }
         }
         AccountNav.DISPLAY -> {
-            AccountDisplay(
+            AccountDisplayScreen(
                 item = appState.accountListState.account,
                 onBack = { appState.accountListState.accountNav = AccountNav.LIST },
                 onEdit = { appState.accountListState.accountNav = AccountNav.EDIT },
@@ -71,7 +71,7 @@ fun AccountListUI(
             )
         }
         AccountNav.EDIT -> {
-            AccountEditUI(
+            AccountEditScreen(
                 appState = appState,
                 item = appState.accountListState.account
             ) {
@@ -82,7 +82,7 @@ fun AccountListUI(
 }
 
 @Composable
-fun AccountListUI(
+fun AccountList(
     search: String,
     accounts: List<AccountItem>,
     onSearch: (keyword: String) -> Unit,
@@ -107,7 +107,7 @@ fun AccountListUI(
                 verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
                 items(accounts) { value ->
-                    AccountItemUI(value) { onClick(value) }
+                    AccountItem(value) { onClick(value) }
                 }
             }
         }
@@ -117,7 +117,7 @@ fun AccountListUI(
 
 
 @Composable
-fun AccountItemUI(
+fun AccountItem(
     item: AccountItem,
     onClick: () -> Unit
 ) {

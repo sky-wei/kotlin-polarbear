@@ -21,10 +21,10 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.window.application
 import com.sky.account.manager.ui.AppNav
 import com.sky.account.manager.ui.common.BearWindow
-import com.sky.account.manager.ui.home.HomeUI
-import com.sky.account.manager.ui.login.LoginUI
-import com.sky.account.manager.ui.register.RegisterUI
-import com.sky.account.manager.ui.splash.SplashUI
+import com.sky.account.manager.ui.home.HomeScreen
+import com.sky.account.manager.ui.login.LoginScreen
+import com.sky.account.manager.ui.register.RegisterScreen
+import com.sky.account.manager.ui.splash.SplashScreen
 import com.sky.account.manager.ui.view.MessageUI
 
 /**
@@ -43,16 +43,16 @@ fun main() = application {
         Surface {
             when(appState.appNav) {
                 AppNav.SPLASH -> {
-                    SplashUI()
+                    SplashScreen()
                 }
                 AppNav.REGISTER -> {
-                    RegisterUI(appState)
+                    RegisterScreen(appState)
                 }
                 AppNav.LOGIN -> {
-                    LoginUI(appState)
+                    LoginScreen(appState)
                 }
                 AppNav.HOME -> {
-                    HomeUI(appState)
+                    HomeScreen(appState)
                 }
             }
             MessageUI(appState)

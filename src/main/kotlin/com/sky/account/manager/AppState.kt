@@ -190,8 +190,8 @@ class AppState(
                         )
                         profileState.backDisplay()
                         accountListState.refresh = true
-                    }.doFailure {
-                        message = "${it.message}"
+                    }.doFailure { tr ->
+                        message = "${tr.message}"
                     }
                 }.doFailure {
                     message = "${it.message}"
