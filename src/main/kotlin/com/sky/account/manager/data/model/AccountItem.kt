@@ -31,6 +31,8 @@ data class AccountItem(
 
     companion object {
 
+        val EMPTY = valueOf(0, "", "")
+
         fun valueOf(
             adminId: Int,
             name: String,

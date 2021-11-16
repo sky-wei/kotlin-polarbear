@@ -29,7 +29,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.sky.account.manager.AppState
 import com.sky.account.manager.ex.stringResource
 import com.sky.account.manager.ui.common.BearBigTitle
 import com.sky.account.manager.ui.common.BearEditText
@@ -38,62 +37,67 @@ import com.sky.account.manager.ui.common.BigBearButton
 /**
  * Created by sky on 2021/10/31.
  */
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LoginScreen(
-    appState: AppState
+    loginState: LoginState
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
+        LoginContent(loginState::login)
+    }
+}
 
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun LoginContent(
+    onLogin: (name: String, password: String) -> Unit
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(Modifier.height(10.dp))
+        BearBigTitle(stringResource("label.welcome"))
+        Spacer(Modifier.height(40.dp))
+
+        var name by remember { mutableStateOf("") }
+        var password by remember { mutableStateOf("") }
+
+        BearEditText(
+            icon = painterResource("image/ic_user.svg"),
+            label = stringResource("label.userName"),
+            value = name
         ) {
+            name = it
+        }
 
-            Spacer(Modifier.height(10.dp))
-            BearBigTitle(stringResource("label.welcome"))
-            Spacer(Modifier.height(40.dp))
+        Spacer(Modifier.height(20.dp))
 
-            var name by remember { mutableStateOf("") }
-            var password by remember { mutableStateOf("") }
-
-            BearEditText(
-                icon = painterResource("image/ic_user.svg"),
-                label = stringResource("label.userName"),
-                value = name
-            ) {
-                name = it
-            }
-
-            Spacer(Modifier.height(20.dp))
-
-            BearEditText(
-                icon = painterResource("image/ic_password.svg"),
-                label = stringResource("label.password"),
-                value = password,
-                visualTransformation = PasswordVisualTransformation(),
-                keyboardType = KeyboardType.Password,
-                onKeyEvent = {
-                    if (KeyEventType.KeyUp == it.type && Key.Enter == it.key) {
-                        // 登录
-                        appState.login(name, password)
-                        true
-                    } else {
-                        false
-                    }
+        BearEditText(
+            icon = painterResource("image/ic_password.svg"),
+            label = stringResource("label.password"),
+            value = password,
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardType = KeyboardType.Password,
+            onKeyEvent = {
+                if (KeyEventType.KeyUp == it.type && Key.Enter == it.key) {
+                    // 登录
+                    onLogin(name, password)
+                    true
+                } else {
+                    false
                 }
-            ) {
-                password = it
             }
+        ) {
+            password = it
+        }
 
-            Spacer(Modifier.height(40.dp))
+        Spacer(Modifier.height(40.dp))
 
-            BigBearButton(stringResource("label.login")) {
-                // 登录
-                appState.login(name, password)
-            }
+        BigBearButton(stringResource("label.login")) {
+            // 登录
+            onLogin(name, password)
         }
     }
 }

@@ -24,7 +24,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.sky.account.manager.AppState
 import com.sky.account.manager.ex.stringResource
 import com.sky.account.manager.ui.common.BearEditText
 import com.sky.account.manager.ui.common.BearSubTitle
@@ -35,7 +34,7 @@ import com.sky.account.manager.ui.common.BigBearButton
  */
 @Composable
 fun NewAccountScreen(
-    appState: AppState
+    newAccountState: NewAccountState
 ) {
     Column(
         modifier = Modifier
@@ -49,14 +48,14 @@ fun NewAccountScreen(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            NewAccountUI(appState)
+            NewAccountContent(newAccountState)
         }
     }
 }
 
 @Composable
-fun NewAccountUI(
-    appState: AppState
+fun NewAccountContent(
+    newAccountState: NewAccountState
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -64,9 +63,9 @@ fun NewAccountUI(
         BearEditText(
             icon = painterResource("image/ic_user.svg"),
             label = stringResource("label.userName"),
-            value = appState.newAccountState.name
+            value = newAccountState.name
         ) {
-            appState.newAccountState.name = it
+            newAccountState.name = it
         }
 
         Spacer(Modifier.height(20.dp))
@@ -74,11 +73,11 @@ fun NewAccountUI(
         BearEditText(
             icon = painterResource("image/ic_password.svg"),
             label = stringResource("label.password"),
-            value = appState.newAccountState.password,
+            value = newAccountState.password,
             visualTransformation = PasswordVisualTransformation(),
             keyboardType = KeyboardType.Password
         ) {
-            appState.newAccountState.password = it
+            newAccountState.password = it
         }
 
         Spacer(Modifier.height(20.dp))
@@ -86,9 +85,9 @@ fun NewAccountUI(
         BearEditText(
             icon = painterResource("image/ic_url.svg"),
             label = stringResource("label.url"),
-            value = appState.newAccountState.url,
+            value = newAccountState.url,
         ) {
-            appState.newAccountState.url = it
+            newAccountState.url = it
         }
 
         Spacer(Modifier.height(20.dp))
@@ -96,22 +95,22 @@ fun NewAccountUI(
         BearEditText(
             icon = painterResource("image/ic_desc.svg"),
             label = stringResource("label.desc"),
-            value = appState.newAccountState.desc,
+            value = newAccountState.desc,
             singleLine = false,
             maxLines = 5
         ) {
-            appState.newAccountState.desc = it
+            newAccountState.desc = it
         }
 
         Spacer(Modifier.height(40.dp))
 
         BigBearButton(stringResource("label.create")) {
             // 创建
-            appState.create(
-                appState.newAccountState.name,
-                appState.newAccountState.password,
-                appState.newAccountState.url,
-                appState.newAccountState.desc,
+            newAccountState.create(
+                newAccountState.name,
+                newAccountState.password,
+                newAccountState.url,
+                newAccountState.desc,
             )
         }
     }

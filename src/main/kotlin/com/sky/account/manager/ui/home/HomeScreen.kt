@@ -26,11 +26,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -42,9 +38,13 @@ import com.sky.account.manager.XConstant
 import com.sky.account.manager.ex.stringResource
 import com.sky.account.manager.ui.HomeNav
 import com.sky.account.manager.ui.home.account.AccountListScreen
+import com.sky.account.manager.ui.home.account.rememberAccountListState
 import com.sky.account.manager.ui.home.create.NewAccountScreen
+import com.sky.account.manager.ui.home.create.rememberNewAccountState
 import com.sky.account.manager.ui.home.profile.ProfileScreen
+import com.sky.account.manager.ui.home.profile.rememberProfileState
 import com.sky.account.manager.ui.home.setting.SettingScreen
+import com.sky.account.manager.ui.home.setting.rememberSettingState
 import com.sky.account.manager.ui.theme.GrayText
 
 /**
@@ -54,7 +54,7 @@ import com.sky.account.manager.ui.theme.GrayText
 fun HomeScreen(
     appState: AppState
 ) {
-    var homeNav by rememberSaveable { mutableStateOf(HomeNav.LIST) }
+    var homeNav by remember { mutableStateOf(HomeNav.LIST) }
 
     Row {
         HomeSideBar(homeNav) {
@@ -83,21 +83,10 @@ fun HomeSideBar(
         ) {
 
             Spacer(Modifier.height(30.dp))
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    painter = painterResource("image/icon.png"),
-                    contentDescription = null,
-                    modifier = Modifier.size(58.dp)
-                )
-                Spacer(Modifier.width(15.dp))
-                Text(
-                    text = stringResource("label.accountManage"),
-                    fontWeight = FontWeight.Bold
-                )
-            }
+            SideBarTitle(
+                painterResource("image/icon.png"),
+                stringResource("label.accountManage")
+            )
 
             Spacer(Modifier.height(40.dp))
             SideBarNavItem(
@@ -107,6 +96,7 @@ fun HomeSideBar(
             ) {
                 onNavChange(HomeNav.LIST)
             }
+
             Spacer(Modifier.height(10.dp))
             SideBarNavItem(
                 stringResource("label.profile"),
@@ -115,6 +105,7 @@ fun HomeSideBar(
             ) {
                 onNavChange(HomeNav.PROFILE)
             }
+
             Spacer(Modifier.height(10.dp))
             SideBarNavItem(
                 stringResource("label.new"),
@@ -123,6 +114,7 @@ fun HomeSideBar(
             ) {
                 onNavChange(HomeNav.NEW)
             }
+
             Spacer(Modifier.height(10.dp))
             SideBarNavItem(
                 stringResource("label.settings"),
@@ -138,6 +130,27 @@ fun HomeSideBar(
             color = GrayText,
             modifier = Modifier.align(Alignment.BottomCenter),
             style = MaterialTheme.typography.body2
+        )
+    }
+}
+
+@Composable
+fun SideBarTitle(
+    icon: Painter,
+    title: String
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = icon,
+            contentDescription = null,
+            modifier = Modifier.size(58.dp)
+        )
+        Spacer(Modifier.width(15.dp))
+        Text(
+            text = title,
+            fontWeight = FontWeight.Bold
         )
     }
 }
@@ -191,16 +204,24 @@ fun HomeFrameContent(
     Crossfade(targetState = homeNav) {
         when(it) {
             HomeNav.LIST -> {
-                AccountListScreen(appState)
+                AccountListScreen(
+                    rememberAccountListState(appState)
+                )
             }
             HomeNav.PROFILE -> {
-                ProfileScreen(appState)
+                ProfileScreen(
+                    rememberProfileState(appState)
+                )
             }
             HomeNav.NEW -> {
-                NewAccountScreen(appState)
+                NewAccountScreen(
+                    rememberNewAccountState(appState)
+                )
             }
             HomeNav.SETTING -> {
-                SettingScreen(appState)
+                SettingScreen(
+                    rememberSettingState(appState)
+                )
             }
         }
     }

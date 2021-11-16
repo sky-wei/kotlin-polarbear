@@ -23,7 +23,9 @@ import com.sky.account.manager.ui.AppNav
 import com.sky.account.manager.ui.common.BearWindow
 import com.sky.account.manager.ui.home.HomeScreen
 import com.sky.account.manager.ui.login.LoginScreen
+import com.sky.account.manager.ui.login.rememberLoginState
 import com.sky.account.manager.ui.register.RegisterScreen
+import com.sky.account.manager.ui.register.rememberRegisterState
 import com.sky.account.manager.ui.splash.SplashScreen
 import com.sky.account.manager.ui.view.MessageUI
 
@@ -46,16 +48,20 @@ fun main() = application {
                     SplashScreen()
                 }
                 AppNav.REGISTER -> {
-                    RegisterScreen(appState)
+                    RegisterScreen(
+                        rememberRegisterState(appState)
+                    )
                 }
                 AppNav.LOGIN -> {
-                    LoginScreen(appState)
+                    LoginScreen(
+                        rememberLoginState(appState)
+                    )
                 }
                 AppNav.HOME -> {
                     HomeScreen(appState)
                 }
             }
-            MessageUI(appState)
+            MessageUI(appState.messageState)
         }
     }
 }

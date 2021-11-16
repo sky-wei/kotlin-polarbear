@@ -24,7 +24,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.sky.account.manager.AppState
 import com.sky.account.manager.data.model.AdminItem
 import com.sky.account.manager.ex.stringResource
 import com.sky.account.manager.ui.common.BearEditText
@@ -36,9 +35,9 @@ import com.sky.account.manager.ui.common.BigBearButton
  */
 @Composable
 fun EditProfileScreen(
-    appState: AppState,
     admin: AdminItem,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onChange: (item: AdminItem, oldPassword: String, newPassword: String, desc: String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -57,15 +56,15 @@ fun EditProfileScreen(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            EditProfileScreen(appState, admin)
+            EditProfileContent(admin, onChange)
         }
     }
 }
 
 @Composable
-fun EditProfileScreen(
-    appState: AppState,
-    item: AdminItem
+fun EditProfileContent(
+    item: AdminItem,
+    onChange: (item: AdminItem, oldPassword: String, newPassword: String, desc: String) -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -125,12 +124,7 @@ fun EditProfileScreen(
 
         BigBearButton(stringResource("label.change")) {
             // 修改
-            appState.change(
-                item = item,
-                oldPassword = password,
-                newPassword = newPassword,
-                desc = desc
-            )
+            onChange(item, password, newPassword, desc)
         }
     }
 }

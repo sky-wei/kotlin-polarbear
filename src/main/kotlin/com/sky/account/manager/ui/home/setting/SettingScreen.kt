@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.sky.account.manager.AppState
 import com.sky.account.manager.ex.stringResource
 import com.sky.account.manager.ui.SetNav
 import com.sky.account.manager.ui.common.BearSortTitle
@@ -32,13 +31,13 @@ import com.sky.account.manager.ui.view.FileDialog
  */
 @Composable
 fun SettingScreen(
-    appState: AppState
+    settingState: SettingState
 ) {
     var setNavState by remember { mutableStateOf(SetNav.LIST) }
 
     when(setNavState) {
         SetNav.LIST -> {
-            SettingScreen(appState) {
+            SettingScreen(settingState) {
                 setNavState = it
             }
         }
@@ -50,7 +49,7 @@ fun SettingScreen(
 
 @Composable
 private fun SettingScreen(
-    appState: AppState,
+    settingState: SettingState,
     onNavChange: (setNav: SetNav) -> Unit
 ) {
     Box(
@@ -65,13 +64,13 @@ private fun SettingScreen(
             BearTextMoreMenu(
                 title = stringResource("label.import"),
             ) {
-                appState.import()
+                settingState.import()
             }
             Spacer(Modifier.height(15.dp))
             BearTextMoreMenu(
                 title = stringResource("label.export"),
             ) {
-                appState.export()
+                settingState.export()
             }
             Spacer(Modifier.height(30.dp))
             BearSortTitle(stringResource("label.other"))
@@ -85,21 +84,21 @@ private fun SettingScreen(
         }
     }
 
-    if (appState.settingsState.importDialog.isAwaiting) {
+    if (settingState.importDialog.isAwaiting) {
         FileDialog(
             title = stringResource("label.import"),
             onResult = {
-                appState.settingsState.importDialog.onResult(it)
+                settingState.importDialog.onResult(it)
             }
         )
     }
 
-    if (appState.settingsState.exportDialog.isAwaiting) {
+    if (settingState.exportDialog.isAwaiting) {
         FileDialog(
             title = stringResource("label.export"),
             isLoad = false,
             onResult = {
-                appState.settingsState.exportDialog.onResult(it)
+                settingState.exportDialog.onResult(it)
             }
         )
     }

@@ -30,7 +30,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.sky.account.manager.AppState
 import com.sky.account.manager.data.model.AccountItem
 import com.sky.account.manager.ex.stringResource
 import com.sky.account.manager.ui.AccountNav
@@ -42,41 +41,39 @@ import com.sky.account.manager.ui.theme.GrayText
  */
 @Composable
 fun AccountListScreen(
-    appState: AppState
+    accountListState: AccountListState
 ) {
-    when(appState.accountListState.accountNav) {
+    when(accountListState.accountNav) {
         AccountNav.LIST -> {
-            if (appState.accountListState.refresh) {
+            if (accountListState.refresh) {
                 // 刷新列表
-                appState.refreshList()
+                accountListState.refreshList()
             }
             AccountList(
-                search = appState.accountListState.search,
-                accounts = appState.accountListState.accounts,
+                search = accountListState.search,
+                accounts = accountListState.accounts,
                 onSearch = {
-                    appState.accountListState.search = it
-                    appState.search(it)
+                    accountListState.search(it)
                 }
             ) {
-                appState.accountListState.account = it
-                appState.accountListState.accountNav = AccountNav.DISPLAY
+                accountListState.choose(it)
+                accountListState.changeNav(AccountNav.DISPLAY)
             }
         }
         AccountNav.DISPLAY -> {
             DisplayAccountScreen(
-                item = appState.accountListState.account,
-                onBack = { appState.accountListState.accountNav = AccountNav.LIST },
-                onEdit = { appState.accountListState.accountNav = AccountNav.EDIT },
-                onDelete = { appState.delete(appState.accountListState.account) }
+                item = accountListState.account,
+                onBack = { accountListState.changeNav(AccountNav.LIST) },
+                onEdit = { accountListState.changeNav(AccountNav.EDIT) },
+                onDelete = { accountListState.delete(accountListState.account) }
             )
         }
         AccountNav.EDIT -> {
             EditAccountScreen(
-                appState = appState,
-                item = appState.accountListState.account
-            ) {
-                appState.accountListState.accountNav = AccountNav.DISPLAY
-            }
+                item = accountListState.account,
+                onBack = { accountListState.changeNav(AccountNav.DISPLAY) },
+                onChange = accountListState::change
+            )
         }
     }
 }

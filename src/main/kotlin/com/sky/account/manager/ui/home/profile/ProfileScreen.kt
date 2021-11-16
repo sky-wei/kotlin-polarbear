@@ -17,7 +17,6 @@
 package com.sky.account.manager.ui.home.profile
 
 import androidx.compose.runtime.Composable
-import com.sky.account.manager.AppState
 import com.sky.account.manager.ui.ProfileNav
 
 /**
@@ -25,18 +24,20 @@ import com.sky.account.manager.ui.ProfileNav
  */
 @Composable
 fun ProfileScreen(
-    appState: AppState
+    profileState: ProfileState
 ) {
-    when(appState.profileState.profileNav) {
+    when(profileState.profileNav) {
         ProfileNav.DISPLAY -> {
-            DisplayProfileScreen(appState.admin) {
-                appState.profileState.profileNav = ProfileNav.EDIT
+            DisplayProfileScreen(profileState.admin) {
+                profileState.changeNav(ProfileNav.EDIT)
             }
         }
         ProfileNav.EDIT -> {
-            EditProfileScreen(appState, appState.admin) {
-                appState.profileState.profileNav = ProfileNav.DISPLAY
-            }
+            EditProfileScreen(
+                admin = profileState.admin,
+                onBack = { profileState.changeNav(ProfileNav.DISPLAY) },
+                onChange = profileState::change
+            )
         }
     }
 }
