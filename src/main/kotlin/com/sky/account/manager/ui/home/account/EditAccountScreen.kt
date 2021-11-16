@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.sky.account.manager.ui.home.profile
+package com.sky.account.manager.ui.home.account
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -25,19 +25,19 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.sky.account.manager.AppState
-import com.sky.account.manager.data.model.AdminItem
+import com.sky.account.manager.data.model.AccountItem
 import com.sky.account.manager.ex.stringResource
 import com.sky.account.manager.ui.common.BearEditText
 import com.sky.account.manager.ui.common.BearTopBar
 import com.sky.account.manager.ui.common.BigBearButton
 
 /**
- * Created by sky on 2021/11/9.
+ * Created by sky on 2021-11-09.
  */
 @Composable
-fun ProfileEditScreen(
+fun EditAccountScreen(
     appState: AppState,
-    admin: AdminItem,
+    item: AccountItem,
     onBack: () -> Unit
 ) {
     Column(
@@ -47,7 +47,7 @@ fun ProfileEditScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BearTopBar(
-            backText = stringResource("label.admin"),
+            backText = stringResource("label.account"),
             backIcon = painterResource("image/ic_back.svg"),
             title = stringResource("label.edit"),
             onBack = onBack
@@ -57,36 +57,33 @@ fun ProfileEditScreen(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            ProfileEditScreen(appState, admin)
+            EditAccountScreen(appState, item)
         }
     }
 }
 
 @Composable
-fun ProfileEditScreen(
+fun EditAccountScreen(
     appState: AppState,
-    item: AdminItem
+    item: AccountItem
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         var name by remember { mutableStateOf(item.name) }
-        var password by remember { mutableStateOf("") }
-        var newPassword by remember { mutableStateOf("") }
+        var password by remember { mutableStateOf(item.password) }
+        var url by remember { mutableStateOf(item.url) }
         var desc by remember { mutableStateOf(item.desc) }
 
         BearEditText(
             icon = painterResource("image/ic_user.svg"),
             label = stringResource("label.userName"),
-            readOnly = true,
             value = name
         ) {
             name = it
         }
-
         Spacer(Modifier.height(20.dp))
-
         BearEditText(
             icon = painterResource("image/ic_password.svg"),
             label = stringResource("label.password"),
@@ -96,21 +93,15 @@ fun ProfileEditScreen(
         ) {
             password = it
         }
-
         Spacer(Modifier.height(20.dp))
-
         BearEditText(
-            icon = painterResource("image/ic_password.svg"),
-            label = stringResource("label.newPassword"),
-            value = newPassword,
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardType = KeyboardType.Password
+            icon = painterResource("image/ic_url.svg"),
+            label = stringResource("label.url"),
+            value = url,
         ) {
-            newPassword = it
+            url = it
         }
-
         Spacer(Modifier.height(20.dp))
-
         BearEditText(
             icon = painterResource("image/ic_desc.svg"),
             label = stringResource("label.desc"),
@@ -120,16 +111,16 @@ fun ProfileEditScreen(
         ) {
             desc = it
         }
-
         Spacer(Modifier.height(40.dp))
-
         BigBearButton(stringResource("label.change")) {
             // 修改
             appState.change(
-                item = item,
-                oldPassword = password,
-                newPassword = newPassword,
-                desc = desc
+                item.copy(
+                    name = name,
+                    password = password,
+                    url = url,
+                    desc = desc
+                )
             )
         }
     }

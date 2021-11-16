@@ -29,12 +29,12 @@ fun ProfileScreen(
 ) {
     when(appState.profileState.profileNav) {
         ProfileNav.DISPLAY -> {
-            ProfileDisplayScreen(appState.admin) {
+            DisplayProfileScreen(appState.admin) {
                 appState.profileState.profileNav = ProfileNav.EDIT
             }
         }
         ProfileNav.EDIT -> {
-            ProfileEditScreen(appState, appState.admin) {
+            EditProfileScreen(appState, appState.admin) {
                 appState.profileState.profileNav = ProfileNav.DISPLAY
             }
         }

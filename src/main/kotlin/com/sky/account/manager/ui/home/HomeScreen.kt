@@ -42,7 +42,7 @@ import com.sky.account.manager.XConstant
 import com.sky.account.manager.ex.stringResource
 import com.sky.account.manager.ui.HomeNav
 import com.sky.account.manager.ui.home.account.AccountListScreen
-import com.sky.account.manager.ui.home.account.NewAccountScreen
+import com.sky.account.manager.ui.home.create.NewAccountScreen
 import com.sky.account.manager.ui.home.profile.ProfileScreen
 import com.sky.account.manager.ui.home.setting.SettingScreen
 import com.sky.account.manager.ui.theme.GrayText

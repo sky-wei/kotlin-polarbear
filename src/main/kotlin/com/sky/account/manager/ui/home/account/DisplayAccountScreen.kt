@@ -33,7 +33,7 @@ import com.sky.account.manager.ui.common.BearTopBar
  * Created by sky on 2021-11-09.
  */
 @Composable
-fun AccountDisplayScreen(
+fun DisplayAccountScreen(
     item: AccountItem,
     onBack: () -> Unit,
     onEdit: () -> Unit,

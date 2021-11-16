@@ -63,7 +63,7 @@ fun AccountListScreen(
             }
         }
         AccountNav.DISPLAY -> {
-            AccountDisplayScreen(
+            DisplayAccountScreen(
                 item = appState.accountListState.account,
                 onBack = { appState.accountListState.accountNav = AccountNav.LIST },
                 onEdit = { appState.accountListState.accountNav = AccountNav.EDIT },
@@ -71,7 +71,7 @@ fun AccountListScreen(
             )
         }
         AccountNav.EDIT -> {
-            AccountEditScreen(
+            EditAccountScreen(
                 appState = appState,
                 item = appState.accountListState.account
             ) {
@@ -113,8 +113,6 @@ fun AccountList(
         }
     }
 }
-
-
 
 @Composable
 fun AccountItem(
