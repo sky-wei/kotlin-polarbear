@@ -132,6 +132,10 @@ class AppState(
         appNav = AppNav.HOME
     }
 
+    fun toNew() {
+
+    }
+
     /**
      * 显示消息
      */

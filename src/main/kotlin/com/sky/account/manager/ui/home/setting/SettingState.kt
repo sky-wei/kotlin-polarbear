@@ -84,6 +84,24 @@ class SettingState(
     }
 
     /**
+     * 清除数据
+     */
+    fun clearData() {
+        scope.launch {
+            withContext(Dispatchers.IO) {
+                repository
+                    .clearData(admin.id)
+                    .doSuccess {
+                        showMessage("清除数据完成！")
+                    }
+                    .doFailure {
+                        showMessage("${it.message}")
+                    }
+            }
+        }
+    }
+
+    /**
      * 导入
      */
     private suspend fun import(file: File) {

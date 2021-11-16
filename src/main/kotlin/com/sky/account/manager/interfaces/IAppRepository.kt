@@ -46,6 +46,11 @@ interface IAppRepository : IComponent {
     suspend fun update(item: AdminItem): XResult<AdminItem>
 
     /**
+     * 清除数据
+     */
+    suspend fun clearData(adminId: Int): XResult<Boolean>
+
+    /**
      * 加载账号
      */
     suspend fun load(adminId: Int): XResult<List<AccountItem>>

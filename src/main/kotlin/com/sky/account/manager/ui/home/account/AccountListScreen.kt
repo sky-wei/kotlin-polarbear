@@ -41,7 +41,8 @@ import com.sky.account.manager.ui.theme.GrayText
  */
 @Composable
 fun AccountListScreen(
-    accountListState: AccountListState
+    accountListState: AccountListState,
+    onNewAccount: () -> Unit,
 ) {
     when(accountListState.accountNav) {
         AccountNav.LIST -> {
@@ -52,9 +53,8 @@ fun AccountListScreen(
             AccountList(
                 search = accountListState.search,
                 accounts = accountListState.accounts,
-                onSearch = {
-                    accountListState.search(it)
-                }
+                onSearch = accountListState::search,
+                onNewAccount = onNewAccount
             ) {
                 accountListState.choose(it)
                 accountListState.changeNav(AccountNav.DISPLAY)
@@ -83,6 +83,7 @@ fun AccountList(
     search: String,
     accounts: List<AccountItem>,
     onSearch: (keyword: String) -> Unit,
+    onNewAccount: () -> Unit,
     onClick: (item: AccountItem) -> Unit
 ) {
     Box(
@@ -107,6 +108,10 @@ fun AccountList(
                     AccountItem(value) { onClick(value) }
                 }
             }
+        }
+
+        if (accounts.isEmpty()) {
+            AccountEmpty(onNewAccount)
         }
     }
 }
@@ -152,5 +157,35 @@ fun AccountItem(
             tint = MaterialTheme.colors.onSurface,
             modifier = Modifier.size(20.dp).align(Alignment.CenterEnd)
         )
+    }
+}
+
+@Composable
+fun BoxScope.AccountEmpty(
+    onNewAccount: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .clickable { onNewAccount() }
+            .padding(18.dp)
+            .align(Alignment.Center)
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                painter = painterResource("image/ic_empty.svg"),
+                contentDescription = null,
+                tint = MaterialTheme.colors.onSurface,
+                modifier = Modifier.size(88.dp)
+            )
+            Spacer(Modifier.height(10.dp))
+            Text(
+                text = stringResource("label.newAccount"),
+                style = MaterialTheme.typography.body1,
+                color = MaterialTheme.colors.onSurface,
+                modifier = Modifier.absolutePadding(top = 4.dp)
+            )
+        }
     }
 }

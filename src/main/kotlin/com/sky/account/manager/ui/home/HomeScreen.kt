@@ -61,7 +61,9 @@ fun HomeScreen(
             homeNav = it
             appState.cleanMessage()
         }
-        HomeFrameContent(appState, homeNav)
+        HomeFrameContent(appState, homeNav) {
+            homeNav = it
+        }
     }
 }
 
@@ -199,14 +201,17 @@ fun SideBarNavItem(
 @Composable
 fun HomeFrameContent(
     appState: AppState,
-    homeNav: HomeNav
+    homeNav: HomeNav,
+    onNavChange: (homeNav: HomeNav) -> Unit
 ) {
     Crossfade(targetState = homeNav) {
         when(it) {
             HomeNav.LIST -> {
                 AccountListScreen(
                     rememberAccountListState(appState)
-                )
+                ) {
+                    onNavChange(HomeNav.NEW)
+                }
             }
             HomeNav.PROFILE -> {
                 ProfileScreen(

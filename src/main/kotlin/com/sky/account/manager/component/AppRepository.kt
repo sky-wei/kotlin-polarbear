@@ -74,6 +74,10 @@ class AppRepository(
         return runOfResult { mAccountManager.update(item, items) }
     }
 
+    override suspend fun clearData(adminId: Int): XResult<Boolean> {
+        return runOfResult { mAccountManager.clearData(adminId) }
+    }
+
     override suspend fun delete(item: AccountItem): XResult<AccountItem> {
         return runOfResult { mAccountManager.delete(item) }
     }

@@ -34,6 +34,8 @@ interface IAccountManager : IComponent {
 
     fun search(adminId: Int, keyword: String): List<AccountItem>
 
+    fun clearData(adminId: Int): Boolean
+
     fun update(item: AdminItem): AdminItem
 
     fun create(item: AccountItem): AccountItem

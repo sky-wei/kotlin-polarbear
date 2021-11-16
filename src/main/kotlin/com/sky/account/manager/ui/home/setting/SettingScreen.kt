@@ -60,20 +60,34 @@ private fun SettingScreen(
         Column {
             Spacer(Modifier.height(25.dp))
             BearSortTitle(stringResource("label.account"))
+
             Spacer(Modifier.height(15.dp))
             BearTextMoreMenu(
                 title = stringResource("label.import"),
             ) {
                 settingState.import()
             }
+
             Spacer(Modifier.height(15.dp))
             BearTextMoreMenu(
                 title = stringResource("label.export"),
             ) {
                 settingState.export()
             }
+
+            Spacer(Modifier.height(30.dp))
+            BearSortTitle(stringResource("label.storage"))
+
+            Spacer(Modifier.height(15.dp))
+            BearTextMoreMenu(
+                title = stringResource("label.clearData"),
+            ) {
+                settingState.clearData()
+            }
+
             Spacer(Modifier.height(30.dp))
             BearSortTitle(stringResource("label.other"))
+
             Spacer(Modifier.height(15.dp))
             BearTextMoreMenu(
                 title = stringResource("label.about"),

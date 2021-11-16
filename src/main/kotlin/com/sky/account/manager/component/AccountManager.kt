@@ -102,6 +102,14 @@ class AccountManager(
 
     }
 
+    override fun clearData(adminId: Int): Boolean {
+        return accountDao.queryBuilder()
+            .where()
+            .eq(ADMIN_ID, adminId)
+            .query()
+            .run { accountDao.delete(this) > 0 }
+    }
+
     override fun update(item: AdminItem): AdminItem {
         adminDao.update(AdminMapper.transformItem(item))
         return item
