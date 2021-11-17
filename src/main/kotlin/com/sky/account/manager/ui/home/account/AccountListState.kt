@@ -56,6 +56,12 @@ class AccountListState(
         private set
 
     /**
+     * 列表是否为空
+     */
+    val emptyList: Boolean
+        get() = !refresh && accounts.isEmpty()
+
+    /**
      * 加载账号列表
      */
     fun refreshList() {

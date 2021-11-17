@@ -52,6 +52,7 @@ fun AccountListScreen(
             }
             AccountList(
                 search = accountListState.search,
+                emptyList = accountListState.emptyList,
                 accounts = accountListState.accounts,
                 onSearch = accountListState::search,
                 onNewAccount = onNewAccount
@@ -81,6 +82,7 @@ fun AccountListScreen(
 @Composable
 fun AccountList(
     search: String,
+    emptyList: Boolean,
     accounts: List<AccountItem>,
     onSearch: (keyword: String) -> Unit,
     onNewAccount: () -> Unit,
@@ -91,7 +93,6 @@ fun AccountList(
             .fillMaxSize()
             .absolutePadding(left = 30.dp, top = 50.dp, right = 30.dp, bottom = 30.dp)
     ) {
-
         Column {
             BearSearch(
                 icon = painterResource("image/ic_search.svg"),
@@ -110,8 +111,15 @@ fun AccountList(
             }
         }
 
-        if (accounts.isEmpty()) {
-            AccountEmpty(onNewAccount)
+        if (emptyList) {
+            Box(
+                modifier = Modifier
+                    .clickable { onNewAccount() }
+                    .padding(18.dp)
+                    .align(Alignment.Center)
+            ) {
+                AccountEmpty()
+            }
         }
     }
 }
@@ -161,31 +169,22 @@ fun AccountItem(
 }
 
 @Composable
-fun BoxScope.AccountEmpty(
-    onNewAccount: () -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .clickable { onNewAccount() }
-            .padding(18.dp)
-            .align(Alignment.Center)
+fun AccountEmpty() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Icon(
-                painter = painterResource("image/ic_empty.svg"),
-                contentDescription = null,
-                tint = MaterialTheme.colors.onSurface,
-                modifier = Modifier.size(88.dp)
-            )
-            Spacer(Modifier.height(10.dp))
-            Text(
-                text = stringResource("label.newAccount"),
-                style = MaterialTheme.typography.body1,
-                color = MaterialTheme.colors.onSurface,
-                modifier = Modifier.absolutePadding(top = 4.dp)
-            )
-        }
+        Icon(
+            painter = painterResource("image/ic_empty.svg"),
+            contentDescription = null,
+            tint = MaterialTheme.colors.onSurface,
+            modifier = Modifier.size(88.dp)
+        )
+        Spacer(Modifier.height(10.dp))
+        Text(
+            text = stringResource("label.newAccount"),
+            style = MaterialTheme.typography.body1,
+            color = MaterialTheme.colors.onSurface,
+            modifier = Modifier.absolutePadding(top = 4.dp)
+        )
     }
 }
