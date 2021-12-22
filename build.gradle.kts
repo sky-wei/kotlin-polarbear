@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.5.31"
-    id("org.jetbrains.compose") version "1.0.0-beta5"
+    id("org.jetbrains.compose") version "1.0.0"
 }
 
 group = "com.sky.account.manager"
@@ -18,11 +18,11 @@ repositories {
 
 dependencies {
     implementation(compose.desktop.currentOs)
-    implementation("com.google.code.gson:gson:2.8.8")
+    implementation("com.google.code.gson:gson:2.8.9")
     implementation("log4j:log4j:1.2.17")
     implementation("org.xerial:sqlite-jdbc:3.36.0.2")
-    implementation("com.j256.ormlite:ormlite-core:5.6")
-    implementation("com.j256.ormlite:ormlite-jdbc:5.6")
+    implementation("com.j256.ormlite:ormlite-core:5.7")
+    implementation("com.j256.ormlite:ormlite-jdbc:5.7")
 }
 
 tasks.withType<KotlinCompile>() {
