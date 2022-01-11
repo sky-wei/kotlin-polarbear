@@ -29,6 +29,8 @@ data class AccountItem(
     var createTime: Long = System.currentTimeMillis()
 ) {
 
+    constructor(): this(0, 0, "", "")
+
     companion object {
 
         val EMPTY = valueOf(0, "", "")

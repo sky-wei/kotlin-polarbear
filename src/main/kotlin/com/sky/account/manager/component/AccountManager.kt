@@ -97,6 +97,8 @@ class AccountManager(
             .eq(ADMIN_ID, adminId)
             .and()
             .like(DESC, "%$keyword%")
+            .and()
+            .like(URL, "%$keyword%")
             .query()
             .map { AccountMapper.transform(it) }
 
@@ -165,6 +167,8 @@ class AccountManager(
         private const val ADMIN_ID = "adminId"
 
         private const val DESC = "desc"
+
+        private const val URL = "url"
 
         private const val CREATE_TIME = "createTime"
 
