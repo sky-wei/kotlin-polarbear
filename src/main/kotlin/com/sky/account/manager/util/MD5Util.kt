@@ -16,6 +16,7 @@
 
 package com.sky.account.manager.util
 
+import androidx.compose.ui.text.toUpperCase
 import java.io.File
 import java.security.MessageDigest
 
@@ -45,7 +46,7 @@ object MD5Util {
             }
             builder.append(hv)
         }
-        return builder.toString().toUpperCase()
+        return builder.toString().uppercase()
     }
 
     /**
@@ -55,7 +56,7 @@ object MD5Util {
      */
     fun hexStringToBytes(string: String): ByteArray {
 
-        var hexString = string.toUpperCase()
+        val hexString = string.uppercase()
 
         val length = hexString.length / 2
         val hexChars = hexString.toCharArray()

@@ -18,6 +18,8 @@ package com.sky.account.manager
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import com.j256.ormlite.logger.Level
+import com.j256.ormlite.logger.Logger
 import com.sky.account.manager.adapter.Log4JAdapter
 import com.sky.account.manager.component.ComponentFactory
 import com.sky.account.manager.component.ComponentManager
@@ -42,10 +44,11 @@ class AppContext : IAppContext {
 
         Alog.setSingletonInstance(
             Alog.create {
-                debug = true
+                debug = false
                 adapter = Log4JAdapter()
             }
         )
+        Logger.setGlobalLogLevel(Level.OFF)
 
         mComponentManager = ComponentManager.create(this) {
             factory = ComponentFactory()
