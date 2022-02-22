@@ -97,11 +97,10 @@ class AccountManager(
             .eq(ADMIN_ID, adminId)
             .and()
             .like(DESC, "%$keyword%")
-            .and()
+            .or()
             .like(URL, "%$keyword%")
             .query()
             .map { AccountMapper.transform(it) }
-
     }
 
     override fun clearData(adminId: Int): Boolean {
