@@ -27,6 +27,7 @@ import com.sky.account.manager.data.disk.entity.AdminEntity
 import com.sky.account.manager.interfaces.IAppContext
 import com.sky.account.manager.interfaces.IDataBaseManager
 import com.sky.account.manager.util.FileUtil
+import com.sky.account.manager.util.PathUtil
 import java.io.File
 
 /**
@@ -74,7 +75,7 @@ class DataBaseManager(
 
     class Builder(val context: IAppContext) {
 
-        var dir = "database/"
+        var dir = "${PathUtil.getUserDir()}/database/"
         var name = "data.db"
 
         fun build(): IDataBaseManager {

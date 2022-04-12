@@ -32,6 +32,7 @@ tasks.withType<KotlinCompile>() {
 compose.desktop {
     application {
         javaHome = "/home/sky/Software/Java/jdk-16" // System.getenv("JDK_15")
+//        javaHome = "/Users/sky/Software/JDK/jdk-18.jdk/Contents/Home"
         mainClass = "com.sky.account.manager.MainKt"
         nativeDistributions {
             modules("java.sql")
